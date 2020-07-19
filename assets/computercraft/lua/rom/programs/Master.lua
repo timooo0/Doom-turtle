@@ -1,5 +1,6 @@
 self = require("self")
-
+quarry = require("quarry")
+startBase = require("startBase")
 --Initialization
 if fs.exists("/Data.txt") == false then
 --Create the Data.txt file and fill items
@@ -23,7 +24,7 @@ self.checkShutdown()
 if self.get(14) == "Start" then
 	
 --Process from start
-	shell.run("StartTree")
+	require("StartTree")
 	
 --Restart Resistance
 	self.store(14, "QuarryInitialization")
@@ -46,7 +47,7 @@ if self.get(14) == "QuarryInitialization" then
 	--The Quarry Size
 		self.store(9, 31)
 		--self.store(10, 16)
-		self.store(11, 60)
+		self.store(11, 69)
 
 	-- Initialization
 		--self.store(12, 0)
@@ -69,61 +70,67 @@ if self.get(14) == "QuarryInitialization" then
 end
 self.checkShutdown()
 if self.get(14) == "Quarry" then
-
+	while self.get(16) ~= "true" or self.get(18) ~= "true" do
 	
-	
-	enoughItems = self.get(16)
-	enoughSand = self.get(18)
-	print(enoughItems)
-	if enoughItems == "false" then
-		print('hoi')
-		biggerQuarry = tonumber(self.get(15))
-		--16 is for 1 chunk size
-		self.store(10, 1*biggerQuarry)
-		self.store(12, 1*(biggerQuarry-1))
 
-		shell.run("Quarry")
-	elseif enoughSand == "false" and enoughItems == "true" then
-		biggerQuarry = tonumber(self.get(15))
-		--16 is for 1 chunk size
-		self.store(10, 1*biggerQuarry)
-		self.store(12, 1*(biggerQuarry-1))
-		self.store(11, 12)
-		
-		shell.run("Quarry")
-	else
-		self.store(14, "startBase")
-	end
-end
-self.checkShutdown()
-if self.get(14) == "QuarryMore" then
-	--Restart Resistance
-		biggerQuarry = tonumber(self.get(15))
-		biggerQuarry = biggerQuarry+1
-		self.store(15, biggerQuarry)
-	--Checks wether we have enough to build turtle
-		enoughItems = "true"
-		enoughSand = "true"
+		enoughItems = self.get(16)
+		enoughSand = self.get(18)
+		print(enoughItems)
+		if enoughItems == "false" then
+			print('hoi')
+			biggerQuarry = tonumber(self.get(15))
+			--16 is for 1 chunk size
+			self.store(10, 1*biggerQuarry)
+			self.store(12, 1*(biggerQuarry-1))
 
-		if tonumber(self.get(20)) < 7 or tonumber(self.get(21)) < 1 or tonumber(self.get(23)) < 15 then
-			enoughItems = "false"
+			quarry.Function()
+			
+			biggerQuarry = tonumber(self.get(15))
+			biggerQuarry = biggerQuarry+1
+			self.store(15, biggerQuarry)
+		elseif enoughSand == "false" and enoughItems == "true" then
+			biggerQuarry = tonumber(self.get(15))
+			--16 is for 1 chunk size
+			self.store(10, 1*biggerQuarry)
+			self.store(12, 1*(biggerQuarry-1))
+			self.store(11, 12)
+			print("noyes")
+			quarry.Function()
+			
+			biggerQuarry = tonumber(self.get(15))
+			biggerQuarry = biggerQuarry+3
+			self.store(15, biggerQuarry)
+			
+		else
+			self.store(14, "startBase")
 		end
-		if tonumber(self.get(22)) < 6 then
-			enoughSand = "false"
+		
+		--Restart Resistance
+
+		--Checks wether we have enough to build turtle
+			enoughItems = "true"
+			enoughSand = "true"
+
+			if tonumber(self.get(20)) < 7 or tonumber(self.get(21)) < 1 or tonumber(self.get(23)) < 15 then
+				enoughItems = "false"
+			end
+			if tonumber(self.get(22)) < 6 then
+				enoughSand = "false"
+				self.store(18, enoughSand)
+			end
+			
+			self.store(16, enoughItems)
 			self.store(18, enoughSand)
-		end
-		
-		self.store(16, enoughItems)
-		self.store(18, enoughSand)
-		self.store(14, "Quarry")
-		shell.run("Master")
-		
+			self.store(14, "Quarry")
+			
+	end
+	self.store(14, "startBase")
 end
 self.checkShutdown()
 if self.get(14) == "startBase" then
 --Tree Farm
 	self.store(17, 0)
-	shell.run("startBase")
+	startBase.Function()
 	
 end
 

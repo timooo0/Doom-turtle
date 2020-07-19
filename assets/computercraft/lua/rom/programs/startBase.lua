@@ -1,3 +1,7 @@
+local startBase = {}
+
+function startBase.Function()
+
 self = require("self")
 
 recipeComputer = {}
@@ -261,6 +265,9 @@ turtle.drop()
 self.store(17, 15)
 
 self.store(14, "Finish")
-shell.run("Master")
 
+end
 
+end
+
+return startBase
