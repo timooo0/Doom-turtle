@@ -19,6 +19,16 @@ recipeChest["minecraft:planks"] = {1,2,3,5,7,9,10,11}
 recipeGlassPane = {}
 recipeGlassPane["minecraft:glass"] = {5,6,7,9,10,11}
 
+recipeStick = {}
+recipeStick["minecraft:planks"] = {1,5}
+
+recipeDiamondPickaxe = {}
+recipeDiamondPickaxe["minecraft:diamond"] = {1,2,3}
+recipeDiamondPickaxe["minecraft:stick"] = {6,10}
+
+recipeMiningTurtle = {}
+recipeMiningTurtle["minecraft:diamond_pickaxe"] = {3}
+recipeMiningTurtle["computercraft:turtle_expanded"] = {2}
 
 function selectItem(name)
 	counter = 1
@@ -120,38 +130,38 @@ function smelt(name,amount)
 end
 
 function checkShutdown()
-	if self.get(10) == "1" then
+	if tonumber(self.get(24)) == 1 then
 		os.shutdown()
 	end
 end
 
 function start()
-self.moveabs(tonumber(self.get(5)),tonumber(self.get(6)),tonumber(self.get(7)))
-print("move done")
+	self.moveabs(tonumber(self.get(5)),tonumber(self.get(6)),tonumber(self.get(7)))
+	print("move done")
 
-self.face(tonumber(self.get(8)))
-print("face done")
-for i=1,16 do
-	turtle.select(i)
-	turtle.drop()
-end
-print("drop done")
+	self.face(tonumber(self.get(8)))
+	print("face done")
+	for i=1,16 do
+		turtle.select(i)
+		turtle.drop()
+	end
+	print("drop done")
 end
 
 start()
 
 checkShutdown()
-if self.get(17) == "0.0" then
-craftItem(recipeFurnace)
+if tonumber(self.get(17)) == 0 then
+	craftItem(recipeFurnace)
 
-self.faceAround()
-self.move()
-turtle.placeUp()
-self.store(17,1)
+	self.faceAround()
+	self.move()
+	turtle.placeUp()
+	self.store(17,1)
 end
 
 checkShutdown()
-if self.get(17) == "1.0" then
+if tonumber(self.get(17)) == 1 then
 self.faceAround()
 self.move()
 
@@ -166,7 +176,7 @@ self.store(17,2)
 end
 
 checkShutdown()
-if self.get(17) == "2.0" then
+if tonumber(self.get(17)) == 2 then
 craftItem(recipeChest)
 self.faceLeft()
 turtle.place()
@@ -175,37 +185,37 @@ self.store(17,3)
 end
 
 checkShutdown()
-if self.get(17) == "3.0" then
+if tonumber(self.get(17)) == 3 then
 smelt("minecraft:cobblestone",7)
 self.store(17,4)
 end
 
 checkShutdown()
-if self.get(17) == "4.0" then
+if tonumber(self.get(17)) == 4 then
 smelt("minecraft:sand",6)
 self.store(17,5)
 end
 
 checkShutdown()
-if self.get(17) == "5.0" then
+if tonumber(self.get(17)) == 5 then
 smelt("minecraft:iron_ore",7)
 self.store(17,6)
 end
 
 checkShutdown()
-if self.get(17) == "6.0" then
+if tonumber(self.get(17)) == 6 then
 putInCraftingChest("minecraft:redstone",1)
 self.store(17,7)
 end
 
 checkShutdown()
-if self.get(17) == "7.0" then
+if tonumber(self.get(17)) == 7 then
 putInCraftingChest("minecraft:planks",8)
 self.store(17,8)
 end
 
 checkShutdown()
-if self.get(17) == "8.0" then
+if tonumber(self.get(17)) == 8 then
 self.faceLeft()
 craftItem(recipeGlassPane)
 turtle.drop()
@@ -213,21 +223,49 @@ self.store(17,9)
 end
 
 checkShutdown()
-if self.get(17) == "9.0" then
+if tonumber(self.get(17)) == 9 then
 craftItem(recipeComputer)
 turtle.drop()
 self.store(17,10)
 end
 
 checkShutdown()
-if self.get(17) == "10.0" then
+if tonumber(self.get(17)) == 10 then
 craftItem(recipeChest)
 turtle.drop()
 self.store(17,11)
 end
 
+checkShutdown()
+if tonumber(self.get(17)) == 11 then
+craftItem(recipeTurtle)
+turtle.drop()
+self.store(17, 12)
+end
 
+checkShutdown()
+if tonumber(self.get(17)) == 12 then
+self.faceRight()
+craftItem(recipeStick)
+turtle.drop()
+self.store(17, 13)
+end
 
+checkShutdown()
+if tonumber(self.get(17)) == 13 then
+craftItem(recipeDiamondPickaxe)
+self.faceLeft()
+turtle.drop()
+self.store(17, 14)
+end
 
+checkShutdown()
+if tonumber(self.get(17)) == 14 then
+craftItem(recipeMiningTurtle)
+turtle.drop()
+self.store(17, 15)
+
+self.store(14, "Finish")
+shell.run("Master")
 
 
