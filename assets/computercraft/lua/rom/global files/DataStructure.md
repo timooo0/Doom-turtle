@@ -22,3 +22,6 @@ redstone count
 sand count
 cobblestone count
 
+checkShutDown
+dirtCount
+

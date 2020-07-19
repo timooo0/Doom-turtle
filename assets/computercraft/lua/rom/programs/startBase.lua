@@ -1,3 +1,7 @@
+local startBase = {}
+
+function startBase.Function()
+
 self = require("self")
 
 recipeComputer = {}
@@ -342,5 +346,8 @@ end
 
 rednet.broadcast("buildTreeFarm")
 self.store(14, "Finish")
-shell.run("Master")
+
+end
+
+return startBase
 

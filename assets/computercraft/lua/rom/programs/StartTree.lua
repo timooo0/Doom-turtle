@@ -1,3 +1,5 @@
+local StartTree = {}
+
 self = require("self")
 
 turtle.select(1)
@@ -109,4 +111,6 @@ end
 --Back to Master
 --Restart Resistance
 	self.store(14, "QuarryInitialization")
-shell.run("Master")
+
+
+return StartTree

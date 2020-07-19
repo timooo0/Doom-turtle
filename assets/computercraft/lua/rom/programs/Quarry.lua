@@ -1,5 +1,7 @@
 --Quarry
+local quarry = {}
 
+function quarry.Function()
 --Initializes "self" functions
 self = require("self")
 print("Quarry")
@@ -214,16 +216,7 @@ end
 --Back to Master
 --Restart Resistance
 self.store(14, "QuarryMore")
-shell.run("Master")
 
+end
 
-
-
-
-
-
-
-
-
-
-
+return quarry
