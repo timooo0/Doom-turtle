@@ -3,7 +3,7 @@ self = require("self")
 --Initialization
 if fs.exists("/Data.txt") == false then
 --Create the Data.txt file and fill items
-	fs.copy("/rom/programs/dataTemplate.txt","/Data.txt")
+	fs.copy("/rom/global filels/dataTemplate.txt","/Data.txt")
 	write("x position: ")
 	local xPos = read()
 	self.store(1,xPos)
