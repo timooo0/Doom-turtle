@@ -129,11 +129,6 @@ function smelt(name,amount)
 	self.faceRight()
 end
 
-function checkShutdown()
-	if tonumber(self.get(24)) == 1 then
-		os.shutdown()
-	end
-end
 
 function start()
 	self.moveabs(tonumber(self.get(5)),tonumber(self.get(6)),tonumber(self.get(7)))
@@ -150,7 +145,7 @@ end
 
 start()
 
-checkShutdown()
+self.checkShutdown()
 if tonumber(self.get(17)) == 0 then
 	craftItem(recipeFurnace)
 
@@ -160,7 +155,7 @@ if tonumber(self.get(17)) == 0 then
 	self.store(17,1)
 end
 
-checkShutdown()
+self.checkShutdown()
 if tonumber(self.get(17)) == 1 then
 self.faceAround()
 self.move()
@@ -175,7 +170,7 @@ self.movedown()
 self.store(17,2)
 end
 
-checkShutdown()
+self.checkShutdown()
 if tonumber(self.get(17)) == 2 then
 craftItem(recipeChest)
 self.faceLeft()
@@ -184,37 +179,37 @@ self.faceRight()
 self.store(17,3)
 end
 
-checkShutdown()
+self.checkShutdown()
 if tonumber(self.get(17)) == 3 then
 smelt("minecraft:cobblestone",7)
 self.store(17,4)
 end
 
-checkShutdown()
+self.checkShutdown()
 if tonumber(self.get(17)) == 4 then
 smelt("minecraft:sand",6)
 self.store(17,5)
 end
 
-checkShutdown()
+self.checkShutdown()
 if tonumber(self.get(17)) == 5 then
 smelt("minecraft:iron_ore",7)
 self.store(17,6)
 end
 
-checkShutdown()
+self.checkShutdown()
 if tonumber(self.get(17)) == 6 then
 putInCraftingChest("minecraft:redstone",1)
 self.store(17,7)
 end
 
-checkShutdown()
+self.checkShutdown()
 if tonumber(self.get(17)) == 7 then
 putInCraftingChest("minecraft:planks",8)
 self.store(17,8)
 end
 
-checkShutdown()
+self.checkShutdown()
 if tonumber(self.get(17)) == 8 then
 self.faceLeft()
 craftItem(recipeGlassPane)
@@ -222,28 +217,28 @@ turtle.drop()
 self.store(17,9)
 end
 
-checkShutdown()
+self.checkShutdown()
 if tonumber(self.get(17)) == 9 then
 craftItem(recipeComputer)
 turtle.drop()
 self.store(17,10)
 end
 
-checkShutdown()
+self.checkShutdown()
 if tonumber(self.get(17)) == 10 then
 craftItem(recipeChest)
 turtle.drop()
 self.store(17,11)
 end
 
-checkShutdown()
+self.checkShutdown()
 if tonumber(self.get(17)) == 11 then
 craftItem(recipeTurtle)
 turtle.drop()
 self.store(17, 12)
 end
 
-checkShutdown()
+self.checkShutdown()
 if tonumber(self.get(17)) == 12 then
 self.faceRight()
 craftItem(recipeStick)
@@ -251,7 +246,7 @@ turtle.drop()
 self.store(17, 13)
 end
 
-checkShutdown()
+self.checkShutdown()
 if tonumber(self.get(17)) == 13 then
 craftItem(recipeDiamondPickaxe)
 self.faceLeft()
@@ -259,7 +254,7 @@ turtle.drop()
 self.store(17, 14)
 end
 
-checkShutdown()
+self.checkShutdown()
 if tonumber(self.get(17)) == 14 then
 craftItem(recipeMiningTurtle)
 turtle.drop()

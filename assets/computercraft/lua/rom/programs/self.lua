@@ -421,7 +421,7 @@ function self.dumpItem(name, amount)
 end
 
 function self.checkShutdown()
-	if self.get(24) == "1" then
+	if fs.open("/rom/global files/shutdown.txt","r") == "true" then
 		os.shutdown()
 	end
 end
