@@ -1,7 +1,23 @@
 self = require("self")
 
 --Initialization
+if fs.exists("/Data.txt") == false then
+--Create the Data.txt file and fill items
+	fs.copy("/rom/programs/dataTemplate.txt","/Data.txt")
+	write("x position: ")
+	local xPos = read()
+	self.store(1,xPos)
+	write("y position: ")
+	local yPos = read()
+	self.store(2,xPos)
+	write("z position: ")
+	local xPos = read()
+	self.store(3,xPos)
+	write("facing in direction:  ")
+	local xPos = read()
+	self.store(4,xPos)
 
+end
 
 self.checkShutdown()
 if self.get(14) == "Start" then
