@@ -18,13 +18,13 @@ print("Quarry")
 	facingStart = tonumber(self.get(8))
 
 	--The Quarry Size
-	lengthquarry = tonumber(self.get(9))-1
-	widthquarry = tonumber(self.get(10))
-	depthquarry = tonumber(self.get(11))
+	local lengthquarry = tonumber(self.get(9))-1
+	local widthquarry = tonumber(self.get(10))
+	local depthquarry = tonumber(self.get(11))
 
 	--Where it left off:
-	layerwidth =  tonumber(self.get(12))
-	layerdepth =  tonumber(self.get(13))
+	local layerwidth =  tonumber(self.get(12))
+	local layerdepth =  tonumber(self.get(13))
 
 --Functions:
 
@@ -51,7 +51,26 @@ print("Quarry")
 		end
 	end
 
+	--Dump all non-needed items
+	function dumpitems()
+		for i = 2, 16 do
+			turtle.select(i)
+			if turtle.getItemCount() ~= 0 then
+				if turtle.getItemDetail().name ~= "minecraft:iron_ore" and turtle.getItemDetail().name ~= "minecraft:redstone" and turtle.getItemDetail().name ~= "minecraft:sand" and turtle.getItemDetail().name ~= "minecraft:cobblestone" and turtle.getItemDetail().name ~= "minecraft:diamond" and turtle.getItemDetail().name ~= "minecraft:dirt" then
+					turtle.drop()
+				end
+			end
+		end
+	end
 
+	function dumpExcess(name, need, dataLine)
+		count = self.countItems(name)
+		get = tonumber(self.get(tonumber(dataLine)))
+		self.dumpItem(name, count-tonumber(need)+get)
+		self.store(dataLine, self.countItems(name)+get)
+	end
+
+fuel()
 
 --Moving back to where it left off
 	--Y
@@ -93,13 +112,14 @@ print("Quarry")
 		self.faceLeft()
 	end
 
-
+fuel()
 --The loop for the width of the quarry
 while layerwidth < widthquarry do
 
 	--The loop for the depth of the quarry
 	while layerdepth < math.floor(depthquarry/6)*6 do
-	
+		self.checkShutdown()
+		
 		self.faceLeft()
 		--Moves back by the number of layerswidth already quarried
 		for width = 1, layerwidth do
@@ -160,6 +180,19 @@ while layerwidth < widthquarry do
 		for width = 1, layerwidth do
 			self.move()
 		end
+		
+		
+		--Dump all non-needed items
+		dumpitems()
+		--Dump all excess-needed items
+		dumpExcess("minecraft:iron_ore", 7, 20)
+		dumpExcess("minecraft:redstone", 1, 21)
+		dumpExcess("minecraft:sand", 6, 22)
+		dumpExcess("minecraft:cobblestone", 15, 23)
+		dumpExcess("minecraft:dirt", 80, 25)
+		
+		
+		
 		self.faceLeft()
 		--Puts the Items in the chest
 		itemdelivery()
@@ -180,7 +213,7 @@ end
 
 --Back to Master
 --Restart Resistance
-	self.store(14, "TreeFarm")
+self.store(14, "QuarryMore")
 shell.run("Master")
 
 
