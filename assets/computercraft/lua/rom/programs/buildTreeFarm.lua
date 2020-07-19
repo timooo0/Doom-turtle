@@ -32,7 +32,9 @@ end
 end
 end
 
-
+self.faceLeft()
+self.move(16)
+self.moveup(4)
 self.moveChunk(0,0)
 self.face(1)
 

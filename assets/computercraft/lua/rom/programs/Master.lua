@@ -4,31 +4,47 @@ self = require("self")
 if fs.exists("/Data.txt") == false then
 --Create the Data.txt file and fill items
 	fs.copy("/rom/global files/dataTemplate.txt","/Data.txt")
-	write("x position: ")
-	local xPos = read()
-	self.store(1,xPos)
-	write("y position: ")
-	local yPos = read()
-	self.store(2,xPos)
-	write("z position: ")
-	local xPos = read()
-	self.store(3,xPos)
-	write("facing in direction:  ")
-	local xPos = read()
-	self.store(4,xPos)
-
+	if os.getComputerID() == 0 then
+		write("x position: ")
+		local xPos = read()
+		self.store(1,xPos)
+		write("y position: ")
+		local yPos = read()
+		self.store(2,xPos)
+		write("z position: ")
+		local xPos = read()
+		self.store(3,xPos)
+		write("facing in direction:  ")
+		local xPos = read()
+		self.store(4,xPos)
+	end
 end
+
 
 self.checkShutdown()
 if self.get(14) == "Start" then
+	if os.getComputerID()	 == 0 then
+		--Process from start
+		shell.run("StartTree")
 	
---Process from start
-	shell.run("StartTree")
-	
---Restart Resistance
-	self.store(14, "QuarryInitialization")
-	
+		--Restart Resistance
+		self.store(14, "QuarryInitialization")
+		self.store(26, "false")
+	else
+		self.selectItem("minecraft:coal")
+		turtle.refuel()
+		rednet.open("back")
+		for i=1,4 do
+			local message = select(2,rednet.receive())
+			print(message)
+			self.store(i,message)
+		end
+		local message = select(2,rednet.receive())
+		print(message)
+		self.store(14,message)
+	end
 end	
+
 --Quarry
 self.checkShutdown()
 if self.get(14) == "QuarryInitialization" then
@@ -119,11 +135,16 @@ if self.get(14) == "QuarryMore" then
 		shell.run("Master")
 		
 end
+
 self.checkShutdown()
 if self.get(14) == "startBase" then
 --Tree Farm
 	self.store(17, 0)
 	shell.run("startBase")
-	
 end
 
+self.checkShutdown()
+if self.get(14) == "buildTreeFarm" then
+--Tree Farm
+	shell.run("buildTreeFarm")
+end

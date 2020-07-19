@@ -3,20 +3,6 @@ self = require("self")
 turtle.select(1)
 turtle.refuel(63)
 
-function selectItem(name)
-	counter = 1
-	for i=1,16 do
-		turtle.select(i)
-		if turtle.getItemCount() ~= 0 then
-			if turtle.getItemDetail().name == name then
-				print('got it')
-			break
-			end
-		else
-			counter = counter +1
-		end
-	end
-end
 
 --Dump all non-name items
 function dumpitems(name)
@@ -90,7 +76,7 @@ self.moveback(2)
 
 dumpitems("minecraft:log")
 turtle.craft()
-selectItem("minecraft:planks")
+self.selectItem("minecraft:planks")
 turtle.transferTo(16)
 chestCraft = {1,2,3,5,7,9,10,11}
 for i=1,8 do
@@ -99,7 +85,7 @@ for i=1,8 do
 end
 turtle.drop()
 turtle.craft()
-selectItem("minecraft:chest")
+self.selectItem("minecraft:chest")
 for i = 1, 16 do
 	self.move()
 	turtle.suck()
@@ -108,11 +94,11 @@ end
 self.moveChunk(16, 0)
 self.moveChunk(1, 0)
 self.face(3)
-selectItem("minecraft:chest")
+self.selectItem("minecraft:chest")
 turtle.place()
 
 --Places Coal in Slot 1
-selectItem("minecraft:coal")
+self.selectItem("minecraft:coal")
 turtle.transferTo(1)
 for i = 2,16 do
 	turtle.select(i)

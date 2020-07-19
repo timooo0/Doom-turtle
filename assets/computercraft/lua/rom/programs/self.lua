@@ -95,46 +95,9 @@ end
 
 --Function for moving one block forward
 function moveback()
-	--Gravel Shield for forward digging and the digging + lava destroyer
-		if turtle.detect() then
-				bool1,data1=turtle.inspect()
-				
-				while data1.name ~= "minecraft:flowing_water" and data1.name ~= "minecraft:lava" and data1.name ~= "minecraft:water" and data1.name ~= "minecraft:flowing_lava" and turtle.inspect()~= false do					--Gravel destroyer/Liquid Ignorer
-						turtle.dig()
-						bool1,data1=turtle.inspect()
-				end
-				
-		end
-		if turtle.back()==false then																	--Mob Shield
-				while turtle.back()==false do															--Attack until Mob is gone
-						turtle.attack()																			
-				end
-		end
-		--Imports the previous Coordinates
-		x = tonumber(self.get(1))
-		z = tonumber(self.get(3))
-		facing = tonumber(self.get(4))
-
-
-		--Checks which direction coordinates to update based on where the turtle is facing
-		if facing == 0 then															
-			z = z+1
-		elseif facing == 1 then
-			x = x-1
-		elseif facing == 2 then
-			z = z-1
-		elseif facing == 3 then
-			x = x+1
-		end
-
-		--Updates to the new Coordinates
-		self.store(1, x)
-		self.store(3, z)
-
-		--Prints the current Coords
-		--print(tonumber(self.get(1)))
-		--print(tonumber(self.get(2)))
-		--print(tonumber(self.get(3)))
+	self.faceAround()
+	self.move()
+	self.faceAround()
 end
 
 function self.moveback(distance)
@@ -416,6 +379,20 @@ function self.dumpItem(name, amount)
 				turtle.drop(math.min(toDrop,count))
 				toDrop = toDrop - math.min(toDrop,count) 
 			end
+		end
+	end
+end
+
+function self.selectItem(name)
+	counter = 1
+	for i=1,16 do
+	turtle.select(i)
+		if turtle.getItemCount() ~= 0 then
+			if turtle.getItemDetail().name == name then
+				break
+			end
+		else
+			counter = counter +1
 		end
 	end
 end

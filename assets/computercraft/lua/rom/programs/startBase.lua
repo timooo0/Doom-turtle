@@ -10,6 +10,13 @@ recipeTurtle["minecraft:iron_ingot"] = {1,2,3,5,7,9,11}
 recipeTurtle["computercraft:computer"] = {6}
 recipeTurtle["minecraft:chest"] = {10}
 
+recipeModem = {}
+recipeModem["minecraft:stone,0"] = {1,2,3,5,7,9,10,11}
+recipeModem["minecraft:redstone"] = {6}
+
+recipeModemBlock = {}
+recipeModemBlock["computercraft:cable,1"] = {1}
+
 recipeFurnace = {}
 recipeFurnace["minecraft:cobblestone"] = {1,2,3,5,7,9,10,11}
 
@@ -30,19 +37,6 @@ recipeMiningTurtle = {}
 recipeMiningTurtle["minecraft:diamond_pickaxe"] = {3}
 recipeMiningTurtle["computercraft:turtle_expanded"] = {2}
 
-function selectItem(name)
-	counter = 1
-	for i=1,16 do
-	turtle.select(i)
-		if turtle.getItemCount() ~= 0 then
-			if turtle.getItemDetail().name == name then
-				break
-			end
-		else
-			counter = counter +1
-		end
-	end
-end
 
 function putInCraftingChest(name,amount)
 	getFromChest(name,amount)
@@ -67,7 +61,7 @@ function craftItem(recipe)
  
 		end
 		
-		selectItem(key)
+		self.selectItem(key)
 		selection = turtle.getSelectedSlot()
 		for i=1,table.getn(value) do
 			turtle.select(selection)
@@ -181,7 +175,7 @@ end
 
 self.checkShutdown()
 if tonumber(self.get(17)) == 3 then
-smelt("minecraft:cobblestone",7)
+smelt("minecraft:cobblestone",15)
 self.store(17,4)
 end
 
@@ -199,7 +193,7 @@ end
 
 self.checkShutdown()
 if tonumber(self.get(17)) == 6 then
-putInCraftingChest("minecraft:redstone",1)
+putInCraftingChest("minecraft:redstone",2)
 self.store(17,7)
 end
 
@@ -259,8 +253,94 @@ if tonumber(self.get(17)) == 14 then
 craftItem(recipeMiningTurtle)
 turtle.drop()
 self.store(17, 15)
+end
 
+self.checkShutdown()
+if tonumber(self.get(17)) == 15 then
+craftItem(recipeModem)
+turtle.drop()
+craftItem(recipeModemBlock)
+self.store(17, 16)
+end
+
+getFromChest("computercraft:wired_modem_full",1)
+self.selectItem("computercraft:wired_modem_full")
+turtle.transferTo(16)
+
+getFromChest("computercraft:turtle_expanded",1)
+self.selectItem("computercraft:turtle_expanded")
+turtle.transferTo(15)
+
+self.faceRight()
+getFromChest("minecraft:dirt,0",64)
+self.selectItem("minecraft:dirt")
+turtle.transferTo(14)
+
+getFromChest("minecraft:dirt,0",16)
+self.selectItem("minecraft:dirt")
+turtle.transferTo(13)
+
+getFromChest("minecraft:sapling",3)
+self.selectItem("minecraft:sapling")
+turtle.transferTo(12)
+
+getFromChest("minecraft:coal",20)
+self.selectItem("minecraft:coal")
+turtle.transferTo(11)
+
+self.faceAround()
+self.move(2)
+self.selectItem("computercraft:turtle_expanded")
+turtle.place()
+
+self.selectItem("minecraft:coal")
+turtle.drop()
+
+self.selectItem("minecraft:sapling")
+turtle.drop()
+
+self.selectItem("minecraft:dirt")
+turtle.drop()
+self.selectItem("minecraft:dirt")
+turtle.drop()
+
+self.moveback()
+self.selectItem("computercraft:wired_modem_full")
+turtle.place()
+
+os.sleep(20)
+rednet.open("front")
+
+if tonumber(self.get(4)) == 0 or tonumber(self.get(4)) == 2 then
+	rednet.broadcast(self.get(1))
+	os.sleep(1)
+	rednet.broadcast(self.get(2))
+	os.sleep(1)
+	if tonumber(self.get(4) == 0) then
+		rednet.broadcast(self.get(3)-2)
+		rednet.broadcast(self.get(4))
+	else
+		rednet.broadcast(self.get(3)+2)
+		rednet.broadcast(self.get(4))
+	end
+end
+
+if tonumber(self.get(4)) == 1 or tonumber(self.get(4)) == 3 then
+
+	if tonumber(self.get(4)) == 1 then
+		rednet.broadcast(self.get(1)+2)
+		rednet.broadcast(self.get(2))
+		rednet.broadcast(self.get(3))
+		rednet.broadcast(self.get(4))
+	else
+		rednet.broadcast(self.get(1)-2)
+		rednet.broadcast(self.get(2))
+		rednet.broadcast(self.get(3))
+		rednet.broadcast(self.get(4))
+	end
+end
+
+rednet.broadcast("buildTreeFarm")
 self.store(14, "Finish")
 shell.run("Master")
-
 
