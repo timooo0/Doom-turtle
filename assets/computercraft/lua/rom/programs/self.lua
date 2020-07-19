@@ -254,6 +254,7 @@ function self.faceAround()
 end
 --Face towards a specific direction:
 function self.face(direction)
+	direction = tonumber(direction)
 	while facing ~= direction do
 		self.faceLeft()
 	end
@@ -382,24 +383,38 @@ end
 
 --Check all the items
 function self.countItems(name)
+	count = 0
 	for i = 1, 16 do
 		turtle.select(i)
 		if turtle.getItemCount() ~= 0 then
 			if turtle.getItemDetail().name == name then
-				return turtle.getItemCount()
+				count = count + turtle.getItemCount()
 			end
 		end
 	end
-	return 0;
+	return count;
 end
 
 --Dump one particular item
-function self.dumpItem(name)
-	for i = 1, 16 do
+function self.dumpItem(name, amount)
+	if amount ~= nil then
+		amount = tonumber(amount)
+	else
+		amount = 64
+	end
+	toDrop = amount
+	i = 1
+	while toDrop > 0 and i <= 16 do
 		turtle.select(i)
+		i = i + 1
+		 
 		if turtle.getItemCount() ~= 0 then
 			if turtle.getItemDetail().name == name then
-				turtle.drop()
+				
+				
+				count = turtle.getItemCount()
+				turtle.drop(math.min(toDrop,count))
+				toDrop = toDrop - math.min(toDrop,count) 
 			end
 		end
 	end
