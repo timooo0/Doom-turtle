@@ -189,12 +189,12 @@ while layerwidth < widthquarry do
 		--Dump all non-needed items
 		dumpitems()
 		--Dump all excess-needed items
-		dumpExcess("minecraft:iron_ore", 7, 20)
-		dumpExcess("minecraft:redstone", 2, 21)
-		dumpExcess("minecraft:sand", 6, 22)
-		dumpExcess("minecraft:cobblestone", 23, 23)
-		dumpExcess("minecraft:dirt", 80, 25)
-		dumpExcess("minecraft:diamond", 3, 30)
+		dumpExcess("minecraft:iron_ore", 64, 20)
+		dumpExcess("minecraft:redstone", 64, 21)
+		dumpExcess("minecraft:sand", 64, 22)
+		dumpExcess("minecraft:cobblestone", 64, 23)
+		dumpExcess("minecraft:dirt", 88, 25)
+		dumpExcess("minecraft:diamond", 64, 30)
 		
 		
 		self.faceLeft()

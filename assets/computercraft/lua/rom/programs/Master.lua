@@ -47,6 +47,14 @@ if self.get(14) == "Start" then
 	else
 		self.selectItem("minecraft:coal")
 		turtle.refuel()
+		
+		if turtle.forward() == true then
+			turtle.back()
+		else
+			turtle.turnLeft()
+			turtle.turnLeft()
+		end
+		
 		rednet.open("back")
 		for i=1,4 do
 			local message = select(2,rednet.receive())
@@ -56,6 +64,9 @@ if self.get(14) == "Start" then
 		local message = select(2,rednet.receive())
 		print(message)
 		self.store(14,message)
+		
+
+		
 	end
 end	
 
@@ -141,7 +152,7 @@ if self.get(14) == "Quarry" then
 			enoughItems = "true"
 			enoughSand = "true"
 
-			if self.get(20) < 7 or self.get(21) < 2 or self.get(23) < 23 or self.get(30) < 3 then
+			if self.get(20) < 7 or self.get(21) < 2 or self.get(23) < 23 or self.get(25) < 88 or self.get(30) < 3 then
 				enoughItems = "false"
 			end
 			if tonumber(self.get(22)) < 6 then
@@ -162,6 +173,13 @@ if self.get(14) == "startBase" then
 --Tree Farm
 
 	startBase.Function()
+	--Update our resource counts
+	self.store(20, self.get(20)-7)
+	self.store(21, self.get(21)-2)
+	self.store(23, self.get(23)-23)
+	self.store(25, self.get(25)-88)
+	self.store(30, self.get(30)-3)
+	
 	self.store(14, "turtleFactory")
 end
 

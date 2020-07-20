@@ -306,6 +306,12 @@ getFromChest("minecraft:dirt,0",88)
 self.selectItem("minecraft:dirt")
 turtle.transferTo(14)
 
+<<<<<<< HEAD
+=======
+getFromChest("minecraft:dirt,0",24)
+self.selectItem("minecraft:dirt")
+turtle.transferTo(13)
+>>>>>>> 715a9fc71f1fa361fd3678a99fe0b409d3f14453
 
 getFromChest("minecraft:sapling",10)
 self.selectItem("minecraft:sapling")
