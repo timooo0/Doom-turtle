@@ -2,6 +2,7 @@ self = require("self")
 quarry = require("quarry")
 startBase = require("startBase")
 buildTreeFarm = require("buildTreeFarm")
+newTreeFarm = require("newTreeFarm")
 --Initialization
 --Set true when testing with non ID=0 turtles
 local test = false
@@ -29,11 +30,12 @@ if fs.exists("/data.txt") == false then
 		self.store(4,face)
 	end
 end
-self.store(14, "StartTree")
+
+
 
 
 self.checkShutdown()
-if self.get(14) == "StartTree" then
+if self.get(14) == "Start" then
 	if os.getComputerID()	 == id then
 		--Process from start
 		require("StartTree")
@@ -45,7 +47,7 @@ if self.get(14) == "StartTree" then
 	else
 		self.selectItem("minecraft:coal")
 		turtle.refuel()
-		rednet.open("front")
+		rednet.open("back")
 		for i=1,4 do
 			local message = select(2,rednet.receive())
 			print(message)
@@ -158,7 +160,7 @@ end
 self.checkShutdown()
 if self.get(14) == "startBase" then
 --Tree Farm
-	self.store(17, 0)
+
 	startBase.Function()
 	self.store(14, "turtleFactory")
 end
@@ -171,4 +173,12 @@ self.checkShutdown()
 if self.get(14) == "buildTreeFarm" then
 --Tree Farm
 	buildTreeFarm.Function()
+	self.store(14,"farmTree")
 end
+
+self.checkShutdown()
+if self.get(14) == "farmTree" then
+--Run the tree farm
+	newTreeFarm.Function()
+end
+

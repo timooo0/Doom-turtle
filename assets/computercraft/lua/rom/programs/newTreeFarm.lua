@@ -1,3 +1,6 @@
+local newTreeFarm = {}
+function newTreeFarm.Function()
+
 self = require("self")
 
 route = {
@@ -12,6 +15,11 @@ route = {
 }
 
 function startup()
+	if select(2,turtle.inspectDown()).name == "minecraft:chest" then
+		for i=1,4 do
+			self.store(i+4,self.get(i))
+		end
+	end
 	if turtle.inspectUp() then
 		while turtle.inspectUp() do
 			self.moveup()
@@ -132,3 +140,6 @@ while true do
 		index = 1
 	end
 end
+end
+
+return newTreeFarm
