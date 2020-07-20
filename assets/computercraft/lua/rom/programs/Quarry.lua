@@ -192,7 +192,7 @@ while layerwidth < widthquarry do
 		dumpExcess("minecraft:sand", 6, 22)
 		dumpExcess("minecraft:cobblestone", 15, 23)
 		dumpExcess("minecraft:dirt", 80, 25)
-		
+		dumpExcess("minecraft:diamond", 3, 30)
 		
 		
 		self.faceLeft()

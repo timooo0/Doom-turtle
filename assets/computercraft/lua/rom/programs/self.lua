@@ -9,7 +9,11 @@ function self.get(linenumber)
 	end
 	dataget = dataRead.readLine()
 	dataRead.close() 
-	return dataget
+	if tonumber(dataget) == nil then
+		return dataget
+	else
+		return tonumber(dataget)
+	end
 end
 
 

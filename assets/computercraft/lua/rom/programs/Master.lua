@@ -2,31 +2,33 @@ self = require("self")
 quarry = require("quarry")
 startBase = require("startBase")
 --Initialization
-if fs.exists("/Data.txt") == false then
+
+if fs.exists("/data.txt") == false then
 --Create the Data.txt file and fill items
-	fs.copy("/rom/global files/dataTemplate.txt","/Data.txt")
+	fs.copy("/rom/global files/dataTemplate.txt","/data.txt")
 	if os.getComputerID() == 0 then
 		write("x position: ")
 		local xPos = read()
 		self.store(1,xPos)
 		write("y position: ")
 		local yPos = read()
-		self.store(2,xPos)
+		self.store(2,yPos)
 		write("z position: ")
-		local xPos = read()
-		self.store(3,xPos)
+		local zPos = read()
+		self.store(3,zPos)
 		write("facing in direction:  ")
-		local xPos = read()
-		self.store(4,xPos)
+		local face = read()
+		self.store(4,face)
 	end
 end
+self.store(14, "StartTree")
 
 
 self.checkShutdown()
-if self.get(14) == "Start" then
+if self.get(14) == "StartTree" then
 	if os.getComputerID()	 == 0 then
 		--Process from start
-		shell.run("StartTree")
+		require("StartTree")
 	
 		--Restart Resistance
 		self.store(14, "QuarryInitialization")
@@ -45,22 +47,15 @@ if self.get(14) == "Start" then
 		print(message)
 		self.store(14,message)
 	end
-
---Process from start
-	require("StartTree")
-	
---Restart Resistance
-	self.store(14, "QuarryInitialization")
-
 end	
 
 --Quarry
 self.checkShutdown()
 if self.get(14) == "QuarryInitialization" then
 		print("Init")
-		x = tonumber(self.get(1))
-		y = tonumber(self.get(2))
-		z = tonumber(self.get(3))
+		x = self.get(1)
+		y = self.get(2)
+		z = self.get(3)
 		facing = tonumber(self.get(4))
 	--The starting Coordinates
 		self.store(5, x)
@@ -69,9 +64,9 @@ if self.get(14) == "QuarryInitialization" then
 		self.store(8, facing)
 
 	--The Quarry Size
-		self.store(9, 31)
+		self.store(9, 15)
 		--self.store(10, 16)
-		self.store(11, 69)
+		self.store(11, self.get(6)-3)
 
 	-- Initialization
 		--self.store(12, 0)
@@ -118,7 +113,7 @@ if self.get(14) == "Quarry" then
 			--16 is for 1 chunk size
 			self.store(10, 1*biggerQuarry)
 			self.store(12, 1*(biggerQuarry-1))
-			self.store(11, 12)
+			self.store(11, self.get(6)-59)
 			print("noyes")
 			quarry.Function()
 			
@@ -136,7 +131,7 @@ if self.get(14) == "Quarry" then
 			enoughItems = "true"
 			enoughSand = "true"
 
-			if tonumber(self.get(20)) < 7 or tonumber(self.get(21)) < 1 or tonumber(self.get(23)) < 15 then
+			if self.get(20) < 7 or self.get(21) < 1 or self.get(23) < 15 or self.get(30) < 3 then
 				enoughItems = "false"
 			end
 			if tonumber(self.get(22)) < 6 then

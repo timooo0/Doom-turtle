@@ -21,7 +21,10 @@ iron ore count
 redstone count
 sand count
 cobblestone count
-
 checkShutDown
 dirtCount
 
+
+
+
+diamond count
