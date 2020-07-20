@@ -44,6 +44,7 @@ recipeMiningTurtle["computercraft:turtle_expanded"] = {2}
 
 function putInCraftingChest(name,amount)
 	getFromChest(name,amount)
+	self.selectItem(name)
 	self.faceLeft()
 	turtle.drop()
 	self.faceRight()
@@ -79,7 +80,10 @@ end
 
 function getFromChest(name,amount)
 	turtle.select(1)
-	local counter = 1
+	
+	local nStacks = math.floor(amount/64+1)
+	amount = amount%64
+	
 	anyDam = false
 	if name:match("([^,]+),([^,]+)") ~= nil then
 		name, dam = name:match("([^,]+),([^,]+)")
@@ -87,32 +91,51 @@ function getFromChest(name,amount)
 	else
 		anyDam = true 
 	end
-	while turtle.suck() == true and counter <=16 do
-		turtle.select(counter)
-		counter = counter + 1
-		print(name,turtle.getItemDetail().damage==dam)
-		if turtle.getItemCount() ~= 0 then
-			if turtle.getItemDetail().name == name and (turtle.getItemDetail().damage == dam or anyDam) then
-				break
+	print(name)
+	for i=1,nStacks do
+		local counter = 1
+		while turtle.suck() == true and counter <=16 do
+			turtle.select(counter)
+			counter = counter + 1
+	
+			if turtle.getItemCount() ~= 0 then
+			
+				if turtle.getItemDetail().name == name and (turtle.getItemDetail().damage == dam or anyDam) then
+					break
+				end
+				
+			end
+			
+		end
+		--Move stack to last available slot
+		print(i,nStacks)
+		for j=16,1,-1 do
+			turtle.select(j)
+			if turtle.getItemCount() == 0 then
+				if i==nStacks then
+					turtle.select(counter-1)
+					turtle.transferTo(j,amount)
+					break
+				else
+					turtle.select(counter-1)
+					turtle.transferTo(j,64)
+					break
+				end
 			end
 		end
-	end
-	for i=1,counter-2 do
+	for i=turtle.getSelectedSlot(),1,-1 do
 		turtle.select(i)
 		turtle.drop()
 	end
-	turtle.select(counter-1)
-	turtle.transferTo(1)
-	turtle.select(1)
-	if amount ~= 0 and turtle.getItemCount() >= amount then
-		turtle.drop(turtle.getItemCount()-amount)
-	else
-		print("I dont have enough items")
 	end
+	
+
 end
+
 
 function smelt(name,amount)
 	getFromChest(name,amount)
+	self.selectItem(name)
 	self.faceAround()
 	self.moveup(2)
 	self.move()
@@ -160,9 +183,10 @@ if tonumber(self.get(17)) == 1 then
 self.faceAround()
 self.move()
 
-getFromChest("minecraft:coal",0)
+getFromChest("minecraft:coal",40)
 self.faceAround()
 self.moveup()
+self.selectItem("minecraft:coal")
 turtle.drop()
 
 self.faceAround()
@@ -205,7 +229,8 @@ end
 
 self.checkShutdown()
 if tonumber(self.get(17)) == 7 then
-putInCraftingChest("minecraft:planks",8)
+putInCraftingChest("minecraft:planks",10)
+putInCraftingChest("minecraft:diamond",3)
 self.store(17,8)
 end
 
@@ -240,7 +265,6 @@ end
 
 self.checkShutdown()
 if tonumber(self.get(17)) == 12 then
-self.faceRight()
 craftItem(recipeStick)
 turtle.drop()
 self.store(17, 13)
@@ -249,7 +273,6 @@ end
 self.checkShutdown()
 if tonumber(self.get(17)) == 13 then
 craftItem(recipeDiamondPickaxe)
-self.faceLeft()
 turtle.drop()
 self.store(17, 14)
 end
@@ -266,6 +289,7 @@ if tonumber(self.get(17)) == 15 then
 craftItem(recipeModem)
 turtle.drop()
 craftItem(recipeModemBlock)
+turtle.drop()
 self.store(17, 16)
 end
 
@@ -278,21 +302,15 @@ self.selectItem("computercraft:turtle_expanded")
 turtle.transferTo(15)
 
 self.faceRight()
-getFromChest("minecraft:dirt,0",64)
+getFromChest("minecraft:dirt,0",88)
 self.selectItem("minecraft:dirt")
 turtle.transferTo(14)
 
-getFromChest("minecraft:dirt,0",16)
-self.selectItem("minecraft:dirt")
-turtle.transferTo(13)
 
-getFromChest("minecraft:sapling",3)
+getFromChest("minecraft:sapling",10)
 self.selectItem("minecraft:sapling")
 turtle.transferTo(12)
 
-getFromChest("minecraft:coal",20)
-self.selectItem("minecraft:coal")
-turtle.transferTo(11)
 
 self.faceAround()
 --Get the Coal from the Furnace 
@@ -312,6 +330,7 @@ turtle.drop()
 
 self.selectItem("minecraft:dirt")
 turtle.drop()
+
 self.selectItem("minecraft:dirt")
 turtle.drop()
 
