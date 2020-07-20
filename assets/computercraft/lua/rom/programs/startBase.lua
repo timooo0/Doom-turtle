@@ -104,8 +104,10 @@ function getFromChest(name,amount)
 	turtle.select(counter-1)
 	turtle.transferTo(1)
 	turtle.select(1)
-	if amount ~= 0 then
+	if amount ~= 0 and turtle.getItemCount() >= amount then
 		turtle.drop(turtle.getItemCount()-amount)
+	else
+		print("I dont have enough items")
 	end
 end
 

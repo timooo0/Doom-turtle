@@ -6,7 +6,7 @@ startBase = require("startBase")
 if fs.exists("/data.txt") == false then
 --Create the Data.txt file and fill items
 	fs.copy("/rom/global files/dataTemplate.txt","/data.txt")
-	if os.getComputerID() == 0 then
+	if os.getComputerID() ~= -1 then
 		write("x position: ")
 		local xPos = read()
 		self.store(1,xPos)
@@ -26,7 +26,7 @@ self.store(14, "StartTree")
 
 self.checkShutdown()
 if self.get(14) == "StartTree" then
-	if os.getComputerID()	 == 0 then
+	if os.getComputerID()	 ~= -1 then
 		--Process from start
 		require("StartTree")
 	
@@ -64,7 +64,7 @@ if self.get(14) == "QuarryInitialization" then
 		self.store(8, facing)
 
 	--The Quarry Size
-		self.store(9, 15)
+		self.store(9, 47)
 		--self.store(10, 16)
 		self.store(11, self.get(6)-3)
 
@@ -113,7 +113,7 @@ if self.get(14) == "Quarry" then
 			--16 is for 1 chunk size
 			self.store(10, 1*biggerQuarry)
 			self.store(12, 1*(biggerQuarry-1))
-			self.store(11, self.get(6)-59)
+			self.store(11, self.get(6)-53)
 			print("noyes")
 			quarry.Function()
 			
@@ -131,7 +131,7 @@ if self.get(14) == "Quarry" then
 			enoughItems = "true"
 			enoughSand = "true"
 
-			if self.get(20) < 7 or self.get(21) < 1 or self.get(23) < 15 or self.get(30) < 3 then
+			if self.get(20) < 7 or self.get(21) < 2 or self.get(23) < 23 or self.get(30) < 3 then
 				enoughItems = "false"
 			end
 			if tonumber(self.get(22)) < 6 then
