@@ -118,6 +118,8 @@ fuel()
 --The loop for the width of the quarry
 while layerwidth < widthquarry do
 
+	--To make sure we always have coal selected
+	turtle.select(1)
 	--The loop for the depth of the quarry
 	while layerdepth < math.floor(depthquarry/6)*6 do
 		self.checkShutdown()

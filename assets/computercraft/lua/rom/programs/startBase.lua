@@ -295,12 +295,17 @@ self.selectItem("minecraft:coal")
 turtle.transferTo(11)
 
 self.faceAround()
+--Get the Coal from the Furnace 
+self.moveup(1)
+turtle.suck()
+self.movedown(1)
+
 self.move(2)
 self.selectItem("computercraft:turtle_expanded")
 turtle.place()
 
 self.selectItem("minecraft:coal")
-turtle.drop()
+turtle.drop(10)
 
 self.selectItem("minecraft:sapling")
 turtle.drop()
@@ -347,7 +352,7 @@ if tonumber(self.get(4)) == 1 or tonumber(self.get(4)) == 3 then
 end
 
 rednet.broadcast("buildTreeFarm")
-self.store(14, "Finish")
+
 
 end
 

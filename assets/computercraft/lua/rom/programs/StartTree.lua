@@ -63,7 +63,7 @@ y = tonumber(self.get(2))
 self.movedown(y-yStart)
 
 --Wait for a while
-os.sleep(10)
+os.sleep(180)
 --Scoop up the Saplings
 square(1)
 
