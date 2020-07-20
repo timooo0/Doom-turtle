@@ -2,11 +2,18 @@ self = require("self")
 quarry = require("quarry")
 startBase = require("startBase")
 --Initialization
+--Set true when testing with non ID=0 turtles
+test == false
+if test == true then
+	id = os.getComputerID() 
+else
+	id = 0
+end
 
 if fs.exists("/data.txt") == false then
 --Create the Data.txt file and fill items
 	fs.copy("/rom/global files/dataTemplate.txt","/data.txt")
-	if os.getComputerID() ~= -1 then
+	if os.getComputerID() == id then
 		write("x position: ")
 		local xPos = read()
 		self.store(1,xPos)
@@ -26,7 +33,7 @@ self.store(14, "StartTree")
 
 self.checkShutdown()
 if self.get(14) == "StartTree" then
-	if os.getComputerID()	 ~= -1 then
+	if os.getComputerID()	 == id then
 		--Process from start
 		require("StartTree")
 	
