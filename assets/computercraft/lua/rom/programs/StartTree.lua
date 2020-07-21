@@ -1,6 +1,9 @@
 local StartTree = {}
 
-self = require("self")
+
+os.loadAPI("/rom/apis/item.lua")
+os.loadAPI("/rom/apis/gps.lua")
+os.loadAPI("/rom/apis/file.lua")
 
 turtle.select(1)
 turtle.refuel(63)
@@ -18,49 +21,19 @@ function dumpitems(name)
 	end
 end
 
---Move in a square
-function square(a)
 
-	for j=0,4 do
-		if j==0 then
-
-			self.move()
-			turtle.suck()
-			self.faceLeft()
-			turtle.suck()
-		else
-
-		for i=1,a do
-			self.move()
-			turtle.suck()
-		end
-
-		self.faceLeft()
-		turtle.suck()
-
-		for i=1,a do
-			self.move()
-			turtle.suck()
-		end
-		end
-	end
-	self.faceRight()
-	turtle.suck()
-end
-
-
-self.move()
+gps.move()
 
 --Chop the tree
-bool, data = turtle.inspectUp()
-yStart = tonumber(self.get(2))
-while data.name == "minecraft:log" do
-	self.moveup()
-	bool, data = turtle.inspectUp()
+name = select(2,turtle.inspectUp()).name
+yStart = file.get(2)
+while name == "minecraft:log" do
+	gps.moveUp()
+	name = select(2,turtle.inspectUp()).name
 end
 
-y = tonumber(self.get(2))
-self.movedown(y-yStart)
+y = file.get(2)
+gps.moveDown(y-yStart)
 
 --Wait for a while
 os.sleep(180)
@@ -70,15 +43,15 @@ square(1)
 for i=1,1 do
 
 	square(2)
-	self.moveback()
+	gps.moveBack()
 end
-self.moveback()
+gps.moveBack()
 square(1)
-self.moveback(2)
+gps.moveBack(2)
 
 dumpitems("minecraft:log")
 turtle.craft()
-self.selectItem("minecraft:planks")
+item.selectItem("minecraft:planks")
 turtle.transferTo(16)
 chestCraft = {1,2,3,5,7,9,10,11}
 for i=1,8 do
@@ -87,20 +60,20 @@ for i=1,8 do
 end
 turtle.drop()
 turtle.craft()
-self.selectItem("minecraft:chest")
+item.selectItem("minecraft:chest")
 for i = 1, 16 do
-	self.move()
+	file.move()
 	turtle.suck()
 end
 
-self.moveChunk(16, 0)
-self.moveChunk(1, 0)
-self.face(3)
-self.selectItem("minecraft:chest")
+gps.moveChunk(16, 0)
+gps.moveChunk(1, 0)
+gps.face(3)
+item.selectItem("minecraft:chest")
 turtle.place()
 
 --Places Coal in Slot 1
-self.selectItem("minecraft:coal")
+item.selectItem("minecraft:coal")
 turtle.transferTo(1)
 for i = 2,16 do
 	turtle.select(i)
@@ -110,7 +83,7 @@ end
 
 --Back to Master
 --Restart Resistance
-	self.store(14, "QuarryInitialization")
+	file.store(14, "QuarryInitialization")
 
 
 return StartTree

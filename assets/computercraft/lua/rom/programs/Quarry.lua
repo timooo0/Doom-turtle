@@ -1,32 +1,36 @@
 --Quarry
 local quarry = {}
 
+os.loadAPI("/rom/apis/item.lua")
+os.loadAPI("/rom/apis/gps.lua")
+os.loadAPI("/rom/apis/file.lua")
+
 function quarry.Function()
 --Initializes "self" functions
-self = require("self")
+
 print("Quarry")
 --Loads the parameters from "data.txt":
 
 	--Current Coordinates
-	x = tonumber(self.get(1))
-	y = tonumber(self.get(2))
-	z = tonumber(self.get(3))
-	facing = tonumber(self.get(4))
+	x = file.get(1)
+	y = file.get(2)
+	z = file.get(3)
+	facing = file.get(4)
 
 	--The starting Coordinates
-	xStart = tonumber(self.get(5))
-	yStart = tonumber(self.get(6))
-	zStart = tonumber(self.get(7))
-	facingStart = tonumber(self.get(8))
+	xStart = file.get(5)
+	yStart = file.get(6)
+	zStart = file.get(7)
+	facingStart = file.get(8)
 
 	--The Quarry Size
-	local lengthquarry = tonumber(self.get(9))-1
-	local widthquarry = tonumber(self.get(10))
-	local depthquarry = tonumber(self.get(11))
+	local lengthquarry = file.get(9)-1
+	local widthquarry = file.get(10)
+	local depthquarry = file.get(11)
 
 	--Where it left off:
-	local layerwidth =  tonumber(self.get(12))
-	local layerdepth =  tonumber(self.get(13))
+	local layerwidth =  file.get(12)
+	local layerdepth =  file.get(13)
 
 --Functions:
 
@@ -66,10 +70,10 @@ print("Quarry")
 	end
 
 	function dumpExcess(name, need, dataLine)
-		count = self.countItems(name)
-		get = tonumber(self.get(tonumber(dataLine)))
-		self.dumpItem(name, count-tonumber(need)+get)
-		self.store(dataLine, self.countItems(name)+get)
+		count = item.countItems(name)
+		get = file.get(tonumber(dataLine))
+		item.dumpItem(name, count-tonumber(need)+get)
+		file.store(dataLine, file.countItems(name)+get)
 	end
 
 fuel()
@@ -77,41 +81,41 @@ fuel()
 --Moving back to where it left off
 	--Y
 		for yreturn = 1, yStart-y do
-			self.moveup()
+			gps.moveUp()
 		end
 	--X
 		while facing ~= 1 do
-			self.faceLeft()
+			gps.faceLeft()
 		end
 		if xStart > x then
 			for xreturn = 1, xStart-x do
-				self.move()
+				gps.move()
 			end
 		elseif xStart < x then
-			self.faceAround()
+			gps.faceAround()
 			for xreturn = 1, x-xStart do
-				self.move()
+				gps.move()
 			end
 
 		end
 	--Z
 		while facing ~= 0 do
-			self.faceLeft()
+			gps.faceLeft()
 		end
 		if zStart > z then
-			self.faceAround()
+			gps.faceAround()
 			for zreturn = 1, zStart-z do
-				self.move()
+				gps.move()
 			end
 		elseif zStart < z then
 			for zreturn = 1, z-zStart do
-				self.move()
+				gps.move()
 			end
 		end
 
 --Faces the chest
 	while facing ~= facingStart do
-		self.faceLeft()
+		gps.faceLeft()
 	end
 
 fuel()
@@ -122,67 +126,67 @@ while layerwidth < widthquarry do
 	turtle.select(1)
 	--The loop for the depth of the quarry
 	while layerdepth < math.floor(depthquarry/6)*6 do
-		self.checkShutdown()
+		file.checkShutdown()
 		
-		self.faceLeft()
+		gps.faceLeft()
 		--Moves back by the number of layerswidth already quarried
 		for width = 1, layerwidth do
-			self.move()
+			gps.move()
 		end
-		self.faceLeft()
+		gps.faceLeft()
 	
 		--Moves down a layerdepth number of layers to continue/start from
 		for depth = 1, layerdepth do
 			fuel()
-			self.movedown()
+			gps.moveDown()
 		end
 		--Moves along the length of the quarry
 		for length = 1, lengthquarry do
 			fuel()
 			--Breaks the block up and down, then moves forward, and repeats
-			self.breakdown()
-			self.breakup()
-			self.move()
+			gps.breakDown()
+			gps.breakUp()
+			gps.move()
 		end
 		
 		--Breaks the block above the turtle at the end of the length
-		self.breakup()
+		gps.breakUp()
 		
 		--Moves down 1 layer (3 thick)
 		for depth = 1, 3 do 
 			fuel()
-			self.movedown()
+			gps.moveDown()
 		end
 		--Turn around
-		self.faceAround()
+		gps.faceAround()
 
 		--Moves along the length of the quarry (in the opposite direciton)
 		for length = 1, lengthquarry do
 			fuel()
 			--Breaks the block up and down, then moves forward, and repeats
-			self.breakdown()
-			self.breakup()
-			self.move()
+			gps.breakDown()
+			gps.breakUp()
+			gps.move()
 		end
 
 		--Breaks the block below the turtle at the end of the length
-		self.breakdown()
+		gps.breakDown()
 		
 		--Moves up 1 layer (3 thick)
 		for depth = 1, 3 do 
 			fuel()
-			self.moveup()
+			gps.moveUp()
 		end
 		--Moves up by the layerdepth that is already quarried
 		for depth = 1, layerdepth do
 			fuel()
-			self.moveup()
+			gps.moveUp()
 		end
 
-		self.faceRight()
+		gps.faceRight()
 		--Moves back by the number of layerswidth already quarried
 		for width = 1, layerwidth do
-			self.move()
+			gps.move()
 		end
 		
 		
@@ -197,27 +201,27 @@ while layerwidth < widthquarry do
 		dumpExcess("minecraft:diamond", 64, 30)
 		
 		
-		self.faceLeft()
+		gps.faceLeft()
 		--Puts the Items in the chest
 		itemdelivery()
 
 		--Update the layerdepth
 		layerdepth = layerdepth + 6
-		self.store(13, layerdepth)
+		file.store(13, layerdepth)
 	end
 
 	--Update the layerwidth
 	layerwidth = layerwidth + 1
-	self.store(12, layerwidth)
+	file.store(12, layerwidth)
 	--Update the layerdepth
 	layerdepth = 0
-	self.store(13, 0)
+	file.store(13, 0)
 	
 end
 
 --Back to Master
 --Restart Resistance
-self.store(14, "QuarryMore")
+file.store(14, "QuarryMore")
 
 end
 

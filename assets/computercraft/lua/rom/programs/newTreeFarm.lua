@@ -1,7 +1,9 @@
 local newTreeFarm = {}
 function newTreeFarm.Function()
 
-self = require("self")
+os.loadAPI("/rom/apis/item.lua")
+os.loadAPI("/rom/apis/gps.lua")
+os.loadAPI("/rom/apis/file.lua")
 
 route = {
 2, 2, 2, 2, 2, 2, 2, 2, 2,
@@ -17,53 +19,40 @@ route = {
 function startup()
 	if select(2,turtle.inspectDown()).name == "minecraft:chest" then
 		for i=1,4 do
-			self.store(i+4,self.get(i))
+			file.store(i+4,file.get(i))
 		end
 	end
 	if turtle.inspectUp() then
 		while turtle.inspectUp() do
-			self.moveup()
+			gps.moveUp()
 		end
 
-		local inTree = tonumber(self.get(27))
-		local direction = tonumber(self.get(28))
+		local inTree = file.get(27)
+		local direction = file.get(28)
 		if inTree == 1 then
-			self.face(direction)
-			self.faceAround()
-			self.move()
+			gps.face(direction)
+			gps.faceAround()
+			gps.move()
 		end
 
 	end
-	for i=1,self.get(2)-self.get(6) do
-		self.movedown()
+	for i=1,file.get(2)-file.get(6) do
+		gps.moveDown()
 	end
 end
 
-
-
-function selectItem(name)
-	for i=1,16 do
-		turtle.select(i)
-		if turtle.getItemCount() ~= 0 then
-			if turtle.getItemDetail().name == name then
-				return true
-			end
-		end
-	end
-	return false
-end
 
 function rotateCut()
 	for i=1,4 do
 		if select(2,turtle.inspect()).name ~= "minecraft:sapling" then
-			self.breakfront()
+			gps.breakFront()
 		end
-	self.faceLeft()
+	gps.faceLeft()
 	end
 end
 
 function plant()
-	if selectItem("minecraft:sapling") then
+	if item.selectItem("minecraft:sapling") then
 		turtle.place()
 	end
 end
@@ -71,28 +60,28 @@ end
 function cutTree()
 
 	local totalUp = 0
-	self.move()
-	self.store(27,1)
-	self.store(28,self.get(4))
+	gps.move()
+	file.store(27,1)
+	file.store(28,file.get(4))
 
 	while turtle.inspectUp() do
-		self.moveup()
+		gps.moveUp()
 		totalUp = totalUp + 1
 		rotateCut()
 	end
 
-	self.faceLeft()
-	self.faceLeft()
-	self.move()
-	self.store(27,0)
+	gps.faceLeft()
+	gps.faceLeft()
+	gps.move()
+	file.store(27,0)
 	
 	for i=0,totalUp-1 do
 		rotateCut()
-		self.movedown()
+		gps.moveDown()
 	end
 	
-	self.faceLeft()
-	self.faceLeft()
+	gps.faceLeft()
+	gps.faceLeft()
 
 	
 	plant()
@@ -100,7 +89,7 @@ end
 
 
 function checkTree()
-self.faceLeft()
+gps.faceLeft()
 	if select(2,turtle.inspect()).name == "minecraft:log" then
 		cutTree()
 	else
@@ -108,8 +97,8 @@ self.faceLeft()
 			plant()
 		end
 	end
-	self.faceLeft()
-	self.faceLeft()
+	gps.faceLeft()
+	gps.faceLeft()
 	if select(2,turtle.inspect()).name == "minecraft:log" then
 		cutTree()
 	else
@@ -117,20 +106,20 @@ self.faceLeft()
 			plant()
 		end
 	end
-	self.faceLeft()
+	gps.faceLeft()
 
 end
 
 
 startup()
-index = tonumber(self.get(26))
+index = file.get(26)
 while true do
-	self.checkShutdown()
+	file.checkShutdown()
 	checkTree()
-	self.face(route[index])
-	self.move()
+	gps.face(route[index])
+	gps.move()
 	index = index + 1
-	self.store(26, index)
+	file.store(26, index)
 	if index == table.getn(route) then
 		index = 1
 	end

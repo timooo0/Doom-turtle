@@ -1,8 +1,11 @@
-self = require("self")
+
 quarry = require("quarry")
 startBase = require("startBase")
 buildTreeFarm = require("buildTreeFarm")
 newTreeFarm = require("newTreeFarm")
+
+os.loadAPI("/rom/apis/item.lua")
+os.loadAPI("/rom/apis/file.lua")
 --Initialization
 --Set true when testing with non ID=0 turtles
 local test = false
@@ -18,16 +21,16 @@ if fs.exists("/data.txt") == false then
 	if os.getComputerID() == id then
 		write("x position: ")
 		local xPos = read()
-		self.store(1,xPos)
+		file.store(1,xPos)
 		write("y position: ")
 		local yPos = read()
-		self.store(2,yPos)
+		file.store(2,yPos)
 		write("z position: ")
 		local zPos = read()
-		self.store(3,zPos)
+		file.store(3,zPos)
 		write("facing in direction:  ")
 		local face = read()
-		self.store(4,face)
+		file.store(4,face)
 	end
 end
 
@@ -36,18 +39,18 @@ if fs.exists("/items.txt") == false then
 end
 
 
-self.checkShutdown()
-if self.get(14) == "Start" then
+file.checkShutdown()
+if file.get(14) == "Start" then
 	if os.getComputerID()	 == id then
 		--Process from start
 		require("StartTree")
 	
 		--Restart Resistance
-		self.store(14, "QuarryInitialization")
-		self.store(26, "false")
+		file.store(14, "QuarryInitialization")
+		file.store(26, "false")
 		
 	else
-		self.selectItem("minecraft:coal")
+		item.selectItem("minecraft:coal")
 		turtle.refuel()
 		
 		if turtle.forward() == true then
@@ -61,11 +64,11 @@ if self.get(14) == "Start" then
 		for i=1,4 do
 			local message = select(2,rednet.receive())
 			print(message)
-			self.store(i,message)
+			file.store(i,message)
 		end
 		local message = select(2,rednet.receive())
 		print(message)
-		self.store(14,message)
+		file.store(14,message)
 		
 
 		
@@ -73,79 +76,79 @@ if self.get(14) == "Start" then
 end	
 
 --Quarry
-self.checkShutdown()
-if self.get(14) == "QuarryInitialization" then
+file.checkShutdown()
+if file.get(14) == "QuarryInitialization" then
 		print("Init")
-		x = self.get(1)
-		y = self.get(2)
-		z = self.get(3)
-		facing = tonumber(self.get(4))
+		x = file.get(1)
+		y = file.get(2)
+		z = file.get(3)
+		facing = file.get(4)
 	--The starting Coordinates
-		self.store(5, x)
-		self.store(6, y)
-		self.store(7, z)
-		self.store(8, facing)
+		file.store(5, x)
+		file.store(6, y)
+		file.store(7, z)
+		file.store(8, facing)
 
 	--The Quarry Size
-		self.store(9, 47)
-		--self.store(10, 16)
-		self.store(11, self.get(6)-3)
+		file.store(9, 47)
+		--file.store(10, 16)
+		file.store(11, file.get(6)-3)
 
 	-- Initialization
-		--self.store(12, 0)
-		self.store(13, 0)
+		--file.store(12, 0)
+		file.store(13, 0)
 
 
 	
 	--Restart Resistance
-		self.store(14, "Quarry")
+		file.store(14, "Quarry")
 		--Initialization
-		self.store(15, 1)
-		self.store(16, "false")
+		file.store(15, 1)
+		file.store(16, "false")
 		
-		self.store(18, "false")
+		file.store(18, "false")
 		
-		self.store(20, 0)
-		self.store(21, 0)
-		self.store(22, 0)
-		self.store(23, 0)
+		file.store(20, 0)
+		file.store(21, 0)
+		file.store(22, 0)
+		file.store(23, 0)
 end
 
-self.checkShutdown()
-if self.get(14) == "Quarry" then
-	while self.get(16) ~= "true" or self.get(18) ~= "true" do
+file.checkShutdown()
+if file.get(14) == "Quarry" then
+	while file.get(16) ~= "true" or file.get(18) ~= "true" do
 	
 
-		enoughItems = self.get(16)
-		enoughSand = self.get(18)
+		enoughItems = file.get(16)
+		enoughSand = file.get(18)
 		print(enoughItems)
 		if enoughItems == "false" then
 			print('hoi')
-			biggerQuarry = tonumber(self.get(15))
+			biggerQuarry = file.get(15)
 			--16 is for 1 chunk size
-			self.store(10, 1*biggerQuarry)
-			self.store(12, 1*(biggerQuarry-1))
+			file.store(10, 1*biggerQuarry)
+			file.store(12, 1*(biggerQuarry-1))
 
 			quarry.Function()
 			
-			biggerQuarry = tonumber(self.get(15))
+			biggerQuarry = file.get(15)
 			biggerQuarry = biggerQuarry+1
-			self.store(15, biggerQuarry)
+			file.store(15, biggerQuarry)
 		elseif enoughSand == "false" and enoughItems == "true" then
-			biggerQuarry = tonumber(self.get(15))
+			biggerQuarry = file.get(15)
 			--16 is for 1 chunk size
-			self.store(10, 1*biggerQuarry)
-			self.store(12, 1*(biggerQuarry-1))
-			self.store(11, self.get(6)-53)
+			file.store(10, 1*biggerQuarry)
+			file.store(12, 1*(biggerQuarry-1))
+			file.store(11, file.get(6)-53)
 			print("noyes")
 			quarry.Function()
 			
-			biggerQuarry = tonumber(self.get(15))
+			biggerQuarry = file.get(15)
 			biggerQuarry = biggerQuarry+3
-			self.store(15, biggerQuarry)
+			file.store(15, biggerQuarry)
 			
 		else
-			self.store(14, "startBase")
+			file.store(14, "startBase")
 		end
 		
 		--Restart Resistance
@@ -154,50 +157,50 @@ if self.get(14) == "Quarry" then
 			enoughItems = "true"
 			enoughSand = "true"
 
-			if self.get(20) < 7 or self.get(21) < 2 or self.get(23) < 23 or self.get(25) < 88 or self.get(30) < 3 then
+			if file.get(20) < 7 or file.get(21) < 2 or file.get(23) < 23 or file.get(25) < 88 or file.get(30) < 3 then
 				enoughItems = "false"
 			end
-			if tonumber(self.get(22)) < 6 then
+			if file.get(22) < 6 then
 				enoughSand = "false"
-				self.store(18, enoughSand)
+				file.store(18, enoughSand)
 			end
 			
-			self.store(16, enoughItems)
-			self.store(18, enoughSand)
-			self.store(14, "Quarry")
+			file.store(16, enoughItems)
+			file.store(18, enoughSand)
+			file.store(14, "Quarry")
 			
 	end
-	self.store(14, "startBase")
+	file.store(14, "startBase")
 end
 
-self.checkShutdown()
-if self.get(14) == "startBase" then
+file.checkShutdown()
+if file.get(14) == "startBase" then
 --Tree Farm
 
 	startBase.Function()
 	--Update our resource counts
-	self.store(20, self.get(20)-7)
-	self.store(21, self.get(21)-2)
-	self.store(23, self.get(23)-23)
-	self.store(25, self.get(25)-88)
-	self.store(30, self.get(30)-3)
+	file.store(20, file.get(20)-7)
+	file.store(21, file.get(21)-2)
+	file.store(23, file.get(23)-23)
+	file.store(25, file.get(25)-88)
+	file.store(30, file.get(30)-3)
 	
-	self.store(14, "turtleFactory")
+	file.store(14, "turtleFactory")
 end
 
-if self.get(14) == "turtleFactory" then
+if file.get(14) == "turtleFactory" then
 --Quarry and Make more turtles.
 end
 
-self.checkShutdown()
-if self.get(14) == "buildTreeFarm" then
+file.checkShutdown()
+if file.get(14) == "buildTreeFarm" then
 --Tree Farm
 	buildTreeFarm.Function()
-	self.store(14,"farmTree")
+	file.store(14,"farmTree")
 end
 
-self.checkShutdown()
-if self.get(14) == "farmTree" then
+file.checkShutdown()
+if file.get(14) == "farmTree" then
 --Run the tree farm
 	newTreeFarm.Function()
 end

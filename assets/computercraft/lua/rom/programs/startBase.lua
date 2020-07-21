@@ -2,7 +2,10 @@ local startBase = {}
 
 function startBase.Function()
 
-self = require("self")
+os.loadAPI("/rom/apis/item.lua")
+os.loadAPI("/rom/apis/gps.lua")
+os.loadAPI("/rom/apis/file.lua")
+
 
 recipeComputer = {}
 recipeComputer["minecraft:stone,0"] = {1,2,3,5,7,9,11}
@@ -42,122 +45,31 @@ recipeMiningTurtle["minecraft:diamond_pickaxe"] = {3}
 recipeMiningTurtle["computercraft:turtle_expanded"] = {2}
 
 
-function putInCraftingChest(name,amount)
-	getFromChest(name,amount)
-	self.selectItem(name)
-	self.faceLeft()
-	turtle.drop()
-	self.faceRight()
-end
-
-function craftItem(recipe)
-	local counter = 0
-	for key,value in pairs(recipe) do
-		getFromChest(key,table.getn(value))
-		print(counter)
-		turtle.transferTo(16-counter)
-		counter = counter +1
-	end
-	
-	for key,value in pairs(recipe) do
-		print(key)
-		if key:match("([^,]+),([^,]+)") ~= nil then
-			key, dam = key:match("([^,]+),([^,]+)")
- 
-		end
-		
-		self.selectItem(key)
-		selection = turtle.getSelectedSlot()
-		for i=1,table.getn(value) do
-			turtle.select(selection)
-			turtle.transferTo(value[i],1)
-		end
-	end
-	turtle.craft()
-end
-	
-
-
-function getFromChest(name,amount)
-	turtle.select(1)
-	
-	local nStacks = math.floor(amount/64+1)
-	amount = amount%64
-	
-	anyDam = false
-	if name:match("([^,]+),([^,]+)") ~= nil then
-		name, dam = name:match("([^,]+),([^,]+)")
-		dam = tonumber(dam)
-	else
-		anyDam = true 
-	end
-	print(name)
-	for i=1,nStacks do
-		local counter = 1
-		while turtle.suck() == true and counter <=16 do
-			turtle.select(counter)
-			counter = counter + 1
-	
-			if turtle.getItemCount() ~= 0 then
-			
-				if turtle.getItemDetail().name == name and (turtle.getItemDetail().damage == dam or anyDam) then
-					break
-				end
-				
-			end
-			
-		end
-		--Move stack to last available slot
-		print(i,nStacks)
-		for j=16,1,-1 do
-			turtle.select(j)
-			if turtle.getItemCount() == 0 and counter ~= 1 then
-				if i==nStacks then
-					turtle.select(counter-1)
-					turtle.transferTo(j,amount)
-					break
-				else
-					turtle.select(counter-1)
-					turtle.transferTo(j,64)
-					break
-				end
-			end
-		end
-	for i=turtle.getSelectedSlot(),1,-1 do
-		turtle.select(i)
-		turtle.drop()
-	end
-	end
-	
-
-end
-
-
 function smelt(name,amount)
-	getFromChest(name,amount)
-	self.selectItem(name)
-	self.faceAround()
-	self.moveup(2)
-	self.move()
+	item.getFromChest(name,amount)
+	item.selectItem(name)
+	gps.faceAround()
+	gps.moveUp(2)
+	gps.move()
 	turtle.dropDown()
-	self.moveback()
-	self.movedown(2)
-	self.move()
+	gps.moveBack()
+	gps.moveDown(2)
+	gps.move()
 	os.sleep(10*amount)
 	turtle.suckUp()
-	self.faceAround()
-	self.move()
-	self.faceLeft()
+	gps.faceAround()
+	gps.move()
+	gps.faceLeft()
 	turtle.drop()
-	self.faceRight()
+	gps.faceRight()
 end
 
 
 function start()
-	self.moveabs(tonumber(self.get(5)),tonumber(self.get(6)),tonumber(self.get(7)))
+	gps.moveAbs(file.get(5),file.get(6),file.get(7))
 	print("move done")
 
-	self.face(tonumber(self.get(8)))
+	gps.face(file.get(8))
 	print("face done")
 	for i=1,16 do
 		turtle.select(i)
@@ -168,212 +80,206 @@ end
 
 start()
 
-self.checkShutdown()
-if tonumber(self.get(17)) == 0 then
-	craftItem(recipeFurnace)
+file.checkShutdown()
+if file.get(17) == 0 then
+	item.craftItem(recipeFurnace)
 
-	self.faceAround()
-	self.move()
+	gps.faceAround()
+	gps.move()
 	turtle.placeUp()
-	self.store(17,1)
+	file.store(17,1)
 end
 
-self.checkShutdown()
-if tonumber(self.get(17)) == 1 then
-self.faceAround()
-self.move()
+file.checkShutdown()
+if file.get(17) == 1 then
+gps.faceAround()
+gps.move()
 
-getFromChest("minecraft:coal",40)
-self.faceAround()
-self.moveup()
-self.selectItem("minecraft:coal")
+item.getFromChest("minecraft:coal",40)
+gps.faceAround()
+gps.moveUp()
+item.selectItem("minecraft:coal")
 turtle.drop()
 
-self.faceAround()
-self.movedown()
-self.store(17,2)
+gps.faceAround()
+gps.moveDown()
+file.store(17,2)
 end
 
-self.checkShutdown()
-if tonumber(self.get(17)) == 2 then
-craftItem(recipeChest)
-self.faceLeft()
+file.checkShutdown()
+if file.get(17) == 2 then
+item.craftItem(recipeChest)
+gps.faceLeft()
 turtle.place()
-self.faceRight()
-self.store(17,3)
+gps.faceRight()
+file.store(17,3)
 end
 
-self.checkShutdown()
-if tonumber(self.get(17)) == 3 then
+file.checkShutdown()
+if file.get(17) == 3 then
 smelt("minecraft:cobblestone",15)
-self.store(17,4)
+file.store(17,4)
 end
 
-self.checkShutdown()
-if tonumber(self.get(17)) == 4 then
+file.checkShutdown()
+if file.get(17) == 4 then
 smelt("minecraft:sand",6)
-self.store(17,5)
+file.store(17,5)
 end
 
-self.checkShutdown()
-if tonumber(self.get(17)) == 5 then
+file.checkShutdown()
+if file.get(17) == 5 then
 smelt("minecraft:iron_ore",7)
-self.store(17,6)
+file.store(17,6)
 end
 
-self.checkShutdown()
-if tonumber(self.get(17)) == 6 then
-putInCraftingChest("minecraft:redstone",2)
-self.store(17,7)
+file.checkShutdown()
+if file.get(17) == 6 then
+item.putInCraftingChest("minecraft:redstone",2)
+file.store(17,7)
 end
 
-self.checkShutdown()
-if tonumber(self.get(17)) == 7 then
-putInCraftingChest("minecraft:planks",10)
-putInCraftingChest("minecraft:diamond",3)
-self.store(17,8)
+file.checkShutdown()
+if file.get(17) == 7 then
+item.putInCraftingChest("minecraft:planks",10)
+item.putInCraftingChest("minecraft:diamond",3)
+file.store(17,8)
 end
 
-self.checkShutdown()
-if tonumber(self.get(17)) == 8 then
-self.faceLeft()
-craftItem(recipeGlassPane)
+file.checkShutdown()
+if file.get(17) == 8 then
+gps.faceLeft()
+item.craftItem(recipeGlassPane)
 turtle.drop()
-self.store(17,9)
+file.store(17,9)
 end
 
-self.checkShutdown()
-if tonumber(self.get(17)) == 9 then
-craftItem(recipeComputer)
+file.checkShutdown()
+if file.get(17) == 9 then
+item.craftItem(recipeComputer)
 turtle.drop()
-self.store(17,10)
+file.store(17,10)
 end
 
-self.checkShutdown()
-if tonumber(self.get(17)) == 10 then
-craftItem(recipeChest)
+file.checkShutdown()
+if file.get(17) == 10 then
+item.craftItem(recipeChest)
 turtle.drop()
-self.store(17,11)
+file.store(17,11)
 end
 
-self.checkShutdown()
-if tonumber(self.get(17)) == 11 then
-craftItem(recipeTurtle)
+file.checkShutdown()
+if file.get(17) == 11 then
+item.craftItem(recipeTurtle)
 turtle.drop()
-self.store(17, 12)
+file.store(17, 12)
 end
 
-self.checkShutdown()
-if tonumber(self.get(17)) == 12 then
-craftItem(recipeStick)
+file.checkShutdown()
+if file.get(17) == 12 then
+item.craftItem(recipeStick)
 turtle.drop()
-self.store(17, 13)
+file.store(17, 13)
 end
 
-self.checkShutdown()
-if tonumber(self.get(17)) == 13 then
-craftItem(recipeDiamondPickaxe)
+file.checkShutdown()
+if file.get(17) == 13 then
+item.craftItem(recipeDiamondPickaxe)
 turtle.drop()
-self.store(17, 14)
+file.store(17, 14)
 end
 
-self.checkShutdown()
-if tonumber(self.get(17)) == 14 then
-craftItem(recipeMiningTurtle)
+file.checkShutdown()
+if file.get(17) == 14 then
+item.craftItem(recipeMiningTurtle)
 turtle.drop()
-self.store(17, 15)
+file.store(17, 15)
 end
 
-self.checkShutdown()
-if tonumber(self.get(17)) == 15 then
-craftItem(recipeModem)
+file.checkShutdown()
+if file.get(17) == 15 then
+item.craftItem(recipeModem)
 turtle.drop()
-craftItem(recipeModemBlock)
+item.craftItem(recipeModemBlock)
 turtle.drop()
-self.store(17, 16)
+file.store(17, 16)
 end
 
-getFromChest("computercraft:wired_modem_full",1)
-self.selectItem("computercraft:wired_modem_full")
+item.getFromChest("computercraft:wired_modem_full",1)
+item.selectItem("computercraft:wired_modem_full")
 turtle.transferTo(16)
 
-getFromChest("computercraft:turtle_expanded",1)
-self.selectItem("computercraft:turtle_expanded")
+item.getFromChest("computercraft:turtle_expanded",1)
+item.selectItem("computercraft:turtle_expanded")
 turtle.transferTo(15)
 
-self.faceRight()
-getFromChest("minecraft:dirt,0",88)
-self.selectItem("minecraft:dirt")
+gps.faceRight()
+item.getFromChest("minecraft:dirt,0",88)
+item.selectItem("minecraft:dirt")
 turtle.transferTo(14)
 
---<<<<<<< HEAD
---=======
-getFromChest("minecraft:dirt,0",24)
-self.selectItem("minecraft:dirt")
-turtle.transferTo(13)
--->>>>>>> 715a9fc71f1fa361fd3678a99fe0b409d3f14453
 
-getFromChest("minecraft:sapling",10)
-self.selectItem("minecraft:sapling")
+item.getFromChest("minecraft:sapling",10)
+item.selectItem("minecraft:sapling")
 turtle.transferTo(12)
 
 
-self.faceAround()
+gps.faceAround()
 --Get the Coal from the Furnace 
-self.moveup(1)
+gps.moveUp(1)
 turtle.suck()
-self.movedown(1)
+gps.moveDown(1)
 
-self.move(2)
-self.selectItem("computercraft:turtle_expanded")
+gps.move(2)
+item.selectItem("computercraft:turtle_expanded")
 turtle.place()
 
-self.selectItem("minecraft:coal")
+item.selectItem("minecraft:coal")
 turtle.drop(10)
 
-self.selectItem("minecraft:sapling")
+item.selectItem("minecraft:sapling")
 turtle.drop()
 
-self.selectItem("minecraft:dirt")
+item.selectItem("minecraft:dirt")
 turtle.drop()
 
-self.selectItem("minecraft:dirt")
+item.selectItem("minecraft:dirt")
 turtle.drop()
 
-self.moveback()
-self.selectItem("computercraft:wired_modem_full")
+gps.moveBack()
+item.selectItem("computercraft:wired_modem_full")
 turtle.place()
 
 
 os.sleep(20)
 rednet.open("front")
 
-if tonumber(self.get(4)) == 0 or tonumber(self.get(4)) == 2 then
-	rednet.broadcast(self.get(1))
+if file.get(4) == 0 or file.get(4) == 2 then
+	rednet.broadcast(file.get(1))
 	os.sleep(1)
-	rednet.broadcast(self.get(2))
+	rednet.broadcast(file.get(2))
 	os.sleep(1)
-	if tonumber(self.get(4) == 0) then
-		rednet.broadcast(self.get(3)-2)
-		rednet.broadcast(self.get(4))
+	if file.get(4) == 0 then
+		rednet.broadcast(file.get(3)-2)
+		rednet.broadcast(file.get(4))
 	else
-		rednet.broadcast(self.get(3)+2)
-		rednet.broadcast(self.get(4))
+		rednet.broadcast(file.get(3)+2)
+		rednet.broadcast(file.get(4))
 	end
 end
 
-if tonumber(self.get(4)) == 1 or tonumber(self.get(4)) == 3 then
+if file.get(4) == 1 or file.get(4) == 3 then
 
-	if tonumber(self.get(4)) == 1 then
-		rednet.broadcast(self.get(1)+2)
-		rednet.broadcast(self.get(2))
-		rednet.broadcast(self.get(3))
-		rednet.broadcast(self.get(4))
+	if file.get(4) == 1 then
+		rednet.broadcast(file.get(1)+2)
+		rednet.broadcast(file.get(2))
+		rednet.broadcast(file.get(3))
+		rednet.broadcast(file.get(4))
 	else
-		rednet.broadcast(self.get(1)-2)
-		rednet.broadcast(self.get(2))
-		rednet.broadcast(self.get(3))
-		rednet.broadcast(self.get(4))
+		rednet.broadcast(file.get(1)-2)
+		rednet.broadcast(file.get(2))
+		rednet.broadcast(file.get(3))
+		rednet.broadcast(file.get(4))
 	end
 end
 
