@@ -111,7 +111,7 @@ function getFromChest(name,amount)
 		print(i,nStacks)
 		for j=16,1,-1 do
 			turtle.select(j)
-			if turtle.getItemCount() == 0 then
+			if turtle.getItemCount() == 0 and counter ~= 1 then
 				if i==nStacks then
 					turtle.select(counter-1)
 					turtle.transferTo(j,amount)
@@ -306,12 +306,12 @@ getFromChest("minecraft:dirt,0",88)
 self.selectItem("minecraft:dirt")
 turtle.transferTo(14)
 
-<<<<<<< HEAD
-=======
+--<<<<<<< HEAD
+--=======
 getFromChest("minecraft:dirt,0",24)
 self.selectItem("minecraft:dirt")
 turtle.transferTo(13)
->>>>>>> 715a9fc71f1fa361fd3678a99fe0b409d3f14453
+-->>>>>>> 715a9fc71f1fa361fd3678a99fe0b409d3f14453
 
 getFromChest("minecraft:sapling",10)
 self.selectItem("minecraft:sapling")
