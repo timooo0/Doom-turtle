@@ -2,8 +2,11 @@
 local self = {}
 
 --Use tonumber(self.get(linenumber)) to make sure it is a number
-function self.get(linenumber)
-	dataRead = fs.open("data.txt", "r")
+function self.get(linenumber, filepath)
+	if filepath == nil then
+		filepath = "data.txt"
+	end
+	local dataRead = fs.open(filepath, "r")
 	for line = 1, linenumber-1 do
 		dataRead.readLine()
 	end
@@ -17,9 +20,11 @@ function self.get(linenumber)
 end
 
 
-function self.store(linenumber, msg)
-	
-	dataRead = fs.open("data.txt", "r")
+function self.store(linenumber, msg, filepath)
+	if filepath == nil then
+		filepath = "data.txt"
+	end
+	local dataRead = fs.open(filepath, "r")
 	dataget = {}
 	line = 1 
 	repeat
@@ -28,7 +33,7 @@ function self.store(linenumber, msg)
 		
 	until dataget[line-1] == nil
 	dataRead.close()
-	dataWrite = fs.open("data.txt", "w")
+	dataWrite = fs.open(filepath, "w")
 	line = 1
 	while dataget[line] ~= nil do
 		if line == linenumber then
@@ -42,6 +47,10 @@ function self.store(linenumber, msg)
 	dataWrite.close()
 	
 	return datastore
+end
+
+function self.addStore(linenumber, diff, filepath)
+	self.store(linenumber, self.get(linenumber, filepath)+tonumber(diff), filepath)
 end
 
 --Function for moving one block forward
@@ -348,13 +357,22 @@ function self.getFromChest(name,amount)
 	end
 end
 
---Check all the items
+--Check all the items, name = name,damage when no damage supplied it will count every name regardless of damage
 function self.countItems(name)
-	count = 0
+	local count = 0
+	
+	anyDam = false
+	if name:match("([^,]+),([^,]+)") ~= nil then
+		name, dam = name:match("([^,]+),([^,]+)")
+		dam = tonumber(dam)
+	else
+		anyDam = true
+	end
+	
 	for i = 1, 16 do
 		turtle.select(i)
 		if turtle.getItemCount() ~= 0 then
-			if turtle.getItemDetail().name == name then
+			if turtle.getItemDetail().name == name and (turtle.getItemDetail().damage == dam or anyDam) then
 				count = count + turtle.getItemCount()
 			end
 		end
@@ -362,12 +380,21 @@ function self.countItems(name)
 	return count;
 end
 
---Dump one particular item
+--Dump one particular item, when amount = nil it defaults to all items of that type, same for no damage supplied (name = name,damage)
 function self.dumpItem(name, amount)
+
+	anyDam = false
+	if name:match("([^,]+),([^,]+)") ~= nil then
+		name, dam = name:match("([^,]+),([^,]+)")
+		dam = tonumber(dam)
+	else
+		anyDam = true
+	end
+
 	if amount ~= nil then
 		amount = tonumber(amount)
 	else
-		amount = 64
+		amount = 1024
 	end
 	toDrop = amount
 	i = 1
@@ -376,7 +403,7 @@ function self.dumpItem(name, amount)
 		i = i + 1
 		 
 		if turtle.getItemCount() ~= 0 then
-			if turtle.getItemDetail().name == name then
+			if turtle.getItemDetail().name == name  and (turtle.getItemDetail().damage == dam or anyDam) then
 				
 				
 				count = turtle.getItemCount()
@@ -386,13 +413,22 @@ function self.dumpItem(name, amount)
 		end
 	end
 end
-
+--Select a particular item, no damage specified means any damage.
 function self.selectItem(name)
+
+	anyDam = false
+	if name:match("([^,]+),([^,]+)") ~= nil then
+		name, dam = name:match("([^,]+),([^,]+)")
+		dam = tonumber(dam)
+	else
+		anyDam = true
+	end
+	
 	counter = 1
 	for i=1,16 do
 	turtle.select(i)
 		if turtle.getItemCount() ~= 0 then
-			if turtle.getItemDetail().name == name then
+			if turtle.getItemDetail().name == name and (turtle.getItemDetail().damage == dam or anyDam) then
 				break
 			end
 		else

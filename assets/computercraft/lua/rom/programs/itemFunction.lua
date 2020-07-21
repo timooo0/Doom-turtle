@@ -2,6 +2,17 @@ self = require("self")
 buildTreeFarm = require("buildTreeFarm")
 startBase = require("startBase")
 
+
+fs.delete("/items.txt")
+
+if fs.exists("/items.txt") == false then
+	fs.copy("/rom/global files/itemsTemplate.txt","/items.txt")
+end
+
+--self.changeStore(2,114,"items.txt")
+print(self.selectItem("minecraft:planks"))
+
+
 function itemdelivery()								
 	bool,data=turtle.inspect()
 	if data.name == "minecraft:chest" or data.name == "minecraft:trapped_chest" then
@@ -15,13 +26,6 @@ function itemdelivery()
 	end
 end
 
-fs.delete("/items.txt")
-
-if fs.exists("/items.txt") == false then
-	fs.copy("/rom/global files/itemsTemplate.txt","/items.txt")
-end
-turtle.refuel(32)
---self.changeStore(2,114,"items.txt")
 
 function InvenToItemDict()
 	local counter = 1
@@ -60,7 +64,7 @@ function SlotToItemDict(slot)
 		--print("I have found ", turtlegetItemCount(), itemID)
 	end
 end
---Use name = name,damage
+--Use name = name,damage, when no damage supplied it will default damage = 0
 function ItemtoItemDict(name, amount)
 
 	if name:match("([^,]+),([^,]+)") ~= nil then

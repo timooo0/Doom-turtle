@@ -31,7 +31,9 @@ if fs.exists("/data.txt") == false then
 	end
 end
 
-
+if fs.exists("/items.txt") == false then
+	fs.copy("/rom/global files/itemsTemplate.txt","/items.txt")
+end
 
 
 self.checkShutdown()

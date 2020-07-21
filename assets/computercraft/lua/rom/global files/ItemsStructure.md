@@ -1,734 +1,734 @@
-Computer
-Advanced Computer
-Turtle
-Advanced Turtle
-Floppy Disk
-Disk Drive
-Monitor
-Advanced Monitor
-Wireless Modem
-Ender Modem
-Wired Modem
-Networking Cable
-Wired Modem
-Turtle
-Floppy Disk
-Air
-Stone
-Granite
-Polished Granite
-Diorite
-Polished Diorite
-Andesite
-Polished Andesite
-Grass
-Dirt
-Coarse Dirt
-Podzol
-Cobblestone
-Oak Wood Plank
-Spruce Wood Plank
-Birch Wood Plank
-Jungle Wood Plank
-Acacia Wood Plank
-Dark Oak Wood Plank
-Oak Sapling
-Spruce Sapling
-Birch Sapling
-Jungle Sapling
-Acacia Sapling
-Dark Oak Sapling
-Bedrock
-Flowing Water
-Still Water
-Flowing Lava
-Still Lava
-Sand
-Red Sand
-Gravel
-Gold Ore
-Iron Ore
-Coal Ore
-Oak Wood
-Spruce Wood
-Birch Wood
-Jungle Wood
-Oak Leaves
-Spruce Leaves
-Birch Leaves
-Jungle Leaves
-Sponge
-Wet Sponge
-Glass
-Lapis Lazuli Ore
-Lapis Lazuli Block
-Dispenser
-Sandstone
-Chiseled Sandstone
-Smooth Sandstone
-Note Block
-Bed
-Powered Rail
-Detector Rail
-Sticky Piston
-Cobweb
-Dead Shrub
-Grass
-Fern
-Dead Bush
-Piston
-Piston Head
-White Wool
-Orange Wool
-Magenta Wool
-Light Blue Wool
-Yellow Wool
-Lime Wool
-Pink Wool
-Gray Wool
-Light Gray Wool
-Cyan Wool
-Purple Wool
-Blue Wool
-Brown Wool
-Green Wool
-Red Wool
-Black Wool
-Dandelion
-Poppy
-Blue Orchid
-Allium
-Azure Bluet
-Red Tulip
-Orange Tulip
-White Tulip
-Pink Tulip
-Oxeye Daisy
-Brown Mushroom
-Red Mushroom
-Gold Block
-Iron Block
-Double Stone Slab
-Double Sandstone Slab
-Double Wooden Slab
-Double Cobblestone Slab
-Double Brick Slab
-Double Stone Brick Slab
-Double Nether Brick Slab
-Double Quartz Slab
-Stone Slab
-Sandstone Slab
-Wooden Slab
-Cobblestone Slab
-Brick Slab
-Stone Brick Slab
-Nether Brick Slab
-Quartz Slab
-Bricks
-TNT
-Bookshelf
-Moss Stone
-Obsidian
-Torch
-Fire
-Monster Spawner
-Oak Wood Stairs
-Chest
-Redstone Wire
-Diamond Ore
-Diamond Block
-Crafting Table
-Wheat Crops
-Farmland
-Furnace
-Burning Furnace
-Standing Sign Block
-Oak Door Block
-Ladder
-Rail
-Cobblestone Stairs
-Wall-mounted Sign Block
-Lever
-Stone Pressure Plate
-Iron Door Block
-Wooden Pressure Plate
-Redstone Ore
-Glowing Redstone Ore
-Redstone Torch (off)
-Redstone Torch (on)
-Stone Button
-Snow
-Ice
-Snow Block
-Cactus
-Clay
-Sugar Canes
-Jukebox
-Oak Fence
-Pumpkin
-Netherrack
-Soul Sand
-Glowstone
-Nether Portal
-Jack o'Lantern
-Cake Block
-Redstone Repeater Block (off)
-Redstone Repeater Block (on)
-White Stained Glass
-Orange Stained Glass
-Magenta Stained Glass
-Light Blue Stained Glass
-Yellow Stained Glass
-Lime Stained Glass
-Pink Stained Glass
-Gray Stained Glass
-Light Gray Stained Glass
-Cyan Stained Glass
-Purple Stained Glass
-Blue Stained Glass
-Brown Stained Glass
-Green Stained Glass
-Red Stained Glass
-Black Stained Glass
-Wooden Trapdoor
-Stone Monster Egg
-Cobblestone Monster Egg
-Stone Brick Monster Egg
-Mossy Stone Brick Monster Egg
-Cracked Stone Brick Monster Egg
-Chiseled Stone Brick Monster Egg
-Stone Bricks
-Mossy Stone Bricks
-Cracked Stone Bricks
-Chiseled Stone Bricks
-Brown Mushroom Block
-Red Mushroom Block
-Iron Bars
-Glass Pane
-Melon Block
-Pumpkin Stem
-Melon Stem
-Vines
-Oak Fence Gate
-Brick Stairs
-Stone Brick Stairs
-Mycelium
-Lily Pad
-Nether Brick
-Nether Brick Fence
-Nether Brick Stairs
-Nether Wart
-Enchantment Table
-Brewing Stand
-Cauldron
-End Portal
-End Portal Frame
-End Stone
-Dragon Egg
-Redstone Lamp (inactive)
-Redstone Lamp (active)
-Double Oak Wood Slab
-Double Spruce Wood Slab
-Double Birch Wood Slab
-Double Jungle Wood Slab
-Double Acacia Wood Slab
-Double Dark Oak Wood Slab
-Oak Wood Slab
-Spruce Wood Slab
-Birch Wood Slab
-Jungle Wood Slab
-Acacia Wood Slab
-Dark Oak Wood Slab
-Cocoa
-Sandstone Stairs
-Emerald Ore
-Ender Chest
-Tripwire Hook
-Tripwire
-Emerald Block
-Spruce Wood Stairs
-Birch Wood Stairs
-Jungle Wood Stairs
-Command Block
-Beacon
-Cobblestone Wall
-Mossy Cobblestone Wall
-Flower Pot
-Carrots
-Potatoes
-Wooden Button
-Mob Head
-Anvil
-Trapped Chest
-Weighted Pressure Plate (light)
-Weighted Pressure Plate (heavy)
-Redstone Comparator (inactive)
-Redstone Comparator (active)
-Daylight Sensor
-Redstone Block
-Nether Quartz Ore
-Hopper
-Quartz Block
-Chiseled Quartz Block
-Pillar Quartz Block
-Quartz Stairs
-Activator Rail
-Dropper
-White Hardened Clay
-Orange Hardened Clay
-Magenta Hardened Clay
-Light Blue Hardened Clay
-Yellow Hardened Clay
-Lime Hardened Clay
-Pink Hardened Clay
-Gray Hardened Clay
-Light Gray Hardened Clay
-Cyan Hardened Clay
-Purple Hardened Clay
-Blue Hardened Clay
-Brown Hardened Clay
-Green Hardened Clay
-Red Hardened Clay
-Black Hardened Clay
-White Stained Glass Pane
-Orange Stained Glass Pane
-Magenta Stained Glass Pane
-Light Blue Stained Glass Pane
-Yellow Stained Glass Pane
-Lime Stained Glass Pane
-Pink Stained Glass Pane
-Gray Stained Glass Pane
-Light Gray Stained Glass Pane
-Cyan Stained Glass Pane
-Purple Stained Glass Pane
-Blue Stained Glass Pane
-Brown Stained Glass Pane
-Green Stained Glass Pane
-Red Stained Glass Pane
-Black Stained Glass Pane
-Acacia Leaves
-Dark Oak Leaves
-Acacia Wood
-Dark Oak Wood
-Acacia Wood Stairs
-Dark Oak Wood Stairs
-Slime Block
-Barrier
-Iron Trapdoor
-Prismarine
-Prismarine Bricks
-Dark Prismarine
-Sea Lantern
-Hay Bale
-White Carpet
-Orange Carpet
-Magenta Carpet
-Light Blue Carpet
-Yellow Carpet
-Lime Carpet
-Pink Carpet
-Gray Carpet
-Light Gray Carpet
-Cyan Carpet
-Purple Carpet
-Blue Carpet
-Brown Carpet
-Green Carpet
-Red Carpet
-Black Carpet
-Hardened Clay
-Block of Coal
-Packed Ice
-Sunflower
-Lilac
-Double Tallgrass
-Large Fern
-Rose Bush
-Peony
-Free-standing Banner
-Wall-mounted Banner
-Inverted Daylight Sensor
-Red Sandstone
-Chiseled Red Sandstone
-Smooth Red Sandstone
-Red Sandstone Stairs
-Double Red Sandstone Slab
-Red Sandstone Slab
-Spruce Fence Gate
-Birch Fence Gate
-Jungle Fence Gate
-Dark Oak Fence Gate
-Acacia Fence Gate
-Spruce Fence
-Birch Fence
-Jungle Fence
-Dark Oak Fence
-Acacia Fence
-Spruce Door Block
-Birch Door Block
-Jungle Door Block
-Acacia Door Block
-Dark Oak Door Block
-End Rod
-Chorus Plant
-Chorus Flower
-Purpur Block
-Purpur Pillar
-Purpur Stairs
-Purpur Double Slab
-Purpur Slab
-End Stone Bricks
-Beetroot Block
-Grass Path
-End Gateway
-Repeating Command Block
-Chain Command Block
-Frosted Ice
-Magma Block
-Nether Wart Block
-Red Nether Brick
-Bone Block
-Structure Void
-Observer
-White Shulker Box
-Orange Shulker Box
-Magenta Shulker Box
-Light Blue Shulker Box
-Yellow Shulker Box
-Lime Shulker Box
-Pink Shulker Box
-Gray Shulker Box
-Light Gray Shulker Box
-Cyan Shulker Box
-Purple Shulker Box
-Blue Shulker Box
-Brown Shulker Box
-Green Shulker Box
-Red Shulker Box
-Black Shulker Box
-White Glazed Terracotta
-Orange Glazed Terracotta
-Magenta Glazed Terracotta
-Light Blue Glazed Terracotta
-Yellow Glazed Terracotta
-Lime Glazed Terracotta
-Pink Glazed Terracotta
-Gray Glazed Terracotta
-Light Gray Glazed Terracotta
-Cyan Glazed Terracotta
-Purple Glazed Terracotta
-Blue Glazed Terracotta
-Brown Glazed Terracotta
-Green Glazed Terracotta
-Red Glazed Terracotta
-Black Glazed Terracotta
-White Concrete
-Orange Concrete
-Magenta Concrete
-Light Blue Concrete
-Yellow Concrete
-Lime Concrete
-Pink Concrete
-Gray Concrete
-Light Gray Concrete
-Cyan Concrete
-Purple Concrete
-Blue Concrete
-Brown Concrete
-Green Concrete
-Red Concrete
-Black Concrete
-White Concrete Powder
-Orange Concrete Powder
-Magenta Concrete Powder
-Light Blue Concrete Powder
-Yellow Concrete Powder
-Lime Concrete Powder
-Pink Concrete Powder
-Gray Concrete Powder
-Light Gray Concrete Powder
-Cyan Concrete Powder
-Purple Concrete Powder
-Blue Concrete Powder
-Brown Concrete Powder
-Green Concrete Powder
-Red Concrete Powder
-Black Concrete Powder
-Structure Block
-Iron Shovel
-Iron Pickaxe
-Iron Axe
-Flint and Steel
-Apple
-Bow
-Arrow
-Coal
-Charcoal
-Diamond
-Iron Ingot
-Gold Ingot
-Iron Sword
-Wooden Sword
-Wooden Shovel
-Wooden Pickaxe
-Wooden Axe
-Stone Sword
-Stone Shovel
-Stone Pickaxe
-Stone Axe
-Diamond Sword
-Diamond Shovel
-Diamond Pickaxe
-Diamond Axe
-Stick
-Bowl
-Mushroom Stew
-Golden Sword
-Golden Shovel
-Golden Pickaxe
-Golden Axe
-String
-Feather
-Gunpowder
-Wooden Hoe
-Stone Hoe
-Iron Hoe
-Diamond Hoe
-Golden Hoe
-Wheat Seeds
-Wheat
-Bread
-Leather Helmet
-Leather Tunic
-Leather Pants
-Leather Boots
-Chainmail Helmet
-Chainmail Chestplate
-Chainmail Leggings
-Chainmail Boots
-Iron Helmet
-Iron Chestplate
-Iron Leggings
-Iron Boots
-Diamond Helmet
-Diamond Chestplate
-Diamond Leggings
-Diamond Boots
-Golden Helmet
-Golden Chestplate
-Golden Leggings
-Golden Boots
-Flint
-Raw Porkchop
-Cooked Porkchop
-Painting
-Golden Apple
-Enchanted Golden Apple
-Sign
-Oak Door
-Bucket
-Water Bucket
-Lava Bucket
-Minecart
-Saddle
-Iron Door
-Redstone
-Snowball
-Oak Boat
-Leather
-Milk Bucket
-Brick
-Clay
-Sugar Canes
-Paper
-Book
-Slimeball
-Minecart with Chest
-Minecart with Furnace
-Egg
-Compass
-Fishing Rod
-Clock
-Glowstone Dust
-Raw Fish
-Raw Salmon
-Clownfish
-Pufferfish
-Cooked Fish
-Cooked Salmon
-Ink Sack
-Rose Red
-Cactus Green
-Coco Beans
-Lapis Lazuli
-Purple Dye
-Cyan Dye
-Light Gray Dye
-Gray Dye
-Pink Dye
-Lime Dye
-Dandelion Yellow
-Light Blue Dye
-Magenta Dye
-Orange Dye
-Bone Meal
-Bone
-Sugar
-Cake
-Bed
-Redstone Repeater
-Cookie
-Map
-Shears
-Melon
-Pumpkin Seeds
-Melon Seeds
-Raw Beef
-Steak
-Raw Chicken
-Cooked Chicken
-Rotten Flesh
-Ender Pearl
-Blaze Rod
-Ghast Tear
-Gold Nugget
-Nether Wart
-Potion
-Glass Bottle
-Spider Eye
-Fermented Spider Eye
-Blaze Powder
-Magma Cream
-Brewing Stand
-Cauldron
-Eye of Ender
-Glistering Melon
-Spawn Elder Guardian
-Spawn Wither Skeleton
-Spawn Stray
-Spawn Husk
-Spawn Zombie Villager
-Spawn Skeleton Horse
-Spawn Zombie Horse
-Spawn Donkey
-Spawn Mule
-Spawn Evoker
-Spawn Vex
-Spawn Vindicator
-Spawn Creeper
-Spawn Skeleton
-Spawn Spider
-Spawn Zombie
-Spawn Slime
-Spawn Ghast
-Spawn Zombie Pigman
-Spawn Enderman
-Spawn Cave Spider
-Spawn Silverfish
-Spawn Blaze
-Spawn Magma Cube
-Spawn Bat
-Spawn Witch
-Spawn Endermite
-Spawn Guardian
-Spawn Shulker
-Spawn Pig
-Spawn Sheep
-Spawn Cow
-Spawn Chicken
-Spawn Squid
-Spawn Wolf
-Spawn Mooshroom
-Spawn Ocelot
-Spawn Horse
-Spawn Rabbit
-Spawn Polar Bear
-Spawn Llama
-Spawn Parrot
-Spawn Villager
-Bottle o' Enchanting
-Fire Charge
-Book and Quill
-Written Book
-Emerald
-Item Frame
-Flower Pot
-Carrot
-Potato
-Baked Potato
-Poisonous Potato
-Empty Map
-Golden Carrot
-Mob Head (Skeleton)
-Mob Head (Wither Skeleton)
-Mob Head (Zombie)
-Mob Head (Human)
-Mob Head (Creeper)
-Mob Head (Dragon)
-Carrot on a Stick
-Nether Star
-Pumpkin Pie
-Firework Rocket
-Firework Star
-Enchanted Book
-Redstone Comparator
-Nether Brick
-Nether Quartz
-Minecart with TNT
-Minecart with Hopper
-Prismarine Shard
-Prismarine Crystals
-Raw Rabbit
-Cooked Rabbit
-Rabbit Stew
-Rabbit's Foot
-Rabbit Hide
-Armor Stand
-Iron Horse Armor
-Golden Horse Armor
-Diamond Horse Armor
-Lead
-Name Tag
-Minecart with Command Block
-Raw Mutton
-Cooked Mutton
-Banner
-End Crystal
-Spruce Door
-Birch Door
-Jungle Door
-Acacia Door
-Dark Oak Door
-Chorus Fruit
-Popped Chorus Fruit
-Beetroot
-Beetroot Seeds
-Beetroot Soup
-Dragon's Breath
-Splash Potion
-Spectral Arrow
-Tipped Arrow
-Lingering Potion
-Shield
-Elytra
-Spruce Boat
-Birch Boat
-Jungle Boat
-Acacia Boat
-Dark Oak Boat
-Totem of Undying
-Shulker Shell
-Iron Nugget
-Knowledge Book
-13 Disc
-Cat Disc
-Blocks Disc
-Chirp Disc
-Far Disc
-Mall Disc
-Mellohi Disc
-Stal Disc
-Strad Disc
-Ward Disc
-11 Disc
-Wait Disc
+computercraft:computer,0
+computercraft:computer,16384
+computercraft:turtle_expanded,0
+computercraft:turtle_advanced,0
+computercraft:disk_expanded,0
+computercraft:peripheral,0
+computercraft:peripheral,2
+computercraft:peripheral,4
+computercraft:peripheral,1
+computercraft:advanced_modem,0
+computercraft:cable,1
+computercraft:cable,0
+computercraft:wired_modem_full,0
+computercraft:turtle,0
+computercraft:disk,0
+minecraft:air,0
+minecraft:stone,0
+minecraft:stone,1
+minecraft:stone,2
+minecraft:stone,3
+minecraft:stone,4
+minecraft:stone,5
+minecraft:stone,6
+minecraft:grass,0
+minecraft:dirt,0
+minecraft:dirt,1
+minecraft:dirt,2
+minecraft:cobblestone,0
+minecraft:planks,0
+minecraft:planks,1
+minecraft:planks,2
+minecraft:planks,3
+minecraft:planks,4
+minecraft:planks,5
+minecraft:sapling,0
+minecraft:sapling,1
+minecraft:sapling,2
+minecraft:sapling,3
+minecraft:sapling,4
+minecraft:sapling,5
+minecraft:bedrock,0
+minecraft:flowing_water,0
+minecraft:water,0
+minecraft:flowing_lava,0
+minecraft:lava,0
+minecraft:sand,0
+minecraft:sand,1
+minecraft:gravel,0
+minecraft:gold_ore,0
+minecraft:iron_ore,0
+minecraft:coal_ore,0
+minecraft:log,0
+minecraft:log,1
+minecraft:log,2
+minecraft:log,3
+minecraft:leaves,0
+minecraft:leaves,1
+minecraft:leaves,2
+minecraft:leaves,3
+minecraft:sponge,0
+minecraft:sponge,1
+minecraft:glass,0
+minecraft:lapis_ore,0
+minecraft:lapis_block,0
+minecraft:dispenser,0
+minecraft:sandstone,0
+minecraft:sandstone,1
+minecraft:sandstone,2
+minecraft:noteblock,0
+minecraft:bed,0
+minecraft:golden_rail,0
+minecraft:detector_rail,0
+minecraft:sticky_piston,0
+minecraft:web,0
+minecraft:tallgrass,0
+minecraft:tallgrass,1
+minecraft:tallgrass,2
+minecraft:deadbush,0
+minecraft:piston,0
+minecraft:piston_head,0
+minecraft:wool,0
+minecraft:wool,1
+minecraft:wool,2
+minecraft:wool,3
+minecraft:wool,4
+minecraft:wool,5
+minecraft:wool,6
+minecraft:wool,7
+minecraft:wool,8
+minecraft:wool,9
+minecraft:wool,10
+minecraft:wool,11
+minecraft:wool,12
+minecraft:wool,13
+minecraft:wool,14
+minecraft:wool,15
+minecraft:yellow_flower,0
+minecraft:red_flower,0
+minecraft:red_flower,1
+minecraft:red_flower,2
+minecraft:red_flower,3
+minecraft:red_flower,4
+minecraft:red_flower,5
+minecraft:red_flower,6
+minecraft:red_flower,7
+minecraft:red_flower,8
+minecraft:brown_mushroom,0
+minecraft:red_mushroom,0
+minecraft:gold_block,0
+minecraft:iron_block,0
+minecraft:double_stone_slab,0
+minecraft:double_stone_slab,1
+minecraft:double_stone_slab,2
+minecraft:double_stone_slab,3
+minecraft:double_stone_slab,4
+minecraft:double_stone_slab,5
+minecraft:double_stone_slab,6
+minecraft:double_stone_slab,7
+minecraft:stone_slab,0
+minecraft:stone_slab,1
+minecraft:stone_slab,2
+minecraft:stone_slab,3
+minecraft:stone_slab,4
+minecraft:stone_slab,5
+minecraft:stone_slab,6
+minecraft:stone_slab,7
+minecraft:brick_block,0
+minecraft:tnt,0
+minecraft:bookshelf,0
+minecraft:mossy_cobblestone,0
+minecraft:obsidian,0
+minecraft:torch,0
+minecraft:fire,0
+minecraft:mob_spawner,0
+minecraft:oak_stairs,0
+minecraft:chest,0
+minecraft:redstone_wire,0
+minecraft:diamond_ore,0
+minecraft:diamond_block,0
+minecraft:crafting_table,0
+minecraft:wheat,0
+minecraft:farmland,0
+minecraft:furnace,0
+minecraft:lit_furnace,0
+minecraft:standing_sign,0
+minecraft:wooden_door,0
+minecraft:ladder,0
+minecraft:rail,0
+minecraft:stone_stairs,0
+minecraft:wall_sign,0
+minecraft:lever,0
+minecraft:stone_pressure_plate,0
+minecraft:iron_door,0
+minecraft:wooden_pressure_plate,0
+minecraft:redstone_ore,0
+minecraft:lit_redstone_ore,0
+minecraft:unlit_redstone_torch,0
+minecraft:redstone_torch,0
+minecraft:stone_button,0
+minecraft:snow_layer,0
+minecraft:ice,0
+minecraft:snow,0
+minecraft:cactus,0
+minecraft:clay,0
+minecraft:reeds,0
+minecraft:jukebox,0
+minecraft:fence,0
+minecraft:pumpkin,0
+minecraft:netherrack,0
+minecraft:soul_sand,0
+minecraft:glowstone,0
+minecraft:portal,0
+minecraft:lit_pumpkin,0
+minecraft:cake,0
+minecraft:unpowered_repeater,0
+minecraft:powered_repeater,0
+minecraft:stained_glass,0
+minecraft:stained_glass,1
+minecraft:stained_glass,2
+minecraft:stained_glass,3
+minecraft:stained_glass,4
+minecraft:stained_glass,5
+minecraft:stained_glass,6
+minecraft:stained_glass,7
+minecraft:stained_glass,8
+minecraft:stained_glass,9
+minecraft:stained_glass,10
+minecraft:stained_glass,11
+minecraft:stained_glass,12
+minecraft:stained_glass,13
+minecraft:stained_glass,14
+minecraft:stained_glass,15
+minecraft:trapdoor,0
+minecraft:monster_egg,0
+minecraft:monster_egg,1
+minecraft:monster_egg,2
+minecraft:monster_egg,3
+minecraft:monster_egg,4
+minecraft:monster_egg,5
+minecraft:stonebrick,0
+minecraft:stonebrick,1
+minecraft:stonebrick,2
+minecraft:stonebrick,3
+minecraft:brown_mushroom_block,0
+minecraft:red_mushroom_block,0
+minecraft:iron_bars,0
+minecraft:glass_pane,0
+minecraft:melon_block,0
+minecraft:pumpkin_stem,0
+minecraft:melon_stem,0
+minecraft:vine,0
+minecraft:fence_gate,0
+minecraft:brick_stairs,0
+minecraft:stone_brick_stairs,0
+minecraft:mycelium,0
+minecraft:waterlily,0
+minecraft:nether_brick,0
+minecraft:nether_brick_fence,0
+minecraft:nether_brick_stairs,0
+minecraft:nether_wart,0
+minecraft:enchanting_table,0
+minecraft:brewing_stand,0
+minecraft:cauldron,0
+minecraft:end_portal,0
+minecraft:end_portal_frame,0
+minecraft:end_stone,0
+minecraft:dragon_egg,0
+minecraft:redstone_lamp,0
+minecraft:lit_redstone_lamp,0
+minecraft:double_wooden_slab,0
+minecraft:double_wooden_slab,1
+minecraft:double_wooden_slab,2
+minecraft:double_wooden_slab,3
+minecraft:double_wooden_slab,4
+minecraft:double_wooden_slab,5
+minecraft:wooden_slab,0
+minecraft:wooden_slab,1
+minecraft:wooden_slab,2
+minecraft:wooden_slab,3
+minecraft:wooden_slab,4
+minecraft:wooden_slab,5
+minecraft:cocoa,0
+minecraft:sandstone_stairs,0
+minecraft:emerald_ore,0
+minecraft:ender_chest,0
+minecraft:tripwire_hook,0
+minecraft:tripwire_hook,0
+minecraft:emerald_block,0
+minecraft:spruce_stairs,0
+minecraft:birch_stairs,0
+minecraft:jungle_stairs,0
+minecraft:command_block,0
+minecraft:beacon,0
+minecraft:cobblestone_wall,0
+minecraft:cobblestone_wall,1
+minecraft:flower_pot,0
+minecraft:carrots,0
+minecraft:potatoes,0
+minecraft:wooden_button,0
+minecraft:skull,0
+minecraft:anvil,0
+minecraft:trapped_chest,0
+minecraft:light_weighted_pressure_plate,0
+minecraft:heavy_weighted_pressure_plate,0
+minecraft:unpowered_comparator,0
+minecraft:powered_comparator,0
+minecraft:daylight_detector,0
+minecraft:redstone_block,0
+minecraft:quartz_ore,0
+minecraft:hopper,0
+minecraft:quartz_block,0
+minecraft:quartz_block,1
+minecraft:quartz_block,2
+minecraft:quartz_stairs,0
+minecraft:activator_rail,0
+minecraft:dropper,0
+minecraft:stained_hardened_clay,0
+minecraft:stained_hardened_clay,1
+minecraft:stained_hardened_clay,2
+minecraft:stained_hardened_clay,3
+minecraft:stained_hardened_clay,4
+minecraft:stained_hardened_clay,5
+minecraft:stained_hardened_clay,6
+minecraft:stained_hardened_clay,7
+minecraft:stained_hardened_clay,8
+minecraft:stained_hardened_clay,9
+minecraft:stained_hardened_clay,10
+minecraft:stained_hardened_clay,11
+minecraft:stained_hardened_clay,12
+minecraft:stained_hardened_clay,13
+minecraft:stained_hardened_clay,14
+minecraft:stained_hardened_clay,15
+minecraft:stained_glass_pane,0
+minecraft:stained_glass_pane,1
+minecraft:stained_glass_pane,2
+minecraft:stained_glass_pane,3
+minecraft:stained_glass_pane,4
+minecraft:stained_glass_pane,5
+minecraft:stained_glass_pane,6
+minecraft:stained_glass_pane,7
+minecraft:stained_glass_pane,8
+minecraft:stained_glass_pane,9
+minecraft:stained_glass_pane,10
+minecraft:stained_glass_pane,11
+minecraft:stained_glass_pane,12
+minecraft:stained_glass_pane,13
+minecraft:stained_glass_pane,14
+minecraft:stained_glass_pane,15
+minecraft:leaves2,0
+minecraft:leaves2,1
+minecraft:log2,0
+minecraft:log2,1
+minecraft:acacia_stairs,0
+minecraft:dark_oak_stairs,0
+minecraft:slime,0
+minecraft:barrier,0
+minecraft:iron_trapdoor,0
+minecraft:prismarine,0
+minecraft:prismarine,1
+minecraft:prismarine,2
+minecraft:sea_lantern,0
+minecraft:hay_block,0
+minecraft:carpet,0
+minecraft:carpet,1
+minecraft:carpet,2
+minecraft:carpet,3
+minecraft:carpet,4
+minecraft:carpet,5
+minecraft:carpet,6
+minecraft:carpet,7
+minecraft:carpet,8
+minecraft:carpet,9
+minecraft:carpet,10
+minecraft:carpet,11
+minecraft:carpet,12
+minecraft:carpet,13
+minecraft:carpet,14
+minecraft:carpet,15
+minecraft:hardened_clay,0
+minecraft:coal_block,0
+minecraft:packed_ice,0
+minecraft:double_plant,0
+minecraft:double_plant,1
+minecraft:double_plant,2
+minecraft:double_plant,3
+minecraft:double_plant,4
+minecraft:double_plant,5
+minecraft:standing_banner,0
+minecraft:wall_banner,0
+minecraft:daylight_detector_inverted,0
+minecraft:red_sandstone,0
+minecraft:red_sandstone,1
+minecraft:red_sandstone,2
+minecraft:red_sandstone_stairs,0
+minecraft:double_stone_slab2,0
+minecraft:stone_slab2,0
+minecraft:spruce_fence_gate,0
+minecraft:birch_fence_gate,0
+minecraft:jungle_fence_gate,0
+minecraft:dark_oak_fence_gate,0
+minecraft:acacia_fence_gate,0
+minecraft:spruce_fence,0
+minecraft:birch_fence,0
+minecraft:jungle_fence,0
+minecraft:dark_oak_fence,0
+minecraft:acacia_fence,0
+minecraft:spruce_door,0
+minecraft:birch_door,0
+minecraft:jungle_door,0
+minecraft:acacia_door,0
+minecraft:dark_oak_door,0
+minecraft:end_rod,0
+minecraft:chorus_plant,0
+minecraft:chorus_flower,0
+minecraft:purpur_block,0
+minecraft:purpur_pillar,0
+minecraft:purpur_stairs,0
+minecraft:purpur_double_slab,0
+minecraft:purpur_slab,0
+minecraft:end_bricks,0
+minecraft:beetroots,0
+minecraft:grass_path,0
+minecraft:end_gateway,0
+minecraft:repeating_command_block,0
+minecraft:chain_command_block,0
+minecraft:frosted_ice,0
+minecraft:magma,0
+minecraft:nether_wart_block,0
+minecraft:red_nether_brick,0
+minecraft:bone_block,0
+minecraft:structure_void,0
+minecraft:observer,0
+minecraft:white_shulker_box,0
+minecraft:orange_shulker_box,0
+minecraft:magenta_shulker_box,0
+minecraft:light_blue_shulker_box,0
+minecraft:yellow_shulker_box,0
+minecraft:lime_shulker_box,0
+minecraft:pink_shulker_box,0
+minecraft:gray_shulker_box,0
+minecraft:silver_shulker_box,0
+minecraft:cyan_shulker_box,0
+minecraft:purple_shulker_box,0
+minecraft:blue_shulker_box,0
+minecraft:brown_shulker_box,0
+minecraft:green_shulker_box,0
+minecraft:red_shulker_box,0
+minecraft:black_shulker_box,0
+minecraft:white_glazed_terracotta,0
+minecraft:orange_glazed_terracotta,0
+minecraft:magenta_glazed_terracotta,0
+minecraft:light_blue_glazed_terracotta,0
+minecraft:yellow_glazed_terracotta,0
+minecraft:lime_glazed_terracotta,0
+minecraft:pink_glazed_terracotta,0
+minecraft:gray_glazed_terracotta,0
+minecraft:light_gray_glazed_terracotta,0
+minecraft:cyan_glazed_terracotta,0
+minecraft:purple_glazed_terracotta,0
+minecraft:blue_glazed_terracotta,0
+minecraft:brown_glazed_terracotta,0
+minecraft:green_glazed_terracotta,0
+minecraft:red_glazed_terracotta,0
+minecraft:black_glazed_terracotta,0
+minecraft:concrete,0
+minecraft:concrete,1
+minecraft:concrete,2
+minecraft:concrete,3
+minecraft:concrete,4
+minecraft:concrete,5
+minecraft:concrete,6
+minecraft:concrete,7
+minecraft:concrete,8
+minecraft:concrete,9
+minecraft:concrete,10
+minecraft:concrete,11
+minecraft:concrete,12
+minecraft:concrete,13
+minecraft:concrete,14
+minecraft:concrete,15
+minecraft:concrete_powder,0
+minecraft:concrete_powder,1
+minecraft:concrete_powder,2
+minecraft:concrete_powder,3
+minecraft:concrete_powder,4
+minecraft:concrete_powder,5
+minecraft:concrete_powder,6
+minecraft:concrete_powder,7
+minecraft:concrete_powder,8
+minecraft:concrete_powder,9
+minecraft:concrete_powder,10
+minecraft:concrete_powder,11
+minecraft:concrete_powder,12
+minecraft:concrete_powder,13
+minecraft:concrete_powder,14
+minecraft:concrete_powder,15
+minecraft:structure_block,0
+minecraft:iron_shovel,0
+minecraft:iron_pickaxe,0
+minecraft:iron_axe,0
+minecraft:flint_and_steel,0
+minecraft:apple,0
+minecraft:bow,0
+minecraft:arrow,0
+minecraft:coal,0
+minecraft:coal,1
+minecraft:diamond,0
+minecraft:iron_ingot,0
+minecraft:gold_ingot,0
+minecraft:iron_sword,0
+minecraft:wooden_sword,0
+minecraft:wooden_shovel,0
+minecraft:wooden_pickaxe,0
+minecraft:wooden_axe,0
+minecraft:stone_sword,0
+minecraft:stone_shovel,0
+minecraft:stone_pickaxe,0
+minecraft:stone_axe,0
+minecraft:diamond_sword,0
+minecraft:diamond_shovel,0
+minecraft:diamond_pickaxe,0
+minecraft:diamond_axe,0
+minecraft:stick,0
+minecraft:bowl,0
+minecraft:mushroom_stew,0
+minecraft:golden_sword,0
+minecraft:golden_shovel,0
+minecraft:golden_pickaxe,0
+minecraft:golden_axe,0
+minecraft:string,0
+minecraft:feather,0
+minecraft:gunpowder,0
+minecraft:wooden_hoe,0
+minecraft:stone_hoe,0
+minecraft:iron_hoe,0
+minecraft:diamond_hoe,0
+minecraft:golden_hoe,0
+minecraft:wheat_seeds,0
+minecraft:wheat,0
+minecraft:bread,0
+minecraft:leather_helmet,0
+minecraft:leather_chestplate,0
+minecraft:leather_leggings,0
+minecraft:leather_boots,0
+minecraft:chainmail_helmet,0
+minecraft:chainmail_chestplate,0
+minecraft:chainmail_leggings,0
+minecraft:chainmail_boots,0
+minecraft:iron_helmet,0
+minecraft:iron_chestplate,0
+minecraft:iron_leggings,0
+minecraft:iron_boots,0
+minecraft:diamond_helmet,0
+minecraft:diamond_chestplate,0
+minecraft:diamond_leggings,0
+minecraft:diamond_boots,0
+minecraft:golden_helmet,0
+minecraft:golden_chestplate,0
+minecraft:golden_leggings,0
+minecraft:golden_boots,0
+minecraft:flint,0
+minecraft:porkchop,0
+minecraft:cooked_porkchop,0
+minecraft:painting,0
+minecraft:golden_apple,0
+minecraft:golden_apple,1
+minecraft:sign,0
+minecraft:wooden_door,0
+minecraft:bucket,0
+minecraft:water_bucket,0
+minecraft:lava_bucket,0
+minecraft:minecart,0
+minecraft:saddle,0
+minecraft:iron_door,0
+minecraft:redstone,0
+minecraft:snowball,0
+minecraft:boat,0
+minecraft:leather,0
+minecraft:milk_bucket,0
+minecraft:brick,0
+minecraft:clay_ball,0
+minecraft:reeds,0
+minecraft:paper,0
+minecraft:book,0
+minecraft:slime_ball,0
+minecraft:chest_minecart,0
+minecraft:furnace_minecart,0
+minecraft:egg,0
+minecraft:compass,0
+minecraft:fishing_rod,0
+minecraft:clock,0
+minecraft:glowstone_dust,0
+minecraft:fish,0
+minecraft:fish,1
+minecraft:fish,2
+minecraft:fish,3
+minecraft:cooked_fish,0
+minecraft:cooked_fish,1
+minecraft:dye,0
+minecraft:dye,1
+minecraft:dye,2
+minecraft:dye,3
+minecraft:dye,4
+minecraft:dye,5
+minecraft:dye,6
+minecraft:dye,7
+minecraft:dye,8
+minecraft:dye,9
+minecraft:dye,10
+minecraft:dye,11
+minecraft:dye,12
+minecraft:dye,13
+minecraft:dye,14
+minecraft:dye,15
+minecraft:bone,0
+minecraft:sugar,0
+minecraft:cake,0
+minecraft:bed,0
+minecraft:repeater,0
+minecraft:cookie,0
+minecraft:filled_map,0
+minecraft:shears,0
+minecraft:melon,0
+minecraft:pumpkin_seeds,0
+minecraft:melon_seeds,0
+minecraft:beef,0
+minecraft:cooked_beef,0
+minecraft:chicken,0
+minecraft:cooked_chicken,0
+minecraft:rotten_flesh,0
+minecraft:ender_pearl,0
+minecraft:blaze_rod,0
+minecraft:ghast_tear,0
+minecraft:gold_nugget,0
+minecraft:nether_wart,0
+minecraft:potion,0
+minecraft:glass_bottle,0
+minecraft:spider_eye,0
+minecraft:fermented_spider_eye,0
+minecraft:blaze_powder,0
+minecraft:magma_cream,0
+minecraft:brewing_stand,0
+minecraft:cauldron,0
+minecraft:ender_eye,0
+minecraft:speckled_melon,0
+minecraft:spawn_egg,4
+minecraft:spawn_egg,5
+minecraft:spawn_egg,6
+minecraft:spawn_egg,23
+minecraft:spawn_egg,27
+minecraft:spawn_egg,28
+minecraft:spawn_egg,29
+minecraft:spawn_egg,31
+minecraft:spawn_egg,32
+minecraft:spawn_egg,34
+minecraft:spawn_egg,35
+minecraft:spawn_egg,36
+minecraft:spawn_egg,50
+minecraft:spawn_egg,51
+minecraft:spawn_egg,52
+minecraft:spawn_egg,54
+minecraft:spawn_egg,55
+minecraft:spawn_egg,56
+minecraft:spawn_egg,57
+minecraft:spawn_egg,58
+minecraft:spawn_egg,59
+minecraft:spawn_egg,60
+minecraft:spawn_egg,61
+minecraft:spawn_egg,62
+minecraft:spawn_egg,65
+minecraft:spawn_egg,66
+minecraft:spawn_egg,67
+minecraft:spawn_egg,68
+minecraft:spawn_egg,69
+minecraft:spawn_egg,90
+minecraft:spawn_egg,91
+minecraft:spawn_egg,92
+minecraft:spawn_egg,93
+minecraft:spawn_egg,94
+minecraft:spawn_egg,95
+minecraft:spawn_egg,96
+minecraft:spawn_egg,98
+minecraft:spawn_egg,100
+minecraft:spawn_egg,101
+minecraft:spawn_egg,102
+minecraft:spawn_egg,103
+minecraft:spawn_egg,105
+minecraft:spawn_egg,120
+minecraft:experience_bottle,0
+minecraft:fire_charge,0
+minecraft:writable_book,0
+minecraft:written_book,0
+minecraft:emerald,0
+minecraft:item_frame,0
+minecraft:flower_pot,0
+minecraft:carrot,0
+minecraft:potato,0
+minecraft:baked_potato,0
+minecraft:poisonous_potato,0
+minecraft:map,0
+minecraft:golden_carrot,0
+minecraft:skull,0
+minecraft:skull,1
+minecraft:skull,2
+minecraft:skull,3
+minecraft:skull,4
+minecraft:skull,5
+minecraft:carrot_on_a_stick,0
+minecraft:nether_star,0
+minecraft:pumpkin_pie,0
+minecraft:fireworks,0
+minecraft:firework_charge,0
+minecraft:enchanted_book,0
+minecraft:comparator,0
+minecraft:netherbrick,0
+minecraft:quartz,0
+minecraft:tnt_minecart,0
+minecraft:hopper_minecart,0
+minecraft:prismarine_shard,0
+minecraft:prismarine_crystals,0
+minecraft:rabbit,0
+minecraft:cooked_rabbit,0
+minecraft:rabbit_stew,0
+minecraft:rabbit_foot,0
+minecraft:rabbit_hide,0
+minecraft:armor_stand,0
+minecraft:iron_horse_armor,0
+minecraft:golden_horse_armor,0
+minecraft:diamond_horse_armor,0
+minecraft:lead,0
+minecraft:name_tag,0
+minecraft:command_block_minecart,0
+minecraft:mutton,0
+minecraft:cooked_mutton,0
+minecraft:banner,0
+minecraft:end_crystal,0
+minecraft:spruce_door,0
+minecraft:birch_door,0
+minecraft:jungle_door,0
+minecraft:acacia_door,0
+minecraft:dark_oak_door,0
+minecraft:chorus_fruit,0
+minecraft:popped_chorus_fruit,0
+minecraft:beetroot,0
+minecraft:beetroot_seeds,0
+minecraft:beetroot_soup,0
+minecraft:dragon_breath,0
+minecraft:splash_potion,0
+minecraft:spectral_arrow,0
+minecraft:tipped_arrow,0
+minecraft:lingering_potion,0
+minecraft:shield,0
+minecraft:elytra,0
+minecraft:spruce_boat,0
+minecraft:birch_boat,0
+minecraft:jungle_boat,0
+minecraft:acacia_boat,0
+minecraft:dark_oak_boat,0
+minecraft:totem_of_undying,0
+minecraft:shulker_shell,0
+minecraft:iron_nugget,0
+minecraft:knowledge_book,0
+minecraft:record_13,0
+minecraft:record_cat,0
+minecraft:record_blocks,0
+minecraft:record_chirp,0
+minecraft:record_far,0
+minecraft:record_mall,0
+minecraft:record_mellohi,0
+minecraft:record_stal,0
+minecraft:record_strad,0
+minecraft:record_ward,0
+minecraft:record_11,0
+minecraft:record_wait,0
