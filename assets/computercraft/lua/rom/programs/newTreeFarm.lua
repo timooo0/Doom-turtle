@@ -121,16 +121,11 @@ self.faceLeft()
 
 end
 
-function checkShutdown()
-	if self.get(24) == "1" then
-		os.shutdown()
-	end
-end
 
 startup()
 index = tonumber(self.get(26))
 while true do
-	checkShutdown()
+	self.checkShutdown()
 	checkTree()
 	self.face(route[index])
 	self.move()

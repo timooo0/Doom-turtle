@@ -439,7 +439,7 @@ end
 
 function self.checkShutdown()
 	if fs.open("/rom/global files/shutdown.txt","r") == "true" then
-		os.shutdown()
+		os.sleep(10000)
 	end
 end
 
