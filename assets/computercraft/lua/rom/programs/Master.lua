@@ -14,7 +14,6 @@ if test == true then
 else
 	id = 0
 end
-
 if fs.exists("/data.txt") == false then
 --Create the Data.txt file and fill items
 	fs.copy("/rom/global files/dataTemplate.txt","/data.txt")

@@ -1,7 +1,7 @@
 os.loadAPI("/rom/apis/item.lua")
 os.loadAPI("/rom/apis/gps.lua")
 os.loadAPI("/rom/apis/file.lua")
-quarry = require("quarry")
+os.loadAPI("/rom/apis/recipe.lua")
 
 
 fs.delete("/items.txt")
@@ -18,17 +18,54 @@ end
 --for i = 1,4 do
 --	itemsstore(i, itemstable[i])
 --end
+local resources = {}
+resources["minecraft:iron_ore"] = 7
+resources["minecraft:redstone"] = 2
+resources["minecraft:cobblestone"] = 23
+resources["minecraft:dirt,0"] = 88
+resources["minecraft:diamond"] = 3
+resources["computercraft:turtle_expanded"] = 1
+resources["minecraft:diamond_pickaxe"] = 1
+
+quarryTurtleRecipes = {}
+quarryTurtleRecipes[1] = recipe.miningTurtle
+quarryTurtleRecipes[2] = recipe.turtle
+quarryTurtleRecipes[3] = recipe.computer
+quarryTurtleRecipes[4] = recipe.glassPane
+quarryTurtleRecipes[5] = recipe.chest
+
+quarryTurtleRecipes[6] = recipe.diamondPickaxe
+quarryTurtleRecipes[7] = recipe.stick
 
 
-if item.getItemDict("minecraft:iron_ore") < 7 or item.getItemDict("minecraft:redstone") < 2 or item.getItemDict("minecraft:cobblestone") < 23 or item.getItemDict("minecraft:dirt,0") < 88 or item.getItemDict("minecraft:diamond") < 3 then
-	enoughItems = "false"
+for key1 , value1 in ipairs(quarryTurtleRecipes) do
+	for key2 , value2 in pairs(value1) do
+		if value2[1] ~= result and item.getItemDict(key2) < table.getn(value2) then
+			enoughItems = "false"
+		else
+			enoughItems = "true"
+			--getFromChest
+			item.craftItem(value1)
+		end
+	end
 end
 
-recipeComputer = {}
-recipeComputer["minecraft:stone,0"] = {1,2,3,5,7,9,11}
-recipeComputer["minecraft:redstone"] = {6}
-recipeComputer["minecraft:glass_pane"] = {10}
---recipeComputer["computercraft:computer"] = {result}
+
+for key , value in pairs(resources) do
+	if item.getItemDict(key) < value then
+		enoughItems = "false"
+	else
+		enoughItems =  "true"
+	end
+end
+for key , value in pairs(recipe) do
+	if value[1] ~= result then
+		item.storeItemDict(key,-table.getn(value))
+	else
+		item.storeItemDict(key,1)
+	end
+end
+
 function recipeToItemDict(recipe)
 	for k, v in pairs(recipe) do
 		item.storeItemDict(k,-table.getn(v))
