@@ -7,7 +7,7 @@ function selectItem(name)
 	else
 		anyDam = true
 	end
-	
+
 	counter = 1
 	for i=1,16 do
 	turtle.select(i)
@@ -44,14 +44,14 @@ function dumpItem(name, amount)
 	while toDrop > 0 and i <= 16 do
 		turtle.select(i)
 		i = i + 1
-		 
+
 		if turtle.getItemCount() ~= 0 then
 			if turtle.getItemDetail().name == name  and (turtle.getItemDetail().damage == dam or anyDam) then
-				
-				
+
+
 				count = turtle.getItemCount()
 				turtle.drop(math.min(toDrop,count))
-				toDrop = toDrop - math.min(toDrop,count) 
+				toDrop = toDrop - math.min(toDrop,count)
 			end
 		end
 	end
@@ -59,7 +59,7 @@ end
 
 function countItems(name)
 	local count = 0
-	
+
 	anyDam = false
 	if name:match("([^,]+),([^,]+)") ~= nil then
 		name, dam = name:match("([^,]+),([^,]+)")
@@ -67,7 +67,7 @@ function countItems(name)
 	else
 		anyDam = true
 	end
-	
+
 	for i = 1, 16 do
 		turtle.select(i)
 		if turtle.getItemCount() ~= 0 then
@@ -81,16 +81,16 @@ end
 
 function getFromChest(name,amount)
 	turtle.select(1)
-	
+
 	local nStacks = math.floor(amount/64+1)
 	amount = amount%64
-	
+
 	anyDam = false
 	if name:match("([^,]+),([^,]+)") ~= nil then
 		name, dam = name:match("([^,]+),([^,]+)")
 		dam = tonumber(dam)
 	else
-		anyDam = true 
+		anyDam = true
 	end
 	print(name)
 	for i=1,nStacks do
@@ -98,15 +98,15 @@ function getFromChest(name,amount)
 		while turtle.suck() == true and counter <=16 do
 			turtle.select(counter)
 			counter = counter + 1
-	
+
 			if turtle.getItemCount() ~= 0 then
-			
+
 				if turtle.getItemDetail().name == name and (turtle.getItemDetail().damage == dam or anyDam) then
 					break
 				end
-				
+
 			end
-			
+
 		end
 		--Move stack to last available slot
 		print(i,nStacks)
@@ -129,10 +129,10 @@ function getFromChest(name,amount)
 		turtle.drop()
 	end
 	end
-	
+
 
 end
-function itemdelivery()								
+function itemdelivery()
 	bool,data=turtle.inspect()
 	if data.name == "minecraft:chest" or data.name == "minecraft:trapped_chest" then
 		for inventoryslot = 2,16 do
@@ -145,27 +145,30 @@ function itemdelivery()
 	end
 end
 
-function craftItem(recipe)
+function craftItem(recipe, amount)
+	if amount == nil then
+		amount = 1
+	end
+
 	local counter = 0
 	for key,value in pairs(recipe) do
-		getFromChest(key,table.getn(value))
-		print(counter)
+		getFromChest(key,table.getn(value)*amount)
 		turtle.transferTo(16-counter)
 		counter = counter +1
 	end
-	
+
 	for key,value in pairs(recipe) do
 		print(key)
 		if key:match("([^,]+),([^,]+)") ~= nil then
 			key, dam = key:match("([^,]+),([^,]+)")
- 
+
 		end
-		
+
 		selectItem(key)
 		selection = turtle.getSelectedSlot()
 		for i=1,table.getn(value) do
 			turtle.select(selection)
-			turtle.transferTo(value[i],1)
+			turtle.transferTo(value[i],amount)
 		end
 	end
 	turtle.craft()
