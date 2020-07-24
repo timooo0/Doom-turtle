@@ -135,7 +135,7 @@ while true do
 
 			turtle.drop()
 
-			if turtle.getFuelLevel() < 500 then
+			if turtle.getFuelLevel() < 1000 then
 				gps.moveDown()
 				gps.moveChunk(11,4)
 
