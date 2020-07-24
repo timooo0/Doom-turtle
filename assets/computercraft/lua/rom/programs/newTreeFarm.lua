@@ -1,6 +1,6 @@
 local newTreeFarm = {}
 function newTreeFarm.Function()
-
+nTree = 0
 os.loadAPI("/rom/apis/item.lua")
 os.loadAPI("/rom/apis/gps.lua")
 os.loadAPI("/rom/apis/file.lua")
@@ -54,11 +54,12 @@ end
 function plant()
 	if item.selectItem("minecraft:sapling") then
 		turtle.place()
+		nTree = nTree + 1
 	end
 end
 
 function cutTree()
-
+	nTree = nTree - 1
 	local totalUp = 0
 	item.selectItem("minecraft:log")
 	gps.move()
@@ -103,7 +104,7 @@ gps.faceLeft()
 	if select(2,turtle.inspect()).name == "minecraft:log" then
 		cutTree()
 	else
-		if math.random() < 0.05 then
+		if math.random() < math.max(nTree/80,0.05) then
 			plant()
 		end
 	end
