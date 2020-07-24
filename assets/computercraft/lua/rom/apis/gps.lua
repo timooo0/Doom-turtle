@@ -4,17 +4,17 @@ function moveBase()
 	--Gravel Shield for forward digging and the digging + lava destroyer
 		if turtle.detect() then
 				local name = select(2,turtle.inspect()).name
-				
+
 				while name ~= "minecraft:flowing_water" and name ~= "minecraft:lava" and name ~= "minecraft:water" and name ~= "minecraft:flowing_lava" and turtle.inspect()~= false do					--Gravel destroyer/Liquid Ignorer
 						turtle.dig()
 						name = select(2,turtle.inspect()).name
 				end
-				
+
 		end
-		
+
 		if turtle.forward()==false then																	--Mob Shield
 				while turtle.forward()==false do															--Attack until Mob is gone
-						turtle.attack()																			
+						turtle.attack()
 				end
 		end
 		--Imports the previous Coordinates
@@ -23,7 +23,7 @@ function moveBase()
 		facing = file.get(4)
 
 		--Checks which direction coordinates to update based on where the turtle is facing
-		if facing == 0 then															
+		if facing == 0 then
 			z = z-1
 		elseif facing == 1 then
 			x = x+1
@@ -65,7 +65,7 @@ function moveUpBase()
 			turtle.attackUp()
 		end
 	end
-	
+
 	--Imports the previous Coordinates
 	y = file.get(2)
 
@@ -97,7 +97,7 @@ function moveDownBase()
 			turtle.attackDown()
 		end
 	end
-		
+
 	--Imports the previous Coordinates
 	y = file.get(2)
 
@@ -137,7 +137,7 @@ end
 
 --TurnRight
 function faceRight()
-	
+
 	facing = (file.get(4) + 1) % 4
 	file.store(4, facing)
 	turtle.turnRight()
@@ -173,7 +173,7 @@ function breakUp()
 end
 
 --Digging in front
-function breakFront()	
+function breakFront()
 	if turtle.detect() then
 			local name = select(2,turtle.inspect()).name
 			--For breaking gravel/sand
@@ -181,7 +181,7 @@ function breakFront()
 					turtle.dig()
 					name = select(2,turtle.inspect()).name
 			end
-			
+
 	end
 end
 
@@ -197,7 +197,7 @@ function moveChunk(xpos, zpos)
 		face(1.0)
 		move(xpos-xDistancetoCorner)
 	end
-	
+
 	z = file.get(3)
 	zDistancetoCorner = z % 16
 	if zDistancetoCorner > zpos then
@@ -208,9 +208,9 @@ function moveChunk(xpos, zpos)
 		move(zpos-zDistancetoCorner)
 	end
 
-	
+
 end
-	
+
 --Move to Aboslute coordinates
 function moveAbs(xpos, ypos, zpos)
 
@@ -222,15 +222,15 @@ function moveAbs(xpos, ypos, zpos)
 		face(1.0)
 		move(xpos-x)
 	end
-	
+
 	y = file.get(2)
 	if y > ypos then
 		moveDown(y-ypos)
 	else
 		moveUp(ypos-y)
 	end
-	
-	
+
+
 	z = file.get(3)
 	if z > zpos then
 		face(0.0)
@@ -239,8 +239,8 @@ function moveAbs(xpos, ypos, zpos)
 		face(2.0)
 		move(zpos-z)
 	end
-	
-end	
+
+end
 
 --Move in a square
 function square(a)
@@ -270,4 +270,34 @@ function square(a)
 	end
 	faceRight()
 	turtle.suck()
+end
+
+function buildTemplate(template, material)
+	gps.moveChunk(0,0)
+	gps.face(1)
+
+	for i=1,16 do
+		for j=1,16 do
+			print(i,j)
+			if template[i][j] == 1 then
+				item.selectItem(material)
+				turtle.placeDown()
+			end
+			if j ~= 16 then
+			gps.move()
+			end
+		end
+		if i~=16 and j~= 16 then
+			if i%2 == 1 then
+			gps.faceRight()
+			gps.move()
+			gps.faceRight()
+			else
+			gps.faceLeft()
+			gps.move()
+			gps.faceLeft()
+
+			end
+		end
+	end
 end
