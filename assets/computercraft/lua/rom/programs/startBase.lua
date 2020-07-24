@@ -31,7 +31,7 @@ end
 function start()
 	if restartIndex == 0 then
 		for i=1,4 do
-			file.store(i+4,i)
+			file.store(i+4,file.get(i))
 		end
 
 	else
