@@ -149,17 +149,21 @@ function itemdelivery()
 	end
 end
 
-function craftItem(recipe)
+function craftItem(recipe, amount)
+	if amount == nil then
+		amount = 1
+	end
+
 	local counter = 0
 	for key,value in pairs(recipe) do
 		if value[1] ~= result then
-			getFromChest(key,table.getn(value))
-			item.storeItemDict(key,-table.getn(value))
+			getFromChest(key,table.getn(value)*amount)
+			item.storeItemDict(key,-table.getn(value)*amount)
 			print(counter)
 			turtle.transferTo(16-counter)
 			counter = counter +1
 		else
-			item.storeItemDict(key,1)
+			item.storeItemDict(key,1*amount)
 		end
 	end
 
@@ -174,7 +178,7 @@ function craftItem(recipe)
 		selection = turtle.getSelectedSlot()
 		for i=1,table.getn(value) do
 			turtle.select(selection)
-			turtle.transferTo(value[i],1)
+			turtle.transferTo(value[i],amount)
 		end
 	end
 	turtle.craft()
