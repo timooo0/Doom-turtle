@@ -228,7 +228,7 @@ turtle.transferTo(12)
 
 
 gps.faceAround()
---Get the Coal from the Furnace 
+--Get the Coal from the Furnace
 gps.moveUp(1)
 turtle.suck()
 gps.moveDown(1)
@@ -294,4 +294,3 @@ end
 
 
 return startBase
-

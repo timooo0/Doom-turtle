@@ -72,6 +72,10 @@ gps.face(3)
 item.selectItem("minecraft:chest")
 turtle.place()
 
+
+--Count and store the starting items
+item.InvenToItemDict()
+
 --Places Coal in Slot 1
 item.selectItem("minecraft:coal")
 turtle.transferTo(1)
@@ -79,6 +83,9 @@ for i = 2,16 do
 	turtle.select(i)
 	turtle.drop()
 end
+
+
+
 
 
 --Back to Master

@@ -13,18 +13,6 @@ end
 print(self.selectItem("minecraft:planks"))
 
 
-function itemdelivery()								
-	bool,data=turtle.inspect()
-	if data.name == "minecraft:chest" or data.name == "minecraft:trapped_chest" then
-		for inventoryslot = 1,16 do
-			turtle.select(inventoryslot)
-			os.sleep(2/20)
-			turtle.drop()
-		end
-	else
-		print("No Chest to drop off my items")
-	end
-end
 
 
 function InvenToItemDict()
@@ -75,14 +63,14 @@ function ItemtoItemDict(name, amount)
 		name = name .. ",0"
 		dam = 0
 	end
-	
+
 	local dataRead = fs.open("/rom/global files/itemsStructure.md", "r")
 	local itemLine = 1
 	while dataRead.readLine() ~= name do
 		itemLine = itemLine + 1
 	end
 	dataRead.close()
-	
+
 	if amount ~= nil then
 		self.addStore(itemLine, amount, "items.txt")
 	else
@@ -96,6 +84,3 @@ function ItemtoItemDict(name, amount)
 		end
 	end
 end
-
-
-

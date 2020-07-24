@@ -35,7 +35,7 @@ print("Quarry")
 --Functions:
 
 	--Drop items in the chest in front of it (needs to be trapped or regular)
-	function itemdelivery()								
+	function itemdelivery()
 		bool,data=turtle.inspect()
 		if data.name == "minecraft:chest" or data.name == "minecraft:trapped_chest" then
 			for inventoryslot = 2,16 do
@@ -49,7 +49,7 @@ print("Quarry")
 	end
 
 	--Refuel
-	function fuel()								
+	function fuel()
 		if turtle.getFuelLevel() < 160 and turtle.getItemCount(1) > 2 then
 			turtle.select(1)
 			turtle.refuel(2)
@@ -69,13 +69,13 @@ print("Quarry")
 		end
 	end
 
-	function dumpExcess(name, need, dataLine)
+	function dumpExcess(name, need)
 		count = item.countItems(name)
-		get = file.get(tonumber(dataLine))
+		get = item.getItemDict(name)
 		item.dumpItem(name, count-tonumber(need)+get)
-		file.store(dataLine, item.countItems(name)+get)
+		item.storeItemDict(name,item.countItems(name))
 	end
-
+item.storeItemDict("minecraft:iron_ore", -7)
 fuel()
 
 --Moving back to where it left off
@@ -119,7 +119,7 @@ print(facingStart)
 		gps.faceLeft()
 	end
 
-print("start quary")
+
 fuel()
 --The loop for the width of the quarry
 while layerwidth < widthquarry do
@@ -129,15 +129,15 @@ while layerwidth < widthquarry do
 	--The loop for the depth of the quarry
 	while layerdepth < math.floor(depthquarry/6)*6 do
 		file.checkShutdown()
-		
-		
+
+
 		gps.faceLeft()
 		--Moves back by the number of layerswidth already quarried
 		for width = 1, layerwidth do
 			gps.move()
 		end
 		gps.faceLeft()
-	
+
 		--Moves down a layerdepth number of layers to continue/start from
 		for depth = 1, layerdepth do
 			fuel()
@@ -151,12 +151,12 @@ while layerwidth < widthquarry do
 			gps.breakUp()
 			gps.move()
 		end
-		
+
 		--Breaks the block above the turtle at the end of the length
 		gps.breakUp()
-		
+
 		--Moves down 1 layer (3 thick)
-		for depth = 1, 3 do 
+		for depth = 1, 3 do
 			fuel()
 			gps.moveDown()
 		end
@@ -174,9 +174,9 @@ while layerwidth < widthquarry do
 
 		--Breaks the block below the turtle at the end of the length
 		gps.breakDown()
-		
+
 		--Moves up 1 layer (3 thick)
-		for depth = 1, 3 do 
+		for depth = 1, 3 do
 			fuel()
 			gps.moveUp()
 		end
@@ -191,19 +191,20 @@ while layerwidth < widthquarry do
 		for width = 1, layerwidth do
 			gps.move()
 		end
-		
-		
+
+
 		--Dump all non-needed items
 		dumpitems()
 		--Dump all excess-needed items
-		dumpExcess("minecraft:iron_ore", 64, 20)
-		dumpExcess("minecraft:redstone", 64, 21)
-		dumpExcess("minecraft:sand", 64, 22)
-		dumpExcess("minecraft:cobblestone", 64, 23)
-		dumpExcess("minecraft:dirt", 88, 25)
-		dumpExcess("minecraft:diamond", 64, 30)
-		
-		
+
+		dumpExcess("minecraft:iron_ore", 64)
+		dumpExcess("minecraft:redstone", 64)
+		dumpExcess("minecraft:sand", 64)
+		dumpExcess("minecraft:cobblestone", 64)
+		dumpExcess("minecraft:dirt", 128)
+		dumpExcess("minecraft:diamond", 64)
+
+
 		gps.faceLeft()
 		--Puts the Items in the chest
 		itemdelivery()
@@ -219,12 +220,10 @@ while layerwidth < widthquarry do
 	--Update the layerdepth
 	layerdepth = 0
 	file.store(13, 0)
-	
+
 end
 
---Back to Master
---Restart Resistance
-file.store(14, "QuarryMore")
+
 
 end
 

@@ -8,9 +8,9 @@ os.loadAPI("/rom/apis/item.lua")
 os.loadAPI("/rom/apis/file.lua")
 --Initialization
 --Set true when testing with non ID=0 turtles
-local test = false
+local test = true
 if test == true then
-	id = os.getComputerID() 
+	id = os.getComputerID()
 else
 	id = 0
 end
@@ -31,35 +31,41 @@ if fs.exists("/data.txt") == false then
 		write("facing in direction:  ")
 		local face = read()
 		file.store(4,face)
+
+		--Because Nice:
+		if yPos == 69 then
+			print("Nice!")
+		end
 	end
 end
-
-if fs.exists("/items.txt") == false then
-	fs.copy("/rom/global files/itemsTemplate.txt","/items.txt")
-end
-
 
 file.checkShutdown()
 if file.get(14) == "Start" then
 	if os.getComputerID()	 == id then
+
+		--Create the "items.txt" file:
+		if fs.exists("/items.txt") == false then
+			fs.copy("/rom/global files/itemsTemplate.txt","/items.txt")
+		end
+
 		--Process from start
 		require("StartTree")
-	
+
 		--Restart Resistance
 		file.store(14, "QuarryInitialization")
 		file.store(26, "false")
-		
+
 	else
 		item.selectItem("minecraft:coal")
 		turtle.refuel()
-		
+
 		if turtle.forward() == true then
 			turtle.back()
 		else
 			turtle.turnLeft()
 			turtle.turnLeft()
 		end
-		
+
 		rednet.open("back")
 		for i=1,4 do
 			local message = select(2,rednet.receive())
@@ -69,55 +75,51 @@ if file.get(14) == "Start" then
 		local message = select(2,rednet.receive())
 		print(message)
 		file.store(14,message)
-		
-
-		
 	end
-end	
+end
 
 --Quarry
 file.checkShutdown()
 if file.get(14) == "QuarryInitialization" then
-		print("Init")
-		x = file.get(1)
-		y = file.get(2)
-		z = file.get(3)
-		facing = file.get(4)
+	--Create the item storage file
+
+
+	print("Init")
+	x = file.get(1)
+	y = file.get(2)
+	z = file.get(3)
+	facing = file.get(4)
 	--The starting Coordinates
-		file.store(5, x)
-		file.store(6, y)
-		file.store(7, z)
-		file.store(8, facing)
+	file.store(5, x)
+	file.store(6, y)
+	file.store(7, z)
+	file.store(8, facing)
 
 	--The Quarry Size
-		file.store(9, 47)
-		--file.store(10, 16)
-		file.store(11, file.get(6)-3)
+	file.store(9, 47)
+	--file.store(10, 16)
+	file.store(11, file.get(6)-3)
 
 	-- Initialization
-		--file.store(12, 0)
-		file.store(13, 0)
+	--file.store(12, 0)
+	file.store(13, 0)
 
 
-	
+
 	--Restart Resistance
-		file.store(14, "Quarry")
-		--Initialization
-		file.store(15, 1)
-		file.store(16, "false")
-		
-		file.store(18, "false")
-		
-		file.store(20, 0)
-		file.store(21, 0)
-		file.store(22, 0)
-		file.store(23, 0)
+	file.store(14, "Quarry")
+	--Initialization
+	file.store(15, 1)
+	file.store(16, "false")
+
+	file.store(18, "false")
+
 end
 
 file.checkShutdown()
 if file.get(14) == "Quarry" then
 	while file.get(16) ~= "true" or file.get(18) ~= "true" do
-	
+
 
 		enoughItems = file.get(16)
 		enoughSand = file.get(18)
@@ -130,7 +132,7 @@ if file.get(14) == "Quarry" then
 			file.store(12, 1*(biggerQuarry-1))
 
 			quarry.Function()
-			
+
 			biggerQuarry = file.get(15)
 			biggerQuarry = biggerQuarry+1
 			file.store(15, biggerQuarry)
@@ -140,35 +142,34 @@ if file.get(14) == "Quarry" then
 			file.store(10, 1*biggerQuarry)
 			file.store(12, 1*(biggerQuarry-1))
 			file.store(11, file.get(6)-53)
-			print("noyes")
 			quarry.Function()
-			
+
 			biggerQuarry = file.get(15)
 			biggerQuarry = biggerQuarry+3
 			file.store(15, biggerQuarry)
-			
+
 		else
 			file.store(14, "startBase")
 		end
-		
+
 		--Restart Resistance
 
 		--Checks wether we have enough to build turtle
 			enoughItems = "true"
 			enoughSand = "true"
 
-			if file.get(20) < 7 or file.get(21) < 2 or file.get(23) < 23 or file.get(25) < 88 or file.get(30) < 3 then
+			if item.getItemDict("minecraft:iron_ore") < 7 or item.getItemDict("minecraft:redstone") < 2 or item.getItemDict("minecraft:cobblestone") < 23 or item.getItemDict("minecraft:dirt,0") < 88 or item.getItemDict("minecraft:diamond") < 3 then
 				enoughItems = "false"
 			end
-			if file.get(22) < 6 then
+			if item.getItemDict("minecraft:sand") < 6 then
 				enoughSand = "false"
 				file.store(18, enoughSand)
 			end
-			
+
 			file.store(16, enoughItems)
 			file.store(18, enoughSand)
 			file.store(14, "Quarry")
-			
+
 	end
 	file.store(14, "startBase")
 end
@@ -178,18 +179,23 @@ if file.get(14) == "startBase" then
 --Tree Farm
 
 	startBase.Function()
+
 	--Update our resource counts
-	file.store(20, file.get(20)-7)
-	file.store(21, file.get(21)-2)
-	file.store(23, file.get(23)-23)
-	file.store(25, file.get(25)-88)
-	file.store(30, file.get(30)-3)
-	
+	item.storeItemDict("minecraft:iron_ore", -7)
+	item.storeItemDict("minecraft:redstone", -2)
+	item.storeItemDict("minecraft:cobblestone", -23)
+	item.storeItemDict("minecraft:dirt,0", -88)
+	item.storeItemDict("minecraft:diamond", -3)
+	--Damage is 1 because Spruce tree, pls start with spruce tree
+	item.storeItemDict("minecraft:planks,1", -26)
+
 	file.store(14, "turtleFactory")
 end
 
 if file.get(14) == "turtleFactory" then
 --Quarry and Make more turtles.
+
+
 end
 
 file.checkShutdown()
@@ -204,4 +210,3 @@ if file.get(14) == "farmTree" then
 --Run the tree farm
 	newTreeFarm.Function()
 end
-
