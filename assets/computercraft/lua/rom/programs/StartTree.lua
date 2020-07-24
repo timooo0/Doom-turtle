@@ -38,15 +38,15 @@ gps.moveDown(y-yStart)
 --Wait for a while
 os.sleep(180)
 --Scoop up the Saplings
-square(1)
+gps.square(1)
 
 for i=1,1 do
 
-	square(2)
+	gps.square(2)
 	gps.moveBack()
 end
 gps.moveBack()
-square(1)
+gps.square(1)
 gps.moveBack(2)
 
 dumpitems("minecraft:log")
@@ -62,7 +62,7 @@ turtle.drop()
 turtle.craft()
 item.selectItem("minecraft:chest")
 for i = 1, 16 do
-	file.move()
+	gps.move()
 	turtle.suck()
 end
 

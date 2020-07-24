@@ -134,6 +134,7 @@ function faceLeft()
 	turtle.turnLeft()
 	--print(facingString[facing])
 end
+
 --TurnRight
 function faceRight()
 	
@@ -150,7 +151,7 @@ end
 --Face towards a specific direction:
 function face(direction)
 	direction = tonumber(direction)
-	while facing ~= direction do
+	while file.get(4) ~= direction do
 		faceLeft()
 	end
 end
@@ -224,9 +225,9 @@ function moveAbs(xpos, ypos, zpos)
 	
 	y = file.get(2)
 	if y > ypos then
-		movedown(y-ypos)
+		moveDown(y-ypos)
 	else
-		moveup(ypos-y)
+		moveUp(ypos-y)
 	end
 	
 	
@@ -242,7 +243,7 @@ function moveAbs(xpos, ypos, zpos)
 end	
 
 --Move in a square
-function square()
+function square(a)
 
 	for j=0,4 do
 		if j==0 then

@@ -1,6 +1,7 @@
 local startBase = {}
 
 function startBase.Function()
+print("running startBase")
 
 os.loadAPI("/rom/apis/item.lua")
 os.loadAPI("/rom/apis/gps.lua")
@@ -66,6 +67,7 @@ end
 
 
 function start()
+	print(file.get(5),file.get(6),file.get(7))
 	gps.moveAbs(file.get(5),file.get(6),file.get(7))
 	print("move done")
 
@@ -78,6 +80,7 @@ function start()
 	print("drop done")
 end
 
+print("start")
 start()
 
 file.checkShutdown()

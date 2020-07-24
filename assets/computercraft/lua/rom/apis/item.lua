@@ -80,8 +80,11 @@ function countItems(name)
 end
 
 function getFromChest(name,amount)
-	turtle.select(2)
-	local counter = 2
+	turtle.select(1)
+	
+	local nStacks = math.floor(amount/64+1)
+	amount = amount%64
+	
 	anyDam = false
 	if name:match("([^,]+),([^,]+)") ~= nil then
 		name, dam = name:match("([^,]+),([^,]+)")
@@ -89,32 +92,46 @@ function getFromChest(name,amount)
 	else
 		anyDam = true 
 	end
-	while turtle.suck() == true and counter <=16 do
-		turtle.select(counter)
-		counter = counter + 1
-		--print(name,turtle.getItemDetail().damage==dam)
-		if turtle.getItemCount() ~= 0 then
-			if turtle.getItemDetail().name == name and (turtle.getItemDetail().damage == dam or anyDam) then
-				local findanything = true
-				break
+	print(name)
+	for i=1,nStacks do
+		local counter = 1
+		while turtle.suck() == true and counter <=16 do
+			turtle.select(counter)
+			counter = counter + 1
+	
+			if turtle.getItemCount() ~= 0 then
+			
+				if turtle.getItemDetail().name == name and (turtle.getItemDetail().damage == dam or anyDam) then
+					break
+				end
+				
+			end
+			
+		end
+		--Move stack to last available slot
+		print(i,nStacks)
+		for j=16,1,-1 do
+			turtle.select(j)
+			if turtle.getItemCount() == 0 and counter ~= 1 then
+				if i==nStacks then
+					turtle.select(counter-1)
+					turtle.transferTo(j,amount)
+					break
+				else
+					turtle.select(counter-1)
+					turtle.transferTo(j,64)
+					break
+				end
 			end
 		end
-	end
-	if findanythings ~= true then
-		counter = 17
-	end
-	for i=2,counter-2 do
+	for i=turtle.getSelectedSlot(),1,-1 do
 		turtle.select(i)
 		turtle.drop()
 	end
-	turtle.select(counter-1)
-	turtle.transferTo(2)
-	turtle.select(2)
-	if amount ~= 0 and turtle.getItemCount() >= amount then
-		turtle.drop(turtle.getItemCount()-amount)
 	end
-end
+	
 
+end
 function itemdelivery()								
 	bool,data=turtle.inspect()
 	if data.name == "minecraft:chest" or data.name == "minecraft:trapped_chest" then
@@ -144,7 +161,7 @@ function craftItem(recipe)
  
 		end
 		
-		self.selectItem(key)
+		selectItem(key)
 		selection = turtle.getSelectedSlot()
 		for i=1,table.getn(value) do
 			turtle.select(selection)
@@ -156,8 +173,8 @@ end
 
 function putInCraftingChest(name,amount)
 	getFromChest(name,amount)
-	self.selectItem(name)
-	self.faceLeft()
+	selectItem(name)
+	gps.faceLeft()
 	turtle.drop()
-	self.faceRight()
+	gps.faceRight()
 end

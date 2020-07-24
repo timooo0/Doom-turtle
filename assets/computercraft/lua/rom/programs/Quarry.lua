@@ -73,7 +73,7 @@ print("Quarry")
 		count = item.countItems(name)
 		get = file.get(tonumber(dataLine))
 		item.dumpItem(name, count-tonumber(need)+get)
-		file.store(dataLine, file.countItems(name)+get)
+		file.store(dataLine, item.countItems(name)+get)
 	end
 
 fuel()
@@ -84,7 +84,7 @@ fuel()
 			gps.moveUp()
 		end
 	--X
-		while facing ~= 1 do
+		while file.get(4) ~= 1 do
 			gps.faceLeft()
 		end
 		if xStart > x then
@@ -99,7 +99,7 @@ fuel()
 
 		end
 	--Z
-		while facing ~= 0 do
+		while file.get(4) ~= 0 do
 			gps.faceLeft()
 		end
 		if zStart > z then
@@ -114,10 +114,12 @@ fuel()
 		end
 
 --Faces the chest
-	while facing ~= facingStart do
+print(facingStart)
+	while file.get(4) ~= facingStart do
 		gps.faceLeft()
 	end
 
+print("start quary")
 fuel()
 --The loop for the width of the quarry
 while layerwidth < widthquarry do
@@ -127,6 +129,7 @@ while layerwidth < widthquarry do
 	--The loop for the depth of the quarry
 	while layerdepth < math.floor(depthquarry/6)*6 do
 		file.checkShutdown()
+		
 		
 		gps.faceLeft()
 		--Moves back by the number of layerswidth already quarried
