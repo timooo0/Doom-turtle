@@ -59,7 +59,7 @@ file.checkShutdown()
 restartIndex = file.get(17)
 --craft and place furnace
 if restartIndex == 0 then
-	print(recipe.Furnace)
+	print(recipe.furnace)
 	item.craftItem(recipe.furnace)
 
 	gps.faceAround()
@@ -221,6 +221,10 @@ if restartIndex == 12 then
 	item.selectItem("minecraft:chest")
 	turtle.transferTo(14)
 
+	item.getFromChest("minecraft:furnace",1)
+	item.selectItem("minecraft:furnace")
+	turtle.transferTo(13)
+
 	file.store(17,restartIndex+1)
 end
 
@@ -232,7 +236,7 @@ if restartIndex == 13 then
 
 	item.getFromChest("minecraft:dirt,0",88)
 	item.selectItem("minecraft:dirt")
-	turtle.transferTo(13)
+	turtle.transferTo(12)
 
 	item.getFromChest("minecraft:sapling",20)
 	item.selectItem("minecraft:sapling")
@@ -267,6 +271,9 @@ item.selectItem("minecraft:dirt")
 turtle.drop()
 
 item.selectItem("minecraft:chest")
+turtle.drop()
+
+item.selectItem("minecraft:furnace")
 turtle.drop()
 
 gps.moveBack()
