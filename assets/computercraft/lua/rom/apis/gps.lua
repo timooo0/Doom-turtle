@@ -242,6 +242,25 @@ function moveAbs(xpos, ypos, zpos)
 
 end
 
+function nextChunk(direction)
+	xChunkPos = file.get(1)%16
+	zChunkPos = file.get(3)%16
+	if direction == 0 then
+		moveChunk(xChunkPos,0)
+	elseif direction == 1 then
+		moveChunk(15,zChunkPos)
+	elseif direction == 2 then
+		moveChunk(xChunkPos,15)
+	elseif direction == 3 then
+		moveChunk(0,zChunkPos)
+	end
+	print(file.get(1)%16,file.get(3)%16)
+	face(direction)
+	move()
+end
+
+
+
 --Move in a square
 function square(a)
 
