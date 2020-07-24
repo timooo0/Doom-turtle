@@ -1,5 +1,8 @@
 self = require("self")
+
+
 fs.delete("/map.txt")
+
 
 if fs.exists("/map.txt") == false then
 	fs.copy("/rom/global files/mapTemplate.txt","/map.txt")
@@ -123,7 +126,4 @@ function mapWrite(xPos, zPos, msg)
 
 end
 
-
-
-
-
+print(mapRead(700,10))
