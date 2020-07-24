@@ -60,7 +60,7 @@ restartIndex = file.get(17)
 --craft and place furnace
 if restartIndex == 0 then
 	print(recipe.Furnace)
-	item.craftItem(recipe.Furnace)
+	item.craftItem(recipe.furnace)
 
 	gps.faceAround()
 	gps.move()
@@ -94,7 +94,7 @@ file.checkShutdown()
 restartIndex = file.get(17)
 --make the chest to put the crafting materials in
 if restartIndex == 2 then
-	item.craftItem(recipe.Chest)
+	item.craftItem(recipe.chest)
 
 	gps.faceLeft()
 
@@ -141,13 +141,24 @@ end
 
 file.checkShutdown()
 restartIndex = file.get(17)
---craft the computer
+--craft furnace and put in the crafting chest
 if restartIndex == 7 then
+	item.craftItem(recipe.furnace)
+
 	gps.faceLeft()
-	item.craftItem(recipe.GlassPane)
 	turtle.drop()
 
-	item.craftItem(recipe.Computer)
+	file.store(17,restartIndex+1)
+end
+
+file.checkShutdown()
+restartIndex = file.get(17)
+--craft the computer
+if restartIndex == 8 then
+	item.craftItem(recipe.glassPane)
+	turtle.drop()
+
+	item.craftItem(recipe.computer)
 	turtle.drop()
 	file.store(17,restartIndex+1)
 end
@@ -155,11 +166,11 @@ end
 file.checkShutdown()
 restartIndex = file.get(17)
 --craft turtle + extra chest
-if restartIndex == 8 then
-	item.craftItem(recipe.Chest,2)
+if restartIndex == 9 then
+	item.craftItem(recipe.chest,2)
 	turtle.drop()
 
-	item.craftItem(recipe.Turtle)
+	item.craftItem(recipe.turtle)
 	turtle.drop()
 
 	file.store(17,restartIndex+1)
@@ -168,14 +179,14 @@ end
 file.checkShutdown()
 restartIndex = file.get(17)
 --craft the mining turtle
-if restartIndex == 9 then
-	item.craftItem(recipe.Stick)
+if restartIndex == 10 then
+	item.craftItem(recipe.stick)
 	turtle.drop()
 
-	item.craftItem(recipe.DiamondPickaxe)
+	item.craftItem(recipe.diamondPickaxe)
 	turtle.drop()
 
-	item.craftItem(recipe.MiningTurtle)
+	item.craftItem(recipe.miningTurtle)
 	turtle.drop()
 
 	file.store(17,restartIndex+1)
@@ -184,11 +195,11 @@ end
 file.checkShutdown()
 restartIndex = file.get(17)
 --craft the modem
-if restartIndex == 10 then
-	item.craftItem(recipe.Modem)
+if restartIndex == 11 then
+	item.craftItem(recipe.modem)
 	turtle.drop()
 
-	item.craftItem(recipe.ModemBlock)
+	item.craftItem(recipe.modemBlock)
 	turtle.drop()
 
 	file.store(17,restartIndex+1)
@@ -197,7 +208,7 @@ end
 file.checkShutdown()
 restartIndex = file.get(17)
 --get all of the crafted items from the crafting chest
-if restartIndex == 11 then
+if restartIndex == 12 then
 	item.getFromChest("computercraft:wired_modem_full",1)
 	item.selectItem("computercraft:wired_modem_full")
 	turtle.transferTo(16)
@@ -216,7 +227,7 @@ end
 file.checkShutdown()
 restartIndex = file.get(17)
 --get all of the items from the materials chest
-if restartIndex == 12 then
+if restartIndex == 13 then
 	gps.faceRight()
 
 	item.getFromChest("minecraft:dirt,0",88)
@@ -233,7 +244,7 @@ end
 file.checkShutdown()
 restartIndex = file.get(17)
 --get coal form furnace, and setup new turtle
-if restartIndex == 13 then
+if restartIndex == 14 then
 gps.faceAround()
 gps.moveUp(1)
 turtle.suck()
@@ -267,7 +278,7 @@ end
 file.checkShutdown()
 restartIndex = file.get(17)
 --give the new turtle the current coordiantes via rednet
-if restartIndex == 14 then
+if restartIndex == 15 then
 	os.sleep(20)
 	rednet.open("front")
 
