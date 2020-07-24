@@ -83,12 +83,24 @@ function countItems(name)
 	return count;
 end
 
+function findChest()
+	if select(2,turtle.inspect()).name == "minecraft:chest" then
+		return turtle.suck, turtle.drop
+	elseif select(2,turtle.inspectUp()).name == "minecraft:chest" then
+		return turtle.suckUp, turtle.dropUp
+	elseif select(2,turtle.inspectDown()).name == "minecraft:chest" then
+		return turtle.suckDown, turtle.dropDown
+	else
+		print("no chest up, down or front")
+	end
+end
+
 function getFromChest(name,amount)
 	turtle.select(1)
 
 	local nStacks = math.floor(amount/64+1)
 	amount = amount%64
-
+	suck, drop = findChest()
 	anyDam = false
 	if name:match("([^,]+),([^,]+)") ~= nil then
 		name, dam = name:match("([^,]+),([^,]+)")
@@ -99,7 +111,7 @@ function getFromChest(name,amount)
 	print(name)
 	for i=1,nStacks do
 		local counter = 1
-		while turtle.suck() == true and counter <=16 do
+		while suck() == true and counter <=16 do
 			turtle.select(counter)
 			counter = counter + 1
 
@@ -130,7 +142,7 @@ function getFromChest(name,amount)
 		end
 	for i=turtle.getSelectedSlot(),1,-1 do
 		turtle.select(i)
-		turtle.drop()
+		drop()
 	end
 	end
 
