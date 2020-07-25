@@ -3,7 +3,6 @@ buildTreeFarm = require("buildTreeFarm")
 startBase = require("startBase")
 newTreeFarm = require("newTreeFarm")
 chunkMap = require("chunkMap")
-os.loadAPI("/rom/apis/item.lua")
+os.loadAPI("/rom/apis/gps.lua")
 
-
-chunkMap.Function()
+gps.switchLane(3)

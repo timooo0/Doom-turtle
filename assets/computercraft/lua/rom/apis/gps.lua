@@ -359,16 +359,28 @@ function switchLane(direction)
 		--go into the down column
 		highWayDown(file.get(1)%16,file.get(3)%16)
 
+		--go to the new lane
+		columnDown(direction)
+
 	elseif levelDirection[direction+1] > file.get(2) then
 		--go into the up column
 		highWayUp(file.get(1)%16,file.get(3)%16)
-		
+
+		--go to the new lane
+		columnUp(direction)
+
 	else
 		print("you are an idiot why are you calling this function")
 	end
 end
 
+function exitHighWay()
+	--go to the down column
+	highWayDown(file.get(1)%16,file.get(3)%16)
 
+	--exit the down highway layer
+	moveDown(highWayLevelMin-file.get(2)+1)
+end
 
 
 
