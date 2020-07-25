@@ -118,7 +118,11 @@ function getFromChest(name,amount)
 			if turtle.getItemCount() ~= 0 then
 
 				if turtle.getItemDetail().name == name and (turtle.getItemDetail().damage == dam or anyDam) then
+					itemFound = true
 					break
+				else
+					print("Item not found")
+					itemFound = false
 				end
 
 			end
@@ -126,17 +130,19 @@ function getFromChest(name,amount)
 		end
 		--Move stack to last available slot
 		print(i,nStacks)
-		for j=16,1,-1 do
-			turtle.select(j)
-			if turtle.getItemCount() == 0 and counter ~= 1 then
-				if i==nStacks then
-					turtle.select(counter-1)
-					turtle.transferTo(j,amount)
-					break
-				else
-					turtle.select(counter-1)
-					turtle.transferTo(j,64)
-					break
+		if itemFound ~= false then
+			for j=16,1,-1 do
+				turtle.select(j)
+				if turtle.getItemCount() == 0 and counter ~= 1 then
+					if i==nStacks then
+						turtle.select(counter-1)
+						turtle.transferTo(j,amount)
+						break
+					else
+						turtle.select(counter-1)
+						turtle.transferTo(j,64)
+						break
+					end
 				end
 			end
 		end
@@ -196,7 +202,7 @@ function craftItem(recipe, amount)
 				turtle.select(selection)
 				turtle.transferTo(value[i],amount)
 			end
-		end 
+		end
 	end
 	turtle.craft()
 end
