@@ -99,7 +99,7 @@ function getFromChest(name,amount)
 	turtle.select(1)
 
 	local nStacks = math.floor(amount/64+1)
-	amount = amount%64
+ 	amount = amount%64
 	suck, drop = findChest()
 	anyDam = false
 	if name:match("([^,]+),([^,]+)") ~= nil then
@@ -108,7 +108,7 @@ function getFromChest(name,amount)
 	else
 		anyDam = true
 	end
-	print(name)
+	--print(name)
 	for i=1,nStacks do
 		local counter = 1
 		while suck() == true and counter <=16 do
@@ -121,7 +121,7 @@ function getFromChest(name,amount)
 					itemFound = true
 					break
 				else
-					print("Item not found")
+					--print("Item not found")
 					itemFound = false
 				end
 
@@ -129,7 +129,7 @@ function getFromChest(name,amount)
 
 		end
 		--Move stack to last available slot
-		print(i,nStacks)
+		--print(i,nStacks)
 		if itemFound ~= false then
 			for j=16,1,-1 do
 				turtle.select(j)
@@ -177,7 +177,7 @@ function craftItem(recipe, amount)
 		if value[1] ~= result then
 			getFromChest(key,table.getn(value)*amount)
 			item.storeItemDict(key,-table.getn(value)*amount)
-			print(counter)
+			--print(counter)
 			turtle.transferTo(16-counter)
 			counter = counter +1
 		else
@@ -190,7 +190,7 @@ function craftItem(recipe, amount)
 	end
 
 	for key,value in pairs(recipe) do
-		print(key)
+		--print(key)
 		if key:match("([^,]+),([^,]+)") ~= nil then
 			key, dam = key:match("([^,]+),([^,]+)")
 
@@ -221,10 +221,10 @@ function InvenToItemDict()
 	while counter <=16 do
 		turtle.select(counter)
 		counter = counter + 1
-		print(turtle.getItemCount())
+		--print(turtle.getItemCount())
 		if turtle.getItemCount() ~= 0 then
 			itemID = turtle.getItemDetail().name .. "," .. turtle.getItemDetail().damage
-			print(itemID)
+			--print(itemID)
 			local dataRead = fs.open("/rom/global files/itemsStructure.md", "r")
 			local itemLine = 1
 			while dataRead.readLine() ~= itemID do
