@@ -3,6 +3,7 @@ quarry = require("quarry")
 startBase = require("startBase")
 buildTreeFarm = require("buildTreeFarm")
 newTreeFarm = require("newTreeFarm")
+turtleFactory = require("turtleFactory")
 
 os.loadAPI("/rom/apis/item.lua")
 os.loadAPI("/rom/apis/file.lua")
@@ -188,12 +189,12 @@ if file.get(14) == "startBase" then
 	--Damage is 1 because Spruce tree, pls start with spruce tree
 	--item.storeItemDict("minecraft:planks,1", -26)
 
-	--file.store(14, "turtleFactory")
+	file.store(14, "turtleFactory")
 end
 
 if file.get(14) == "turtleFactory" then
 --Quarry and Make more turtles.
-
+	turtleFactory.Function()
 
 end
 
