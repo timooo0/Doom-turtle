@@ -1,5 +1,15 @@
 os.loadAPI("/rom/apis/file.lua")
 
+highWayLevelMin = 60
+highWayLevelMax = highWayLevelMin + 3
+
+--gives the y level in which each travel direction goes
+levelDirection = {}
+for i=0,3 do
+	levelDirection[i+1] = highWayLevelMin+i
+end
+
+
 function moveBase()
 	--Gravel Shield for forward digging and the digging + lava destroyer
 		if turtle.detect() then
@@ -258,6 +268,112 @@ function nextChunk(direction)
 	face(direction)
 	move()
 end
+
+function highWayUp(chunkX,chunkZ)
+	if (chunkX%4) == 3 then
+		moveChunk(chunkX+1,chunkZ+chunkZ%2)
+	elseif (chunkX%4) == 1 then
+		moveChunk(chunkX-1,chunkZ+chunkZ%2)
+	else
+		moveChunk(chunkX+chunkX%4,chunkZ+chunkZ%2)
+	end
+end
+
+function highWayDown(chunkX,chunkZ)
+	if ((chunkX+2)%4) == 3 then
+		moveChunk(chunkX+1,chunkZ+chunkZ%2)
+	elseif ((chunkX+2)%4) == 1 then
+		moveChunk(chunkX-1,chunkZ+chunkZ%2)
+	else
+		moveChunk(chunkX+(chunkX+2)%4,chunkZ+chunkZ%2)
+	end
+end
+
+function columnUp(direction)
+	--gets from the column to the lane
+	moveUp(levelDirection[direction+1]-file.get(2))
+
+	face((direction+1)%4)
+	move()
+	faceLeft()
+end
+
+function columnDown(direction)
+	--gets from the column to the lane
+	moveDown(file.get(2)-levelDirection[direction+1])
+
+	face((direction+1)%4)
+	move()
+	faceLeft()
+end
+
+function getOnHighwWay(direction)
+	local currentX = file.get(1)
+	local currentY = file.get(2)
+	local currentZ = file.get(3)
+
+	--chunk coordiantes
+	local chunkX = currentX%16
+	local chunkY = currentY%16
+	local chunkZ = currentZ%16
+
+	--Check if the turtle is on the highway, if not move there
+	if highWayLevelMin-currentY > 1 then
+		--go to the correct y level
+		print("moving [up] towards the correct y level")
+		moveUp(highWayLevelMin-currentY-1)
+
+		--Move towards an up column
+		print("moving to [up] column")
+		highWayUp(chunkX,chunkZ)
+
+		--move towards the correct lane level
+		print("go to the direction level")
+		columnUp(direction)
+
+
+	elseif highWayLevelMax - currentY < 0 then
+		--go to the correct y level
+		print("moving [down] towards the correct y level")
+		moveDown(currentY-highWayLevelMax-1)
+
+		--Move towards an down column
+		print("go to [down] column")
+		highWayDown(chunkX,chunkZ)
+
+		--move towards the correct lane level
+		print("go to the direction level")
+		columnDown(direction)
+
+
+	else
+		print("Already on the highway")
+		--break
+	end
+
+end
+
+function switchLane(direction)
+
+	if levelDirection[direction+1] < file.get(2) then
+		--go into the down column
+		highWayDown(file.get(1)%16,file.get(3)%16)
+
+	elseif levelDirection[direction+1] > file.get(2) then
+		--go into the up column
+		highWayUp(file.get(1)%16,file.get(3)%16)
+		
+	else
+		print("you are an idiot why are you calling this function")
+	end
+end
+
+
+
+
+
+
+
 
 
 
