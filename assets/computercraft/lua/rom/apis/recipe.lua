@@ -29,11 +29,11 @@ chest["minecraft:chest"] = {result}
 
 glassPane = {}
 glassPane["minecraft:glass"] = {5,6,7,9,10,11}
-glassPane["minecraft:glass_pane"] = {result}
+glassPane["minecraft:glass_pane"] = {result,16}
 
 stick = {}
 stick["minecraft:planks"] = {1,5}
-stick["minecraft:stick"] = {result}
+stick["minecraft:stick"] = {result,4}
 
 diamondPickaxe = {}
 diamondPickaxe["minecraft:diamond"] = {1,2,3}

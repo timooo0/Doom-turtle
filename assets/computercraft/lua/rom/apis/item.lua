@@ -175,7 +175,11 @@ function craftItem(recipe, amount)
 			turtle.transferTo(16-counter)
 			counter = counter +1
 		else
-			item.storeItemDict(key,1*amount)
+			if value[2] ~= nil then
+				item.storeItemDict(key,value[2]*amount)
+			else
+				item.storeItemDict(key,amount)
+			end
 		end
 	end
 
@@ -185,13 +189,14 @@ function craftItem(recipe, amount)
 			key, dam = key:match("([^,]+),([^,]+)")
 
 		end
-
-		selectItem(key)
-		selection = turtle.getSelectedSlot()
-		for i=1,table.getn(value) do
-			turtle.select(selection)
-			turtle.transferTo(value[i],amount)
-		end
+		if value[1] ~= result then
+			selectItem(key)
+			selection = turtle.getSelectedSlot()
+			for i=1,table.getn(value) do
+				turtle.select(selection)
+				turtle.transferTo(value[i],amount)
+			end
+		end 
 	end
 	turtle.craft()
 end

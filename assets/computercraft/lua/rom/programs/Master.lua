@@ -180,15 +180,15 @@ if file.get(14) == "startBase" then
 	startBase.Function()
 
 	--Update our resource counts
-	item.storeItemDict("minecraft:iron_ore", -7)
-	item.storeItemDict("minecraft:redstone", -2)
-	item.storeItemDict("minecraft:cobblestone", -23)
-	item.storeItemDict("minecraft:dirt,0", -88)
-	item.storeItemDict("minecraft:diamond", -3)
+	--item.storeItemDict("minecraft:iron_ore", -7)
+	--item.storeItemDict("minecraft:redstone", -2)
+	--item.storeItemDict("minecraft:cobblestone", -23)
+	--item.storeItemDict("minecraft:dirt,0", -88)
+	--item.storeItemDict("minecraft:diamond", -3)
 	--Damage is 1 because Spruce tree, pls start with spruce tree
-	item.storeItemDict("minecraft:planks,1", -26)
+	--item.storeItemDict("minecraft:planks,1", -26)
 
-	file.store(14, "turtleFactory")
+	--file.store(14, "turtleFactory")
 end
 
 if file.get(14) == "turtleFactory" then

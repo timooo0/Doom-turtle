@@ -75,7 +75,7 @@ print("Quarry")
 		item.dumpItem(name, count-tonumber(need)+get)
 		item.storeItemDict(name,item.countItems(name))
 	end
-item.storeItemDict("minecraft:iron_ore", -7)
+
 fuel()
 
 --Moving back to where it left off
