@@ -46,7 +46,7 @@ ironIngot["minecraft:iron_ingot"] = {"result", 1}
 
 stone = {}
 stone["minecraft:cobblestone"] = {"smelt"}
-stone["minecraft:stone"] = {"result", 1}
+stone["minecraft:stone,0"] = {"result", 1}
 
 miningTurtle = {}
 miningTurtle["minecraft:diamond_pickaxe"] = {3}
@@ -65,6 +65,6 @@ referenceTable["computercraft:wired_modem_full"] = modemBlock
 referenceTable["computercraft:cable,1"] = modem
 referenceTable["computercraft:computer"] = computer
 referenceTable["minecraft:iron_ingot"] = ironIngot
-referenceTable["minecraft:stone"] = stone
+referenceTable["minecraft:stone,0"] = stone
 
 referenceTable["start"] = "start"

@@ -306,14 +306,18 @@ function getItemDict(name, iDontCareAboutDamage)
 		itemLine = itemLine + 1
 	end
 	count = file.get(itemLine,"items.txt")
+	print(count)
 	--Extra for if you do not care about damage
 	if iDontCareAboutDamage == true then
 		while nameStrip == noDamName do
 			--print(itemLine)
-			nameStrip, dam = dataRead.readLine():match("([^,]+),([^,]+)")
 			itemLine = itemLine + 1
+			nameStrip, dam = dataRead.readLine():match("([^,]+),([^,]+)")
 			count = file.get(itemLine,"items.txt")+count
+
 		end
+		--Backwards, but ay it works
+		count = count-file.get(itemLine,"items.txt")
 	end
 	return count
 end

@@ -100,7 +100,6 @@ end
 
 function checkAndCraftBranch(name, amount, craftingChest)
 	--Initialization
-	smelting = false
 	if craftingChest == nil then
 		craftingChest = 0
 	end
@@ -108,22 +107,26 @@ function checkAndCraftBranch(name, amount, craftingChest)
 	key1 = name
 	recipeTable = recipe.referenceTable[name]
 	for key2 , value2 in pairs(recipeTable) do
+		print("Tih", key2 , item.getItemDict(key2, true), table.getn(value2), name)
+		if item.getItemDict(key2, true) < table.getn(value2) and value2[1] ~= "result" then
+			nextRecipe = key2
+			nextAmount = table.getn(value2)
+			print("nextRecipe", nextRecipe)
+			print("false2")
+			return false
+		end
+	end
+
+	for key2 , value2 in pairs(recipeTable) do
 		if value2[1] == "result" then
 
-			print(key2 , item.getItemDict(key2))
-			currentAmount = item.getItemDict(key2)
+			print(key2 , item.getItemDict(key2, true))
+			currentAmount = item.getItemDict(key2, true)
 			craftedAmount = currentAmount+value2[2]
 
 			if item.getItemDict(key2) >= amount then
 				print("true2")
 				return true
-			end
-		else
-			if item.getItemDict(key2, true) < table.getn(value2) then
-				nextRecipe = key2
-				nextAmount = table.getn(value2)
-				print("nextRecipe", nextRecipe)
-				return false
 			end
 		end
 	end
@@ -133,20 +136,17 @@ function checkAndCraftBranch(name, amount, craftingChest)
 			item.putInCraftingChest(key2, table.getn(value2))
 		elseif value2[1] == "smelt" then
 			--Smelt it instead of crafting if it needs to be smelted
-			smelting = true
 			print("We are smelting bois")
 			smelt(key2, 8)
+			print("false3")
+			return false
 		end
 	end
 	--The Crafting
 	gps.faceLeft()
-	if smelting == false then
-		item.craftItem(recipeTable)
-	end
+	item.craftItem(recipeTable)
 	if turtle.getItemCount() == 0 then
-		turtle.drop(craftingChest)
 		gps.faceRight()
-		turtle.drop()
 		print("false1")
 		return false
 	else
@@ -157,12 +157,14 @@ function checkAndCraftBranch(name, amount, craftingChest)
 			print("true1")
 			return true
 		else
+			print("false4")
 			return false
 		end
 	end
 end
 print("jippies")
 function craftItemBranch(name, amount)
+	--Function can mallfunction if the damage type of the item actually matters, so be careful
 	breaking = false
 	while checkAndCraftBranch(name, amount, 1) == false do
 		while checkAndCraftBranch(nextRecipe, nextAmount, 1) == false do
@@ -179,16 +181,20 @@ function craftItemBranch(name, amount)
 end
 
 --Craft a Mining Turtle
-craftItemBranch("computercraft:turtle_expanded", 1)
+breaking = false
+craftItemBranch("computercraft:turtle_expanded", 2)
+craftItemBranch("computercraft:turtle_expanded", 2)
 if breaking == false then
-	craftItemBranch("minecraft:diamond_pickaxe", 1)
+	craftItemBranch("minecraft:diamond_pickaxe", 2)
 end
+read()
 gps.faceLeft()
 if breaking == false then
 	item.craftItem(recipe.miningTurtle)
 	turtle.drop()
 	print("I made a mining turtle")
 end
+--craftItemBranch("computercraft:computer", 3)
 print("Lemma Quarry")
 
 os.sleep(50000)
@@ -216,7 +222,7 @@ function recipeToItemDict(recipe)
 		item.storeItemDict(k,-table.getn(v))
 	end
 end
-item.craftItem(recipeComputer)
+--item.craftItem(recipeComputer)
 
 end
 return turtleFactory
