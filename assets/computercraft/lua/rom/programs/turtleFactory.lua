@@ -2,10 +2,10 @@ local turtleFactory = {}
 
 function turtleFactory.Function()
 turtle.refuel()
-os.loadAPI("/rom/apis/item.lua")
-os.loadAPI("/rom/apis/gps.lua")
-os.loadAPI("/rom/apis/file.lua")
-os.loadAPI("/rom/apis/recipe.lua")
+os.loadAPI("/rom/apisFiles/item.lua")
+os.loadAPI("/rom/apisFiles/gps.lua")
+os.loadAPI("/rom/apisFiles/file.lua")
+os.loadAPI("/rom/apisFiles/recipe.lua")
 
 
 fs.delete("/items.txt")
@@ -69,7 +69,7 @@ function checkToCraft(i, amount)
 	key1 , value1  = i, quarryTurtleRecipes[i]
 	print(key1, value1)
 	for key2 , value2 in pairs(value1) do
-		if value2[1] == result then
+		if value2[1] == "result" then
 			if item.getItemDict(key2) >= amount then
 				return true
 			end
@@ -82,7 +82,7 @@ end
 function putAllInCraftingChest(i)
 	key1 , value1  = i, quarryTurtleRecipes[i]
 	for key2, value2 in pairs(value1) do
-		if value2[1] ~= result then
+		if value2[1] ~= "result" then
 			item.putInCraftingChest(key2, table.getn(value2))
 		end
 	end
@@ -95,7 +95,7 @@ function checkAndCraft(i, amount, craftingChest)
 	value1 = quarryTurtleRecipes[i]
 	--print(key1)
 	for key2 , value2 in pairs(value1) do
-		if value2[1] == result then
+		if value2[1] == "result" then
 
 
 			print(key2 , item.getItemDict(key2))
@@ -113,7 +113,7 @@ function checkAndCraft(i, amount, craftingChest)
 	end
 
 	for key2 , value2 in pairs(value1) do
-		if value2[1] ~= result then
+		if value2[1] ~= "result" then
 			item.putInCraftingChest(key2, table.getn(value2))
 		end
 	end
@@ -138,20 +138,77 @@ function checkAndCraft(i, amount, craftingChest)
 end
 
 
-print("jippies")
+function checkAndCraftBranch(name, amount, craftingChest)
+	if craftingChest == nil then
+		craftingChest = 0
+	end
+	key1 = name
+	recipeTable = recipe.referenceTable[name]
+	for key2 , value2 in pairs(recipeTable) do
+		if value2[1] == "result" then
 
-while checkAndCraft(2, 1, 1) == false do
+
+			print(key2 , item.getItemDict(key2))
+
+
+			if item.getItemDict(key2) >= amount then
+				print("true2")
+				return true
+			else
+				nextRecipe = key2
+				return false
+			end
+		else
+			if item.getItemDict(key2) < table.getn(value2) then
+				return false
+			end
+		end
+	end
+
+	for key2 , value2 in pairs(recipe) do
+		if value2[1] ~= "result" then
+			item.putInCraftingChest(key2, table.getn(value2))
+		end
+	end
+
+	gps.faceLeft()
+	item.craftItem(recipe)
+	if turtle.getItemCount() == 0 then
+		turtle.drop(craftingChest)
+		gps.faceRight()
+		turtle.drop()
+		print("false1")
+		return false
+	else
+		turtle.drop(craftingChest)
+		gps.faceRight()
+		turtle.drop()
+		print("true1")
+		return true
+	end
+
+
+end
+print("jippies")
+checkAndCraftBranch("minecraft:diamond_pickaxe", 1, 1)
+print("check pick")
+while checkAndCraftBranch(nextrecipe, 1, 1) == false do
+end
+print("Done now")
+
+
+while checkAndCraftBranch(2, 1, 1) == false do
 	print("nopickaxe")
-	while checkAndCraft(3, 2) == false do
+	while checkAndCraftBranch(3, 2) == false do
 		print("noSticks")
 	end
 end
 
-while checkAndCraft(4, 1, 1) == false do
+while checkAndCraftBranch(4, 1, 1) == false do
 	print("noTrutle")
-	while checkAndCraft(5, 1, 1) == false do
+	while checkAndCraftBranch(5, 1, 1) == false do
 		print("noComputer")
-		while checkAndCraft(6, 1) == false do
+		while checkAndCraftBranch(6, 1) == false do
 			print("no panes")
 		end
 	end
@@ -176,7 +233,7 @@ for key , value in pairs(resources) do
 	end
 end
 for key , value in pairs(recipe) do
-	if value[1] ~= result then
+	if value[1] ~= "result" then
 		item.storeItemDict(key,-table.getn(value))
 	else
 		item.storeItemDict(key,1)

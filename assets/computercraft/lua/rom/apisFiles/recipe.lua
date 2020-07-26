@@ -1,3 +1,5 @@
+result = "result"
+
 computer = {}
 computer["minecraft:stone,0"] = {1,2,3,5,7,9,11}
 computer["minecraft:redstone"] = {6}
@@ -45,3 +47,14 @@ miningTurtle["minecraft:diamond_pickaxe"] = {3}
 miningTurtle["computercraft:turtle_expanded"] = {2}
 --This one does not work because same ID
 --miningTurtle["computercraft:turtle_expanded"] = {result}
+
+referenceTable = {}
+referenceTable["minecraft:diamond_pickaxe"] = diamondPickaxe
+referenceTable["computercraft:turtle_expanded"] = turtle
+referenceTable["minecraft:stick"] = stick
+referenceTable["minecraft:glass_pane"] = glassPane
+referenceTable["minecraft:chest"] = chest
+referenceTable["minecraft:furnace"] = furnace
+referenceTable["computercraft:wired_modem_full"] = modemBlock
+referenceTable["computercraft:cable,1"] = modem
+referenceTable["computercraft:computer"] = computer

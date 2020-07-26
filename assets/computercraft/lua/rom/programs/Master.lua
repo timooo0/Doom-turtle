@@ -5,8 +5,8 @@ buildTreeFarm = require("buildTreeFarm")
 newTreeFarm = require("newTreeFarm")
 turtleFactory = require("turtleFactory")
 
-os.loadAPI("/rom/apis/item.lua")
-os.loadAPI("/rom/apis/file.lua")
+os.loadAPI("/rom/apisFiles/item.lua")
+os.loadAPI("/rom/apisFiles/file.lua")
 --Initialization
 --Set true when testing with non ID=0 turtles
 local test = true

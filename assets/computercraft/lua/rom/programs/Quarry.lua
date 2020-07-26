@@ -1,9 +1,9 @@
 --Quarry
 local quarry = {}
 
-os.loadAPI("/rom/apis/item.lua")
-os.loadAPI("/rom/apis/gps.lua")
-os.loadAPI("/rom/apis/file.lua")
+os.loadAPI("/rom/apisFiles/item.lua")
+os.loadAPI("/rom/apisFiles/gps.lua")
+os.loadAPI("/rom/apisFiles/file.lua")
 
 function quarry.Function()
 --Initializes "self" functions
