@@ -38,7 +38,6 @@ print("done")
 --for k,v in pairs(itemstable) do
 --	print(k,v)
 --end
-
 --itemstable[2] = 3
 --for i = 1,4 do
 --	itemsstore(i, itemstable[i])
@@ -65,114 +64,85 @@ quarryTurtleRecipes[7] = recipe.chest
 
 
 
-function checkToCraft(i, amount)
-	key1 , value1  = i, quarryTurtleRecipes[i]
-	print(key1, value1)
-	for key2 , value2 in pairs(value1) do
-		if value2[1] == "result" then
-			if item.getItemDict(key2) >= amount then
-				return true
-			end
-		elseif item.getItemDict(key2) < table.getn(value2) then
-			return key2
-		end
+function smelt(name,amount)
+	item.getFromChest("minecraft:coal",1)
+	item.storeItemDict("minecraft:coal", -1)
 
-	end
-end
-function putAllInCraftingChest(i)
-	key1 , value1  = i, quarryTurtleRecipes[i]
-	for key2, value2 in pairs(value1) do
-		if value2[1] ~= "result" then
-			item.putInCraftingChest(key2, table.getn(value2))
-		end
-	end
-end
-function checkAndCraft(i, amount, craftingChest)
-	if craftingChest == nil then
-		craftingChest = 0
-	end
-	key1 = i
-	value1 = quarryTurtleRecipes[i]
-	--print(key1)
-	for key2 , value2 in pairs(value1) do
-		if value2[1] == "result" then
+	gps.faceAround()
+	gps.moveUp()
 
+	item.selectItem("minecraft:coal")
+	turtle.drop()
 
-			print(key2 , item.getItemDict(key2))
+	gps.faceAround()
+	gps.moveDown()
 
+	item.getFromChest(name,amount)
+	item.storeItemDict(name, -amount)
 
-			if item.getItemDict(key2) >= amount then
-				print("true2")
-				return true
-			end
-		else
-			if item.getItemDict(key2) < table.getn(value2) then
-				return false
-			end
-		end
-	end
-
-	for key2 , value2 in pairs(value1) do
-		if value2[1] ~= "result" then
-			item.putInCraftingChest(key2, table.getn(value2))
-		end
-	end
-
+	item.selectItem(name)
+	gps.faceAround()
+	gps.moveUp(2)
+	gps.move()
+	turtle.dropDown()
+	gps.moveBack()
+	gps.moveDown(2)
+	gps.move()
+	os.sleep(10*amount)
+	turtle.suckUp()
+	gps.faceAround()
+	gps.move()
 	gps.faceLeft()
-	item.craftItem(value1)
-	if turtle.getItemCount() == 0 then
-		turtle.drop(craftingChest)
-		gps.faceRight()
-		turtle.drop()
-		print("false1")
-		return false
-	else
-		turtle.drop(craftingChest)
-		gps.faceRight()
-		turtle.drop()
-		print("true1")
-		return true
-	end
-
-
+	item.slotToItemDict(turtle.getSelectedSlot())
+	turtle.drop()
+	gps.faceRight()
 end
-
 
 function checkAndCraftBranch(name, amount, craftingChest)
+	--Initialization
+	smelting = false
 	if craftingChest == nil then
 		craftingChest = 0
 	end
+
 	key1 = name
 	recipeTable = recipe.referenceTable[name]
 	for key2 , value2 in pairs(recipeTable) do
 		if value2[1] == "result" then
 
-
 			print(key2 , item.getItemDict(key2))
-
+			currentAmount = item.getItemDict(key2)
+			craftedAmount = currentAmount+value2[2]
 
 			if item.getItemDict(key2) >= amount then
 				print("true2")
 				return true
-			else
-				nextRecipe = key2
-				return false
 			end
 		else
-			if item.getItemDict(key2) < table.getn(value2) then
+			if item.getItemDict(key2, true) < table.getn(value2) then
+				nextRecipe = key2
+				nextAmount = table.getn(value2)
+				print("nextRecipe", nextRecipe)
 				return false
 			end
 		end
 	end
-
-	for key2 , value2 in pairs(recipe) do
-		if value2[1] ~= "result" then
+	--Getting everything needed for the crafting into the crafting chest
+	for key2 , value2 in pairs(recipeTable) do
+		if value2[1] ~= "result" and value2[1] ~= "smelt" then
 			item.putInCraftingChest(key2, table.getn(value2))
+		elseif value2[1] == "smelt" then
+			--Smelt it instead of crafting if it needs to be smelted
+			smelting = true
+			print("We are smelting bois")
+			smelt(key2, 8)
 		end
 	end
-
+	--The Crafting
 	gps.faceLeft()
-	item.craftItem(recipe)
+	if smelting == false then
+		item.craftItem(recipeTable)
+	end
 	if turtle.getItemCount() == 0 then
 		turtle.drop(craftingChest)
 		gps.faceRight()
@@ -183,43 +153,44 @@ function checkAndCraftBranch(name, amount, craftingChest)
 		turtle.drop(craftingChest)
 		gps.faceRight()
 		turtle.drop()
-		print("true1")
-		return true
-	end
-
-
-end
-print("jippies")
-checkAndCraftBranch("minecraft:diamond_pickaxe", 1, 1)
-print("check pick")
-while checkAndCraftBranch(nextrecipe, 1, 1) == false do
-end
-print("Done now")
-
-
-while checkAndCraftBranch(2, 1, 1) == false do
-	print("nopickaxe")
-	while checkAndCraftBranch(3, 2) == false do
-		print("noSticks")
-	end
-end
-
-while checkAndCraftBranch(4, 1, 1) == false do
-	print("noTrutle")
-	while checkAndCraftBranch(5, 1, 1) == false do
-		print("noComputer")
-		while checkAndCraftBranch(6, 1) == false do
-			print("no panes")
+		if craftedAmount >= amount then
+			print("true1")
+			return true
+		else
+			return false
 		end
 	end
-	while checkAndCraft(7, 1) == false do
-		print("no Chest")
+end
+print("jippies")
+function craftItemBranch(name, amount)
+	breaking = false
+	while checkAndCraftBranch(name, amount, 1) == false do
+		while checkAndCraftBranch(nextRecipe, nextAmount, 1) == false do
+			if recipe.referenceTable[nextRecipe] == nil then
+				breaking = true
+				break
+			end
+		end
+		if recipe.referenceTable[nextRecipe] == nil then
+			breaking = true
+			break
+		end
 	end
 end
 
-checkAndCraft(1,1, 1)
+--Craft a Mining Turtle
+craftItemBranch("computercraft:turtle_expanded", 1)
+if breaking == false then
+	craftItemBranch("minecraft:diamond_pickaxe", 1)
+end
+gps.faceLeft()
+if breaking == false then
+	item.craftItem(recipe.miningTurtle)
+	turtle.drop()
+	print("I made a mining turtle")
+end
+print("Lemma Quarry")
 
-print("I am done")
 os.sleep(50000)
 
 

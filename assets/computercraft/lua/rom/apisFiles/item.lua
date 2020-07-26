@@ -174,7 +174,7 @@ function craftItem(recipe, amount)
 
 	local counter = 0
 	for key,value in pairs(recipe) do
-		if value[1] ~= result then
+		if value[1] ~= "result" then
 			getFromChest(key,table.getn(value)*amount)
 			item.storeItemDict(key,-table.getn(value)*amount)
 			--print(counter)
@@ -195,7 +195,7 @@ function craftItem(recipe, amount)
 			key, dam = key:match("([^,]+),([^,]+)")
 
 		end
-		if value[1] ~= result then
+		if value[1] ~= "result" then
 			selectItem(key)
 			selection = turtle.getSelectedSlot()
 			for i=1,table.getn(value) do
@@ -237,7 +237,7 @@ function InvenToItemDict()
 	end
 end
 
-function SlotToItemDict(slot)
+function slotToItemDict(slot)
 	turtle.select(slot)
 	print(turtle.getItemCount())
 	if turtle.getItemCount() ~= 0 then
@@ -286,9 +286,15 @@ function storeItemDict(name, amount)
 	end
 end
 
-function getItemDict(name)
+function getItemDict(name, iDontCareAboutDamage)
 	local dataRead = fs.open("/rom/global files/itemsStructure.md", "r")
 	local itemLine = 1
+	local nameStrip = name
+	local noDamName = name
+
+	if iDontCareAboutDamage == nil then
+		iDontCareAboutDamage = false
+	end
 
 	anyDam = false
 	if name:match("([^,]+),([^,]+)") == nil then
@@ -297,9 +303,17 @@ function getItemDict(name)
 
 	while dataRead.readLine() ~= name do
 		--print(itemLine)
-
-
 		itemLine = itemLine + 1
 	end
-	return file.get(itemLine,"items.txt")
+	count = file.get(itemLine,"items.txt")
+	--Extra for if you do not care about damage
+	if iDontCareAboutDamage == true then
+		while nameStrip == noDamName do
+			--print(itemLine)
+			nameStrip, dam = dataRead.readLine():match("([^,]+),([^,]+)")
+			itemLine = itemLine + 1
+			count = file.get(itemLine,"items.txt")+count
+		end
+	end
+	return count
 end
