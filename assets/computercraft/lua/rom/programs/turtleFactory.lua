@@ -104,7 +104,6 @@ function checkAndCraftBranch(name, amount, craftingChest)
 		craftingChest = 0
 	end
 
-	key1 = name
 	recipeTable = recipe.referenceTable[name]
 	for key2 , value2 in pairs(recipeTable) do
 		print("Tih", key2 , item.getItemDict(key2, true), table.getn(value2), name)
@@ -162,9 +161,10 @@ function checkAndCraftBranch(name, amount, craftingChest)
 		end
 	end
 end
+
 print("jippies")
+
 function craftItemBranch(name, amount)
-	--Function can mallfunction if the damage type of the item actually matters, so be careful
 	breaking = false
 	while checkAndCraftBranch(name, amount, 1) == false do
 		while checkAndCraftBranch(nextRecipe, nextAmount, 1) == false do
@@ -179,6 +179,160 @@ function craftItemBranch(name, amount)
 		end
 	end
 end
+
+
+
+function lsistItemBranch(name, amount)
+	recipeTable = recipe.referenceTable[name]
+	for key2 , value2 in pairs(recipeTable) do
+		print("Tih", key2 , item.getItemDict(key2, true), table.getn(value2), name)
+		if boodschappen[key2] == nil then
+			boodschappen[key2] = 0
+		end
+		print("boodschappen", boodschappen[key2])
+
+
+		if item.getItemDict(key2, true)+boodschappen[key2] < table.getn(value2) and value2[1] ~= "result" and value2[1] ~= "smelt" then
+
+			if recipe.referenceTable[key2] ~= nil then
+				nextRecipe = key2
+				nextAmount = table.getn(value2)*amount
+				print("nextRecipe", nextRecipe)
+				print("false1")
+				return false
+			else
+				boodschappen[key2] = boodschappen[key2] + table.getn(value2)*amount
+				print("true1")
+				return true
+			end
+		elseif value2[1] == "smelt" then
+			--Remove later
+			print("Deaths")
+			os.sleep(20000)
+
+			boodschappen[name] = boodschappen[name] + amount
+			print("true2")
+			return true
+		end
+	end
+	print("false2")
+	return false
+end
+
+function sslistItemBranch(name, amount)
+	recipeTable = recipe.referenceTable[name]
+	for key, value in pairs(recipeTable) do
+		if boodschappenLijstje[key] == nil then
+			boodschappenLijstje[key] = -item.getItemDict(key, true)
+		end
+		--if done[key] == nil then
+		--	done[key] = false
+		--end
+		--if done[key] == false then
+		if item.getItemDict(key, true)+boodschappenLijstje[key] < table.getn(value) and value[1] ~= "result" then
+			if recipe.referenceTable[key] ~= nil then
+				nextRecipe = key
+				nextAmount = table.getn(value)*amount
+				--done[key] = true
+				boodschappenLijstje[key] = boodschappenLijstje[key] + table.getn(value)*amount
+				--print("false1")
+				return false
+			else
+				boodschappenLijstje[key] = boodschappenLijstje[key] + table.getn(value)*amount
+				--done[key] = true
+				--print("true2")
+				--return true
+			end
+		elseif value[1] ~= "result" then
+			--done[key] = true
+			--print("true3")
+			--return true
+		end
+		--end
+	end
+	--print("true1")
+	return true
+
+end
+
+function listItemBranch(name, amount)
+	recipeTable = recipe.referenceTable[name]
+	for key, value in pairs(recipeTable) do
+		if boodschappenLijstje[key] == nil then
+			boodschappenLijstje[key] = -item.getItemDict(key, true)
+		end
+		print(boodschappenLijstje[key], table.getn(value))
+		if item.getItemDict(key, true)+boodschappenLijstje[key] < table.getn(value) then
+
+			if recipe.referenceTable[key] ~= nil  and value[1] == "result" then
+				nextRecipe = key
+				nextAmount = table.getn(value)*amount
+				boodschappenLijstje[key] = boodschappenLijstje[key] + table.getn(value)*amount
+				return false
+			end
+		end
+	end
+
+	for key, value in pairs(recipeTable) do
+		print(boodschappenLijstje[key], table.getn(value))
+		if item.getItemDict(key, true)+boodschappenLijstje[key] < table.getn(value) then
+
+			if value[1] ~= "result" then
+				--done[key] = true
+				boodschappenLijstje[key] = boodschappenLijstje[key] + table.getn(value)*amount
+				return false
+			end
+		end
+	end
+	return true
+end
+
+function boodschappen(name, amount)
+	boodschappenLijstje = {}
+	while listItemBranch(name, amount) == false do
+		while listItemBranch(nextRecipe, nextAmount, 1) == false do
+			if recipe.referenceTable[nextRecipe] == nil then
+				breaking = true
+				break
+			end
+		end
+	end
+end
+
+
+function sboodschappen(name, amount)
+	boodschappenLijstje = {}
+	done = {}
+	breaking = false
+	while listItemBranch(name, amount, 1) == false do
+		while listItemBranch(nextRecipe, nextAmount, 1) == false do
+		end
+	end
+	for key , value in pairs(boodschappenLijstje) do
+		recipeTable = recipe.referenceTable[key]
+		if recipeTable ~= nil then
+			for key2  , value2 in pairs(recipeTable) do
+				if value2[1] == "result" then
+					for key3 , value3 in pairs(recipe.referenceTable[key2]) do
+						if value3[1] == "smelt" then
+							lowerLevelSmelt = true
+							boodschappenLijstje[key3] = 0
+						end
+					end
+					if lowerLevelSmelt ~= true then
+						boodschappenLijstje[key2] = 0
+					end
+				end
+			end
+		end
+	end
+end
+boodschappen("computercraft:turtle_expanded", 1)
+for k, v in pairs(boodschappenLijstje) do
+	print("boodschap", k , v)
+end
+os.sleep(200000)
+
 
 --Craft a Mining Turtle
 breaking = false

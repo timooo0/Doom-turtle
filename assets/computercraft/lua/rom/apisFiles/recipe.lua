@@ -27,6 +27,11 @@ chest = {}
 chest["minecraft:planks"] = {1,2,3,5,7,9,10,11}
 chest["minecraft:chest"] = {"result",1}
 
+hopper = {}
+hopper["minecraft:iron_ingot"] = {1,3,4,6,8}
+hopper["minecraft:chest"] = {5}
+hopper["minecraft:hopper"] = {"result", 1}
+
 glassPane = {}
 glassPane["minecraft:glass"] = {5,6,7,9,10,11}
 glassPane["minecraft:glass_pane"] = {"result",16}
@@ -66,5 +71,5 @@ referenceTable["computercraft:cable,1"] = modem
 referenceTable["computercraft:computer"] = computer
 referenceTable["minecraft:iron_ingot"] = ironIngot
 referenceTable["minecraft:stone,0"] = stone
-
+referenceTable["minecraft:hopper"] = hopper
 referenceTable["start"] = "start"

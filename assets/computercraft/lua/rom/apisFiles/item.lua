@@ -306,7 +306,7 @@ function getItemDict(name, iDontCareAboutDamage)
 		itemLine = itemLine + 1
 	end
 	count = file.get(itemLine,"items.txt")
-	print(count)
+	--print(count)
 	--Extra for if you do not care about damage
 	if iDontCareAboutDamage == true then
 		while nameStrip == noDamName do
