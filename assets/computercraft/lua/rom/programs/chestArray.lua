@@ -183,6 +183,8 @@ end
 inventoryState = false
 while true do
   sucked = false
+  gps.move(0,0)
+  gps.face(0)
   while sucked == false do
     while turtle.suck() do
       sucked = true
