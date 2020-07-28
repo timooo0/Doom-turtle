@@ -207,6 +207,7 @@ while true do
 
 
   for i=1,8 do
+    index = 1
     for j=1,table.getn(route) do
 
       gps.face(route[index])
@@ -228,10 +229,12 @@ while true do
     	gps.move()
       index = index + 1
     end
+
     if inventoryState == false then
       gps.moveChunk(0,0)
       index = 1
       break
     end
+
   end
 end
