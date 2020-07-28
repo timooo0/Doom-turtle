@@ -41,21 +41,9 @@ local template2 =
 
 local route = {
   1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-  2,2,2,2,
+  2,2,
   3,3,3,3,3,3,3,3,3,3,3,3,3,3,
-  2,2,2,2,
-  1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-  2,2,2,2,
-  3,3,3,3,3,3,3,3,3,3,3,3,3,3,
-  2,2,2,2,
-  1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-  2,2,2,2,
-  3,3,3,3,3,3,3,3,3,3,3,3,3,3,
-  2,2,2,2,
-  1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-  2,2,2,2,
-  3,3,3,3,3,3,3,3,3,3,3,3,3,3,
-  2,2,2,2,
+  2,2
 }
 
 --fill chestMap with zeros
@@ -96,19 +84,7 @@ local route = {
 -- gps.moveChunk(0,0)
 -- gps.face(0)
 
--- while turtle.suck() do end
 
-inventoryItems = {}
-for i=1,16 do
-  turtle.select(i)
-  if turtle.getItemCount() ~= 0 then
-    if inventoryItems[turtle.getItemDetail().name] == nil then
-      inventoryItems[turtle.getItemDetail().name] = turtle.getItemCount()
-    else
-      inventoryItems[turtle.getItemDetail().name] = inventoryItems[turtle.getItemDetail().name] + turtle.getItemCount()
-    end
-  end
-end
 
 
 index = 1
@@ -166,8 +142,32 @@ function fillChest(chestPos,direction)
             break
           end
 
-          drop()
-          inventoryItems[key] = inventoryItems[key] - (before - turtle.getItemCount())
+          if drop() then
+            inventoryItems[key] = inventoryItems[key] - (before - turtle.getItemCount())
+          elseif chestPos == "down" then
+            if select(2,turtle.inspectUp()).name == "minecraft:chest" then
+              if turtle.dropUp() then
+                inventoryItems[key] = inventoryItems[key] - (before - turtle.getItemCount())
+              else
+                print("we need to go up a level")
+              end
+            else
+              print("Need to build a chest here")
+              break
+            end
+          else
+            gps.moveUp(2)
+            if select(2,turtle.inspect()).name == "minecraft:chest" then
+              if drop() then
+                inventoryItems[key] = inventoryItems[key] - (before - turtle.getItemCount())
+              end
+            else
+              print("Need to build a chest here")
+              gps.moveDown(2)
+              break
+            end
+            gps.moveDown(2)
+          end
 
           --If there are no more of key item type remove it from the list
           if inventoryItems[key] == 0 then
@@ -180,23 +180,58 @@ function fillChest(chestPos,direction)
 end
 -- for i=-1,1 do
 --   chestMap[currentY+i] = chestlayer
-for i=1,20 do
-
-
-
-
-  print("done")
-
-  gps.face(route[index])
-  fillChest("down",file.get(4)) -- check down
-  if (file.get(1)%16)%2 == 1 or (file.get(3)%16)%2==1 then
-    gps.faceLeft()
-    fillChest("left",file.get(4))
-    gps.faceAround()
-    fillChest("right",file.get(4))
-    gps.faceLeft()
+inventoryState = false
+while true do
+  sucked = false
+  while sucked == false do
+    while turtle.suck() do
+      sucked = true
+      inventoryState = true
+    end
+    if sucked==false then
+      os.sleep(10)
+    end
   end
 
-	gps.move()
-  index = index + 1
+  inventoryItems = {}
+  for i=1,16 do
+    turtle.select(i)
+    if turtle.getItemCount() ~= 0 then
+      if inventoryItems[turtle.getItemDetail().name] == nil then
+        inventoryItems[turtle.getItemDetail().name] = turtle.getItemCount()
+      else
+        inventoryItems[turtle.getItemDetail().name] = inventoryItems[turtle.getItemDetail().name] + turtle.getItemCount()
+      end
+    end
+  end
+
+
+  for i=1,8 do
+    for j=1,table.getn(route) do
+
+      gps.face(route[index])
+      if inventoryState then
+        fillChest("down",file.get(4)) -- check down
+        if (file.get(1)%16)%2 == 1 or (file.get(3)%16)%2==1 then
+          gps.faceLeft()
+          fillChest("left",file.get(4))
+          gps.faceAround()
+          fillChest("right",file.get(4))
+          gps.faceLeft()
+        end
+
+        if next(inventoryItems) == nil then
+          inventoryState = false
+        end
+      end
+
+    	gps.move()
+      index = index + 1
+    end
+    if inventoryState == false then
+      gps.moveChunk(0,0)
+      index = 1
+      break
+    end
+  end
 end
