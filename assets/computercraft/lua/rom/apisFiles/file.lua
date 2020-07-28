@@ -64,3 +64,36 @@ function checkShutdown()
 		os.sleep(10000)
 	end
 end
+
+function getTable(file)
+
+	local fileTable = {}
+	local dataRead = fs.open(file,"r")
+	local nRow = dataRead.readLine()
+	local nColumn = dataRead.readLine()
+
+	for i=1, nRow do
+		local row = {}
+		for j=1, nColumn do
+			row[j] = dataRead.readLine()
+		end
+		fileTable[i] = row
+	end
+
+	return fileTable
+end
+
+function storeTable(fileTable, file)
+	local dataWrite = fs.open(file,"w")
+	local nRow = table.getn(fileTable)
+	local nColumn = table.getn(fileTable[1])
+
+	dataWrite.writeLine(nRow)
+	dataWrite.writeLine(nColumn)
+
+	for i=1,nRow do
+		for j=1, nColumn do
+			dataWrite.writeLine(fileTable[i][j])
+		end
+	end
+end
