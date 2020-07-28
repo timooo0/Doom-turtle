@@ -23,6 +23,10 @@ furnace = {}
 furnace["minecraft:cobblestone"] = {1,2,3,5,7,9,10,11}
 furnace["minecraft:furnace"] = {"result",1}
 
+planks = {}
+planks["minecraft:log"] = {1}
+planks["minecraft:planks"] = {"result", 4}
+
 chest = {}
 chest["minecraft:planks"] = {1,2,3,5,7,9,10,11}
 chest["minecraft:chest"] = {"result",1}
@@ -31,6 +35,10 @@ hopper = {}
 hopper["minecraft:iron_ingot"] = {1,3,4,6,8}
 hopper["minecraft:chest"] = {5}
 hopper["minecraft:hopper"] = {"result", 1}
+
+glass = {}
+glass["minecraft:sand"] = {"smelt"}
+glass["minecraft:glass"] = {"result", 1}
 
 glassPane = {}
 glassPane["minecraft:glass"] = {5,6,7,9,10,11}
@@ -72,4 +80,6 @@ referenceTable["computercraft:computer"] = computer
 referenceTable["minecraft:iron_ingot"] = ironIngot
 referenceTable["minecraft:stone,0"] = stone
 referenceTable["minecraft:hopper"] = hopper
+referenceTable["minecraft:glass"] = glass
+referenceTable["minecraft:planks"] = planks
 referenceTable["start"] = "start"
