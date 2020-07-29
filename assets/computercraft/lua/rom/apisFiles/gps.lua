@@ -426,9 +426,16 @@ function buildTemplate(template, material)
 	for i=1,16 do
 		for j=1,16 do
 			print(i,j)
-			if template[i][j] == 1 then
-				item.selectItem(material)
-				turtle.placeDown()
+			if i%2 ~= 0 then
+				if template[i][j] == 1 then
+					item.selectItem(material)
+					turtle.placeDown()
+				end
+			else
+				if template[i][17-j] == 1 then
+					item.selectItem(material)
+					turtle.placeDown()
+				end
 			end
 			if j ~= 16 then
 			gps.move()

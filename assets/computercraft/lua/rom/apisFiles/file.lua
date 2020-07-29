@@ -65,6 +65,7 @@ function checkShutdown()
 	end
 end
 
+<<<<<<< HEAD
 --ChunkMap Functions
 
 function mapRead(xPos, zPos)
@@ -183,4 +184,37 @@ function mapWrite(xPos, zPos, msg)
 
 	store(math.abs(xChunk)+1, mapLine, "map.txt")
 
+=======
+function getTable(file)
+
+	local fileTable = {}
+	local dataRead = fs.open(file,"r")
+	local nRow = dataRead.readLine()
+	local nColumn = dataRead.readLine()
+
+	for i=1, nRow do
+		local row = {}
+		for j=1, nColumn do
+			row[j] = dataRead.readLine()
+		end
+		fileTable[i] = row
+	end
+
+	return fileTable
+end
+
+function storeTable(fileTable, file)
+	local dataWrite = fs.open(file,"w")
+	local nRow = table.getn(fileTable)
+	local nColumn = table.getn(fileTable[1])
+
+	dataWrite.writeLine(nRow)
+	dataWrite.writeLine(nColumn)
+
+	for i=1,nRow do
+		for j=1, nColumn do
+			dataWrite.writeLine(fileTable[i][j])
+		end
+	end
+>>>>>>> 2bb9b2f5a76e13e3b1bee0809b1494ce3a8c3bff
 end
