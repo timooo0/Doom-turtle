@@ -48,6 +48,10 @@ if file.get(14) == "Start" then
 			fs.copy("/rom/global files/itemsTemplate.txt","/items.txt")
 		end
 
+		if fs.exists("/map.txt") == false then
+			fs.copy("/rom/global files/mapTemplate.txt","/map.txt")
+		end
+
 		--Process from start
 		require("StartTree")
 

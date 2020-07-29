@@ -1,5 +1,4 @@
-self = require("self")
-
+os.loadAPI("/rom/apisFiles/file.lua")
 
 fs.delete("/map.txt")
 
@@ -13,7 +12,7 @@ function mapRead(xPos, zPos)
 	xChunk = math.floor(xPos/16)
 	zChunk = math.floor(zPos/16)
 
-	local mapLine = self.get(math.abs(xChunk)+1, "map.txt")
+	local mapLine = file.get(math.abs(xChunk)+1, "map.txt")
 
 	--Corner:
 	local corner = {}
@@ -56,7 +55,7 @@ function mapRead(xPos, zPos)
 		repl = string.sub(repl,0,-2).."0,".."}"
 		print(repl)
 	end
-	self.store(math.abs(xChunk)+1, mapLine, "map.txt")
+	file.store(math.abs(xChunk)+1, mapLine, "map.txt")
 
 	--The result of the requisted coordinates:
 	if math.abs(zChunk) > mapLength then
@@ -72,7 +71,7 @@ function mapWrite(xPos, zPos, msg)
 	xChunk = math.floor(xPos/16)
 	zChunk = math.floor(zPos/16)
 
-	local mapLine = self.get(math.abs(xChunk)+1, "map.txt")
+	local mapLine = file.get(math.abs(xChunk)+1, "map.txt")
 
 	--Corner:
 	local corner = {}
@@ -122,7 +121,7 @@ function mapWrite(xPos, zPos, msg)
 		mapLine = string.gsub(mapLine, repl, string.sub(repl,0,math.abs(zChunk)+1)..","..msg..string.sub(repl,math.abs(zChunk)+2,-1))
 	end
 
-	self.store(math.abs(xChunk)+1, mapLine, "map.txt")
+	file.store(math.abs(xChunk)+1, mapLine, "map.txt")
 
 end
 

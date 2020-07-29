@@ -366,6 +366,10 @@ function checkAndCraftBranch(name, amount, craftingChest)
 	end
 
 	recipeTable = recipe.referenceTable[name]
+	if recipeTable == nil then
+		print("true666")
+		return true
+	end
 	for key2 , value2 in pairs(recipeTable) do
 		if item.getItemDict(key2, true) < table.getn(value2) and value2[1] ~= "result" then
 			nextRecipe = key2
@@ -487,7 +491,6 @@ function boodschappen(name, amount)
 			print("boodschap", k , v)
 		end
 	end
-
 	return boodschappenLijstje
 end
 

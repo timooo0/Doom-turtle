@@ -32,6 +32,9 @@ print("Quarry")
 	local layerwidth =  file.get(12)
 	local layerdepth =  file.get(13)
 
+--Update the ChunkMap
+	file.mapWrite(xStart, yStart, 3)
+
 --Functions:
 
 	--Drop items in the chest in front of it (needs to be trapped or regular)

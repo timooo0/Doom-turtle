@@ -2,6 +2,7 @@ local turtleFactory = {}
 
 function turtleFactory.Function()
 turtle.refuel()
+quarry = require("quarry")
 os.loadAPI("/rom/apisFiles/item.lua")
 os.loadAPI("/rom/apisFiles/gps.lua")
 os.loadAPI("/rom/apisFiles/file.lua")
@@ -12,6 +13,11 @@ fs.delete("/items.txt")
 if fs.exists("/items.txt") == false then
 --Create the Data.txt file and fill items
 	fs.copy("/rom/global files/itemsTemplate.txt","/items.txt")
+end
+
+
+if fs.exists("/map.txt") == false then
+	fs.copy("/rom/global files/mapTemplate.txt","/map.txt")
 end
 
 gps.moveBack()
@@ -36,6 +42,8 @@ for i = 1,16 do
 end
 print("done")
 
+turtle.select(1)
+item.getFromChest("minecraft:coal",64)
 
 
 function smelt(name,amount)
@@ -202,23 +210,94 @@ function boodschappen(name, amount)
 	return boodschappenLijstje
 end
 
+components = true
+--Craft a Mining Turtle
+item.craftItemBranch("computercraft:turtle_expanded", 1)
+item.craftItemBranch("minecraft:diamond_pickaxe", 1)
+--checkcomponents
+gps.faceLeft()
 
---anything = false
-if anything == false then
-	--Craft a Mining Turtle
-	breaking = false
-	craftItemBranch("computercraft:turtle_expanded", 2)
-	if breaking == false then
-		craftItemBranch("minecraft:diamond_pickaxe", 2)
-	end
-	read()
-	gps.faceLeft()
-	if breaking == false then
-		item.craftItem(recipe.miningTurtle)
-		turtle.drop()
-		print("I made a mining turtle")
-	end
+item.getFromChest("computercraft:turtle_expanded", 1)
+if turtle.getItemCount(16) < 1 then
+	components = false
+end
+turtle.select(16)
+turtle.drop()
+item.getFromChest("minecraft:diamond_pickaxe", 1)
+if turtle.getItemCount(16) < 1 then
+	components = false
+end
+turtle.select(16)
+turtle.drop()
+
+
+
+if components == true then
+	item.craftItem(recipe.miningTurtle)
+	turtle.drop()
+	print("I made a mining turtle")
+else
+	mustQuarry = true
 end
 
+if mustQuarry == true then
+	print("Init")
+	x = file.get(1)
+	y = file.get(2)
+	z = file.get(3)
+	facing = file.get(4)
+
+	--The Quarry Size
+	file.store(9, 47)
+	--file.store(10, 16)
+	file.store(11, file.get(6)-3)
+
+	-- Initialization
+	--file.store(12, 0)
+	file.store(13, 0)
+
+	--Restart Resistance
+	file.store(14, "Quarry")
+	--Initialization
+	file.store(15, 1)
+	file.store(16, "false")
+	file.store(18, "false")
+
+	--
+	for i = 1,16 do
+		turtle.suck()
+	end
+	gps.faceRight()
+	for i = 1,16 do
+		turtle.select(i)
+		turtle.drop()
+	end
+	gps.faceLeft()
+	gps.breakFront()
+	gps.faceLeft()
+
+	--Move around the modem
+	gps.move()
+	gps.faceRight()
+	gps.move()
+	gps.faceLeft()
+	gps.move(2)
+	gps.faceLeft()
+	gps.move()
+	gps.faceRight()
+
+	gps.move(44)
+
+
+
+
+	quarry.Function()
+end
+
+
+
+
+
+--Too close the function
 end
 return turtleFactory
