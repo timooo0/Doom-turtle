@@ -41,6 +41,7 @@ local template2 =
 
 local route = {
   1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+  3,
   2,2,
   3,3,3,3,3,3,3,3,3,3,3,3,3,3,
   2,2
@@ -86,17 +87,14 @@ local route = {
 
 
 
-
-index = 1
 currentY = file.get(2)
 
 chestMap = {}
-row = {}
 for i=1,16 do
+  chestMap[i] = {}     -- create a new row
   for j=1,16 do
-    row[j] = {}
+    chestMap[i][j] = 0
   end
-  chestMap[i] = {}
 end
 
 function fillChest(chestPos,direction)
@@ -122,16 +120,18 @@ function fillChest(chestPos,direction)
 --check if the chest is below
   if select(2,view()).name == "minecraft:chest" then
     --check if the chest already has an item assigned to it, if not assign one
-    if chestMap[file.get(1)%16+1+mapAdjustment][file.get(3)%16+1+mapAdjustment] == nil then
-      chestMap[file.get(1)%16+1+mapAdjustment][file.get(3)%16+1+mapAdjustment] = select(1,next(inventoryItems))
+    print(file.get(1)%16+1,file.get(3)%16+1+mapAdjustment)
+    if chestMap[file.get(1)%16+1][file.get(3)%16+1+mapAdjustment] == 0 then
+      print("setting item to map")
+      chestMap[file.get(1)%16+1][file.get(3)%16+1+mapAdjustment] = select(1,next(inventoryItems))
+      print(chestMap[file.get(1)%16+1][file.get(3)%16+1+mapAdjustment])
     end
 
     --Check if the chest stores items that are currently in the inventory
     for key, value in pairs(inventoryItems) do
-      if key == chestMap[file.get(1)%16+1+mapAdjustment][file.get(3)%16+1+mapAdjustment] then
+      if key == chestMap[file.get(1)%16+1][file.get(3)%16+1+mapAdjustment] then
 
         while inventoryItems[key] ~= nil do
-          print(inventoryItems[key])
           --drop the items and update inventoryItems
           item.selectItem(key)
           local before = turtle.getItemCount()
@@ -182,6 +182,8 @@ end
 --   chestMap[currentY+i] = chestlayer
 inventoryState = false
 while true do
+  file.storeTable(chestMap,"chestMap.txt")
+  -- print(chestMap[1][1])
   sucked = false
   gps.move(0,0)
   gps.face(0)
@@ -209,10 +211,9 @@ while true do
 
 
   for i=1,8 do
-    index = 1
     for j=1,table.getn(route) do
 
-      gps.face(route[index])
+      gps.face(route[j])
       if inventoryState then
         fillChest("down",file.get(4)) -- check down
         if (file.get(1)%16)%2 == 1 or (file.get(3)%16)%2==1 then
@@ -229,12 +230,10 @@ while true do
       end
 
     	gps.move()
-      index = index + 1
     end
 
     if inventoryState == false then
       gps.moveChunk(0,0)
-      index = 1
       break
     end
 
