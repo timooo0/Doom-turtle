@@ -40,7 +40,7 @@ local template2 =
 {0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1}}
 
 local route = {
-  1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+  1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
   3,
   2,2,
   3,3,3,3,3,3,3,3,3,3,3,3,3,3,
@@ -48,15 +48,16 @@ local route = {
 }
 
 --fill chestMap with zeros
--- local chestLayer = {}
--- for i=1, 8 do
---   local row = {}
---   for j=1,8 do
---     row[j] = 0
---   end
---   chestLayer[i] = row[j]
--- end
-
+chestMap = {}
+for i=1,16 do
+  chestMap[i] = {}     -- create a new row
+  for j=1,16 do
+    chestMap[i][j] = {}
+    for k=1,2 do
+      chestMap[i][j][k] = 0
+    end
+  end
+end
 
 
 -- gps.moveUp(79-file.get(2))
@@ -89,15 +90,13 @@ local route = {
 
 currentY = file.get(2)
 
-chestMap = {}
-for i=1,16 do
-  chestMap[i] = {}     -- create a new row
-  for j=1,16 do
-    chestMap[i][j] = 0
-  end
-end
+
 
 function fillChest(chestPos,direction)
+  mapPosX = file.get(1)%16+1
+  mapPosZ = file.get(3)%16+1
+
+  print(mapPosX,mapPosZ)
   if chestPos == "down" then
     view = turtle.inspectDown
     drop = turtle.dropDown
@@ -107,47 +106,45 @@ function fillChest(chestPos,direction)
   end
 
   if direction == 0 then
-    mapAdjustment = -1
+    mapPosZ = mapPosZ - 1
+    chestItem = chestMap[mapPosX][mapPosZ][1]
   elseif direction == 1 then
-    mapAdjustment = 0
+    chestItem = chestMap[mapPosX][mapPosZ][1]
   elseif direction == 2 then
-    mapAdjustment = 1
+    mapPosZ = mapPosZ + 1
+    chestItem = chestMap[mapPosX][mapPosZ][1]
   elseif direction == 3 then
-    mapAdjustment = 0
+    chestItem = chestMap[mapPosX][mapPosZ][1]
   end
 
 
 --check if the chest is below
   if select(2,view()).name == "minecraft:chest" then
     --check if the chest already has an item assigned to it, if not assign one
-    print(file.get(1)%16+1,file.get(3)%16+1+mapAdjustment)
-    if chestMap[file.get(1)%16+1][file.get(3)%16+1+mapAdjustment] == 0 then
-      print("setting item to map")
-      chestMap[file.get(1)%16+1][file.get(3)%16+1+mapAdjustment] = select(1,next(inventoryItems))
-      print(chestMap[file.get(1)%16+1][file.get(3)%16+1+mapAdjustment])
+    if chestItem == 0 then
+      chestMap[mapPosX][mapPosZ][1] = select(1,next(inventoryItems))
+      chestItem = chestMap[mapPosX][mapPosZ][1]
+      print(chestMap[mapPosX][mapPosZ][1])
     end
 
     --Check if the chest stores items that are currently in the inventory
     for key, value in pairs(inventoryItems) do
-      if key == chestMap[file.get(1)%16+1][file.get(3)%16+1+mapAdjustment] then
+      -- print(key,chestItem)
+      if key == chestItem then
 
         while inventoryItems[key] ~= nil do
           --drop the items and update inventoryItems
           item.selectItem(key)
           local before = turtle.getItemCount()
 
-          if before == 0 then
-            --Do not need to check the rest of the items
-            print("break")
-            break
-          end
-
           if drop() then
             inventoryItems[key] = inventoryItems[key] - (before - turtle.getItemCount())
+            chestMap[mapPosX][mapPosZ][2] =  chestMap[mapPosX][mapPosZ][2] + (before - turtle.getItemCount())
           elseif chestPos == "down" then
             if select(2,turtle.inspectUp()).name == "minecraft:chest" then
               if turtle.dropUp() then
                 inventoryItems[key] = inventoryItems[key] - (before - turtle.getItemCount())
+                chestMap[mapPosX][mapPosZ][2] = chestMap[mapPosX][mapPosZ][2] + (before - turtle.getItemCount())
               else
                 print("we need to go up a level")
               end
@@ -160,6 +157,7 @@ function fillChest(chestPos,direction)
             if select(2,turtle.inspect()).name == "minecraft:chest" then
               if drop() then
                 inventoryItems[key] = inventoryItems[key] - (before - turtle.getItemCount())
+                chestMap[mapPosX][mapPosZ][2] = chestMap[mapPosX][mapPosZ][2] + (before - turtle.getItemCount())
               end
             else
               print("Need to build a chest here")
@@ -182,7 +180,7 @@ end
 --   chestMap[currentY+i] = chestlayer
 inventoryState = false
 while true do
-  file.storeTable(chestMap,"chestMap.txt")
+  file.storeTable(chestMap,3,"chestMap.txt")
   -- print(chestMap[1][1])
   sucked = false
   gps.move(0,0)
@@ -217,11 +215,15 @@ while true do
       if inventoryState then
         fillChest("down",file.get(4)) -- check down
         if (file.get(1)%16)%2 == 1 or (file.get(3)%16)%2==1 then
-          gps.faceLeft()
-          fillChest("left",file.get(4))
-          gps.faceAround()
-          fillChest("right",file.get(4))
-          gps.faceLeft()
+          if file.get(4) == 1 then
+            gps.faceRight()
+            fillChest("right",file.get(4))
+            gps.faceLeft()
+          elseif file.get(4) == 3 then
+            gps.faceLeft()
+            fillChest("left",file.get(4))
+            gps.faceRight()
+          end
         end
 
         if next(inventoryItems) == nil then
