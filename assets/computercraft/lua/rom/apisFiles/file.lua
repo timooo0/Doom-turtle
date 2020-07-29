@@ -188,32 +188,95 @@ function getTable(file)
 
 	local fileTable = {}
 	local dataRead = fs.open(file,"r")
+	local dim = dataRead.readLine()
+
 	local nRow = dataRead.readLine()
 	local nColumn = dataRead.readLine()
 
-	for i=1, nRow do
-		local row = {}
-		for j=1, nColumn do
-			row[j] = dataRead.readLine()
-		end
-		fileTable[i] = row
+	if dim<=1 then
+		local nRow = dataRead.readLine()
+	end
+	if dim<=2 then
+		local nColumn = dataRead.readLine()
+	end
+	if dim<=3 then
+		local nHeight = dataRead.readLine()
 	end
 
+
+	if dim == 1 then
+		for i=1,nRow do
+			fileTable[i] = dataRead.readLine()
+		end
+	end
+
+
+	if dim == 2 then
+		for i=1,nRow do
+			local row = {}
+			for j=1, nColumn do
+				row[j] = dataRead.readLine()
+			end
+			fileTable[i] = row
+		end
+	end
+
+	if dim == 1 then
+		for i=1,nRow do
+			local row = {}
+			for j=1, nColumn do
+				local column = {}
+				for k=1, nHeight do
+					column[k] = dataRead.readLine()
+				end
+				row[j] = column
+			end
+			fileTable[i] = row
+		end
+	end
 	dataRead.close()
 	return fileTable
 end
 
-function storeTable(fileTable, file)
+function storeTable(fileTable,dim, file)
+
 	local dataWrite = fs.open(file,"w")
-	local nRow = table.getn(fileTable)
-	local nColumn = table.getn(fileTable[1])
 
-	dataWrite.writeLine(nRow)
-	dataWrite.writeLine(nColumn)
+	dataWrite.writeLine(dim)
+	if dim>=1 then
+		nRow = table.getn(fileTable)
+		dataWrite.writeLine(nRow)
+	end
+	if dim>=2 then
+		nColumn = table.getn(fileTable[1])
+		dataWrite.writeLine(nColumn)
+	end
+	if dim>=3 then
+		nHeight = table.getn(fileTable[1][1])
+		dataWrite.writeLine(nHeight)
+	end
 
-	for i=1,nRow do
-		for j=1, nColumn do
-			dataWrite.writeLine(fileTable[i][j])
+	if dim == 1 then
+		for i=1,nRow do
+			dataWrite.writeLine(fileTable[i])
+		end
+	end
+
+	if dim == 2 then
+		for i=1,nRow do
+			for j=1, nColumn do
+				dataWrite.writeLine(fileTable[i][j])
+			end
+		end
+	end
+
+	if dim == 3 then
+		for i=1,nRow do
+			for j=1, nColumn do
+				for k=1, nHeight do
+					dataWrite.writeLine(fileTable[i][j][k])
+				end
+			end
 		end
 	end
 	dataWrite.close()
