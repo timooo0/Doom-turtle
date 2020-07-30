@@ -10,5 +10,5 @@ doom to the Minecraft world.
 
 
 
-Sincerely yours,
+De ballen,
 Timo & Luuk
