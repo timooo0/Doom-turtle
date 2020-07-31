@@ -88,7 +88,7 @@ end
 
 
 
-currentY = file.get(2)
+baseY = file.get(2)
 
 
 
@@ -147,11 +147,23 @@ function fillChest(chestPos,direction)
                 chestMap[mapPosX][mapPosZ][2] = chestMap[mapPosX][mapPosZ][2] + (before - turtle.getItemCount())
               else
                 print("we need to go up a level")
+                gps.moveBack()
+                gps.moveUp()
+                chestPos = "front"
+                view = turtle.inspect
+                drop = turtle.drop
+                if file.get(4) == 1 then
+                  mapPosX = mapPosX + 1
+                elseif file.get(4) == 4 then
+                  mapPosX = mapPosX + 1
+                end
+
               end
             else
               print("Need to build a chest here")
               break
             end
+
           else
             gps.moveUp(2)
             if select(2,turtle.inspect()).name == "minecraft:chest" then
@@ -161,16 +173,23 @@ function fillChest(chestPos,direction)
               end
             else
               print("Need to build a chest here")
-              gps.moveDown(2)
               break
             end
-            gps.moveDown(2)
           end
+
+
 
           --If there are no more of key item type remove it from the list
           if inventoryItems[key] == 0 then
             inventoryItems[key] = nil
           end
+        end
+        --Move to the correct y level if not already there
+        while file.get(2) ~= baseY do
+          gps.moveDown()
+        end
+        if chestPos == "front" then
+          gps.move()
         end
       end
     end
