@@ -187,46 +187,49 @@ end
 function getTable(file)
 
 	local fileTable = {}
+	local tableInfo = {}
 	local dataRead = fs.open(file,"r")
-	local dim = dataRead.readLine()
+	local dim = tonumber(dataRead.readLine())
 
-	local nRow = dataRead.readLine()
-	local nColumn = dataRead.readLine()
-
-	if dim<=1 then
-		local nRow = dataRead.readLine()
+	if dim >= 1 then
+		tableInfo["nRow"] = dataRead.readLine()
 	end
-	if dim<=2 then
-		local nColumn = dataRead.readLine()
+	if dim >= 2 then
+		tableInfo["nColumn"] = dataRead.readLine()
 	end
-	if dim<=3 then
-		local nHeight = dataRead.readLine()
+	if dim >= 3 then
+		tableInfo["nHeight"] = dataRead.readLine()
 	end
 
+	for k,v in pairs(tableInfo) do
+		tableInfo[k] = tonumber(v)
+	end
 
 	if dim == 1 then
-		for i=1,nRow do
+		for i=1,tableInfo["nRow"] do
 			fileTable[i] = dataRead.readLine()
+			if tonumber(fileTable[i]) ~= nil then
+				fileTable[i] = tonumber(fileTable)
+			end
 		end
 	end
 
-
 	if dim == 2 then
-		for i=1,nRow do
+		for i=1,tableInfo["nRow"] do
 			local row = {}
-			for j=1, nColumn do
+			for j=1, tableInfo["nColumn"] do
 				row[j] = dataRead.readLine()
 			end
 			fileTable[i] = row
 		end
 	end
 
-	if dim == 1 then
-		for i=1,nRow do
+	if dim == 3 then
+		for i=1,tableInfo["nRow"] do
 			local row = {}
-			for j=1, nColumn do
+			for j=1, tableInfo["nColumn"] do
 				local column = {}
-				for k=1, nHeight do
+				for k=1, tableInfo["nHeight"] do
 					column[k] = dataRead.readLine()
 				end
 				row[j] = column
@@ -238,20 +241,20 @@ function getTable(file)
 	return fileTable
 end
 
-function storeTable(fileTable,dim, file)
+function storeTable(fileTable, dim, file)
 
 	local dataWrite = fs.open(file,"w")
 
 	dataWrite.writeLine(dim)
-	if dim>=1 then
+	if dim >= 1 then
 		nRow = table.getn(fileTable)
 		dataWrite.writeLine(nRow)
 	end
-	if dim>=2 then
+	if dim >= 2 then
 		nColumn = table.getn(fileTable[1])
 		dataWrite.writeLine(nColumn)
 	end
-	if dim>=3 then
+	if dim >= 3 then
 		nHeight = table.getn(fileTable[1][1])
 		dataWrite.writeLine(nHeight)
 	end
