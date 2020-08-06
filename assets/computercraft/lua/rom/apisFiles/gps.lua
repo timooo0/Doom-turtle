@@ -252,6 +252,30 @@ function moveAbs(xpos, ypos, zpos)
 
 end
 
+function moveHighWay(xTarget, yTarget, zTarget,)
+	local xPos = file.get(1)
+	local zPos = file.get(3)
+
+	getOnHighwWay()
+
+	while xTarget%16 ~= xPos%16 do
+		if xTarget > xPos then
+		nextChunk(1)
+	elseif xTarget < xPos then
+		nextChunk(3)
+	end
+
+	while zTarget%16 ~= zPos%16 do
+		if zTarget > zPos then
+		nextChunk(2)
+	elseif zTarget < zPos then
+		nextChunk(0)
+	end
+
+	exitHighWay()
+	moveChunk(xTarget,yTarget,zTarget)
+end
+
 function nextChunk(direction)
 	xChunkPos = file.get(1)%16
 	zChunkPos = file.get(3)%16
@@ -381,13 +405,6 @@ function exitHighWay()
 	--exit the down highway layer
 	moveDown(highWayLevelMin-file.get(2)+1)
 end
-
-
-
-
-
-
-
 
 --Move in a square
 function square(a)
