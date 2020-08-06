@@ -98,7 +98,9 @@ end
 function getFromChest(name,amount)
 	turtle.select(1)
 
+	local nFound = 0
 	local nStacks = math.floor(amount/64+1)
+	local itemFound = false
  	amount = amount%64
 	suck, drop = findChest()
 	anyDam = false
@@ -128,6 +130,7 @@ function getFromChest(name,amount)
 			end
 
 		end
+
 		--Move stack to last available slot
 		--print(i,nStacks)
 		if itemFound ~= false then
@@ -136,10 +139,12 @@ function getFromChest(name,amount)
 				if turtle.getItemCount() == 0 and counter ~= 1 then
 					if i==nStacks then
 						turtle.select(counter-1)
+						nFound = nFound + turtle.getItemCount()
 						turtle.transferTo(j,amount)
 						break
 					else
 						turtle.select(counter-1)
+						nFound = nFound + turtle.getItemCount()
 						turtle.transferTo(j,64)
 						break
 					end
@@ -151,9 +156,10 @@ function getFromChest(name,amount)
 		drop()
 	end
 	end
-
-
+return nFound
 end
+
+
 function itemdelivery()
 	bool,data=turtle.inspect()
 	if data.name == "minecraft:chest" or data.name == "minecraft:trapped_chest" then
