@@ -15,11 +15,16 @@ if fs.exists("/items.txt") == false then
 	fs.copy("/rom/global files/itemsTemplate.txt","/items.txt")
 end
 
-
+fs.delete("/map.txt")
 if fs.exists("/map.txt") == false then
 	fs.copy("/rom/global files/mapTemplate.txt","/map.txt")
 end
 
+
+file.mapWrite(64,64,"VALUE")
+print(file.mapRead(64,64))
+print(file.mapRead(16,16))
+read()
 gps.moveBack()
 gps.faceRight()
 for i = 1,16 do

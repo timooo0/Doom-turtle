@@ -67,6 +67,7 @@ end
 
 
 --ChunkMap Functions
+
 function mapRead(xPos, zPos)
 
 	xChunk = math.floor(xPos/16)
@@ -164,123 +165,60 @@ function mapWrite(xPos, zPos, msg)
 		mapLength = mapLength + 1
 		--print(match)
 	end
-
 	--Add new entries to the map
 	local repl = corner[quadrant]
-	if math.abs(zChunk) > mapLength then
+	if math.abs(zChunk) > mapLength-1 then
 		for i = 1, math.abs(zChunk)-mapLength-1 do
-			mapLine = string.gsub(mapLine, repl, string.sub(repl,0,-2).."0,".."}")
+			corner[quadrant] = string.gsub(corner[quadrant], repl, string.sub(repl,0,-2).."0,".."}")
 			repl = string.sub(repl,0,-2).."0,".."}"
-			print(repl)
+			--print(repl)
 		end
 		--The msg gets inserted
-		mapLine = string.gsub(mapLine, repl, string.sub(repl,0,-2)..msg..",}")
+		--print(mapLine)
+		corner[quadrant] = string.gsub(corner[quadrant], repl, string.sub(repl,0,-2)..msg..",}")
 		repl = string.sub(repl,0,-2)..msg..",}"
-		print(repl)
+		--print(repl)
 	else
-		mapLine = string.gsub(mapLine, repl, string.sub(repl,0,math.abs(zChunk)+1)..","..msg..string.sub(repl,math.abs(zChunk)+2,-1))
+		print(repl)
+		print(corner[quadrant])
+		--Actually replacing the the with the msg
+		corner[quadrant] = string.gsub(corner[quadrant], repl, string.sub(repl,0,math.abs(zChunk)+1)..","..msg..string.sub(repl,math.abs(zChunk)+4,-1))
+		print(corner[quadrant])
+		print("mapLining")
 	end
-
-	store(math.abs(xChunk)+1, mapLine, "map.txt")
+map[math.abs(zChunk)+1]
+	store(math.abs(xChunk)+1, corner[1]..corner[2]..corner[3]..corner[4], "map.txt")
 end
 
 function getTable(file)
 
 	local fileTable = {}
-	local tableInfo = {}
 	local dataRead = fs.open(file,"r")
-	local dim = tonumber(dataRead.readLine())
+	local nRow = dataRead.readLine()
+	local nColumn = dataRead.readLine()
 
-	if dim >= 1 then
-		tableInfo["nRow"] = dataRead.readLine()
-	end
-	if dim >= 2 then
-		tableInfo["nColumn"] = dataRead.readLine()
-	end
-	if dim >= 3 then
-		tableInfo["nHeight"] = dataRead.readLine()
-	end
-
-	for k,v in pairs(tableInfo) do
-		tableInfo[k] = tonumber(v)
-	end
-
-	if dim == 1 then
-		for i=1,tableInfo["nRow"] do
-			fileTable[i] = dataRead.readLine()
-			if tonumber(fileTable[i]) ~= nil then
-				fileTable[i] = tonumber(fileTable)
-			end
+	for i=1, nRow do
+		local row = {}
+		for j=1, nColumn do
+			row[j] = dataRead.readLine()
 		end
+		fileTable[i] = row
 	end
 
-	if dim == 2 then
-		for i=1,tableInfo["nRow"] do
-			local row = {}
-			for j=1, tableInfo["nColumn"] do
-				row[j] = dataRead.readLine()
-			end
-			fileTable[i] = row
-		end
-	end
-
-	if dim == 3 then
-		for i=1,tableInfo["nRow"] do
-			local row = {}
-			for j=1, tableInfo["nColumn"] do
-				local column = {}
-				for k=1, tableInfo["nHeight"] do
-					column[k] = dataRead.readLine()
-				end
-				row[j] = column
-			end
-			fileTable[i] = row
-		end
-	end
-	dataRead.close()
 	return fileTable
 end
 
-function storeTable(fileTable, dim, file)
-
+function storeTable(fileTable, file)
 	local dataWrite = fs.open(file,"w")
+	local nRow = table.getn(fileTable)
+	local nColumn = table.getn(fileTable[1])
 
-	dataWrite.writeLine(dim)
-	if dim >= 1 then
-		nRow = table.getn(fileTable)
-		dataWrite.writeLine(nRow)
-	end
-	if dim >= 2 then
-		nColumn = table.getn(fileTable[1])
-		dataWrite.writeLine(nColumn)
-	end
-	if dim >= 3 then
-		nHeight = table.getn(fileTable[1][1])
-		dataWrite.writeLine(nHeight)
-	end
+	dataWrite.writeLine(nRow)
+	dataWrite.writeLine(nColumn)
 
-	if dim == 1 then
-		for i=1,nRow do
-			dataWrite.writeLine(fileTable[i])
+	for i=1,nRow do
+		for j=1, nColumn do
+			dataWrite.writeLine(fileTable[i][j])
 		end
 	end
-
-	if dim == 2 then
-		for i=1,nRow do
-			for j=1, nColumn do
-				dataWrite.writeLine(fileTable[i][j])
-			end
-		end
-	end
-
-	if dim == 3 then
-		for i=1,nRow do
-			for j=1, nColumn do
-				for k=1, nHeight do
-					dataWrite.writeLine(fileTable[i][j][k])
-				end
-			end
-		end
-	end
-	dataWrite.close()
 end
