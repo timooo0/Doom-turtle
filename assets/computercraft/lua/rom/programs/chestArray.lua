@@ -100,9 +100,11 @@ function fillChest(chestPos,direction)
   if chestPos == "down" then
     view = turtle.inspectDown
     drop = turtle.dropDown
+    place = turtle.placeDown
   else
     view = turtle.inspect
     drop = turtle.drop
+    place = turtle.place
   end
 
   if direction == 0 then
@@ -118,92 +120,152 @@ function fillChest(chestPos,direction)
   end
 
 
---check if the chest is below
-  if select(2,view()).name == "minecraft:chest" then
-    --check if the chest already has an item assigned to it, if not assign one
-    if chestItem == 0 then
-      chestMap[mapPosX][mapPosZ][1] = select(1,next(inventoryItems))
-      chestItem = chestMap[mapPosX][mapPosZ][1]
-      print(chestMap[mapPosX][mapPosZ][1])
+--check if there is a chest if not place it
+  if select(2,view()).name ~= "minecraft:chest" then
+    turtle.select(1)
+    print(chestPos)
+    if not(place()) then
+      print("I have run out of chests")
+      return false
     end
+  end
 
-    --Check if the chest stores items that are currently in the inventory
-    for key, value in pairs(inventoryItems) do
-      -- print(key,chestItem)
-      if key == chestItem then
+  --check if the chest already has an item assigned to it, if not assign one
+  if chestItem == 0 then
+    chestMap[mapPosX][mapPosZ][1] = select(1,next(inventoryItems))
+    chestItem = chestMap[mapPosX][mapPosZ][1]
+  end
 
-        while inventoryItems[key] ~= nil do
-          --drop the items and update inventoryItems
-          item.selectItem(key)
-          local before = turtle.getItemCount()
+  --Check if the chest stores items that are currently in the inventory
+  for key, value in pairs(inventoryItems) do
 
-          if drop() then
+    --Check if the inventoryItem correspond to the item in the chest
+    if key == chestItem then
+
+      --Drop the items until there is nothing left
+      while inventoryItems[key] ~= nil do
+        --drop the items and update inventoryItems
+        item.selectItem(key)
+        local before = turtle.getItemCount()
+
+        --Check if it can drop
+        if drop() then
+
+          --Update the inventoryItem list to the new amount
+          inventoryItems[key] = inventoryItems[key] - (before - turtle.getItemCount())
+          chestMap[mapPosX][mapPosZ][2] =  chestMap[mapPosX][mapPosZ][2] + (before - turtle.getItemCount())
+
+        --Check if the chest is below
+        elseif chestPos == "down" then
+
+          --Check if there is ñot a chest above it
+          if select(2,turtle.inspectUp()).name ~= "minecraft:chest" then
+            --Place a chest
+            turtle.select(1)
+            if not(turtle.placeUp()) then
+              --Break if it cannot place a chest
+              print("I have run out of chests")
+              return false
+            end
+            item.selectItem(key)
+          end
+
+          --Check if it can drop
+          if turtle.dropUp() then
+            --Update the inventoryItem list to the new amount
             inventoryItems[key] = inventoryItems[key] - (before - turtle.getItemCount())
-            chestMap[mapPosX][mapPosZ][2] =  chestMap[mapPosX][mapPosZ][2] + (before - turtle.getItemCount())
-          elseif chestPos == "down" then
-            if select(2,turtle.inspectUp()).name == "minecraft:chest" then
-              if turtle.dropUp() then
-                inventoryItems[key] = inventoryItems[key] - (before - turtle.getItemCount())
-                chestMap[mapPosX][mapPosZ][2] = chestMap[mapPosX][mapPosZ][2] + (before - turtle.getItemCount())
-              else
-                print("we need to go up a level")
-                gps.moveBack()
-                gps.moveUp()
-                chestPos = "front"
-                view = turtle.inspect
-                drop = turtle.drop
-                if file.get(4) == 1 then
-                  mapPosX = mapPosX + 1
-                elseif file.get(4) == 4 then
-                  mapPosX = mapPosX + 1
-                end
+            chestMap[mapPosX][mapPosZ][2] = chestMap[mapPosX][mapPosZ][2] + (before - turtle.getItemCount())
 
-              end
-            else
-              print("Need to build a chest here")
-              break
-            end
-
+          --It will need to go to the next level
           else
-            gps.moveUp(2)
-            if select(2,turtle.inspect()).name == "minecraft:chest" then
-              if drop() then
-                inventoryItems[key] = inventoryItems[key] - (before - turtle.getItemCount())
-                chestMap[mapPosX][mapPosZ][2] = chestMap[mapPosX][mapPosZ][2] + (before - turtle.getItemCount())
-              end
-            else
-              print("Need to build a chest here")
-              break
+            print("we need to go up a level")
+            gps.moveBack()
+            gps.moveUp()
+            chestPos = "front"
+            view = turtle.inspect
+            drop = turtle.drop
+            place = turtle.place
+            if file.get(4) == 1 then
+              mapPosX = mapPosX + 1
+            elseif file.get(4) == 4 then
+              mapPosX = mapPosX + 1
             end
+
           end
 
+        --Move to the next level
+        else
+          gps.moveUp(2)
 
+          --Check if there is ñot a chest above it
+          if select(2,turtle.inspect()).name ~= "minecraft:chest" then
 
-          --If there are no more of key item type remove it from the list
-          if inventoryItems[key] == 0 then
-            inventoryItems[key] = nil
+            turtle.select(1)
+            if not(place()) then
+              print("I have run out of chests")
+              return false
+            end
+            item.selectItem(key)
+          end
+
+          --Check if it can drop
+          if drop() then
+            --Update the inventoryItem list to the new amount
+            inventoryItems[key] = inventoryItems[key] - (before - turtle.getItemCount())
+            chestMap[mapPosX][mapPosZ][2] = chestMap[mapPosX][mapPosZ][2] + (before - turtle.getItemCount())
           end
         end
-        --Move to the correct y level if not already there
-        while file.get(2) ~= baseY do
-          gps.moveDown()
+
+
+
+        --If there are no more of key item type remove it from the list
+        if inventoryItems[key] == 0 then
+          inventoryItems[key] = nil
         end
-        if chestPos == "front" then
-          gps.move()
-        end
+      end
+      --Move to the correct y level if not already there
+      while file.get(2) ~= baseY do
+        gps.moveDown()
+      end
+      if chestPos == "front" then
+        gps.move()
       end
     end
   end
+
+  return true
 end
--- for i=-1,1 do
---   chestMap[currentY+i] = chestlayer
+
+
 inventoryState = false
+
+
+
 while true do
-  file.storeTable(chestMap,3,"chestMap.txt")
-  -- print(chestMap[1][1])
+  file.storeTable(chestMap,"chestMap.txt")
   sucked = false
   gps.move(0,0)
   gps.face(0)
+
+  turtle.select(1)
+  if turtle.getItemCount() ~= 0 then
+    hasChest = true
+  else
+    hasChest = false
+  end
+
+  if hasChest == false then
+    gps.faceLeft()
+    turtle.select(1)
+    while hasChest == false do
+      if turtle.suck() then
+        hasChest = true
+      end
+      os.sleep(5)
+    end
+    gps.faceRight()
+  end
+
   while sucked == false do
     while turtle.suck() do
       sucked = true
@@ -215,7 +277,7 @@ while true do
   end
 
   inventoryItems = {}
-  for i=1,16 do
+  for i=2,16 do
     turtle.select(i)
     if turtle.getItemCount() ~= 0 then
       if inventoryItems[turtle.getItemDetail().name] == nil then
@@ -227,22 +289,23 @@ while true do
   end
 
 
-  for i=1,8 do
+  for i=1,4 do
     for j=1,table.getn(route) do
 
       gps.face(route[j])
-      if inventoryState then
-        fillChest("down",file.get(4)) -- check down
+      if inventoryState and hasChest then
         if (file.get(1)%16)%2 == 1 or (file.get(3)%16)%2==1 then
           if file.get(4) == 1 then
             gps.faceRight()
-            fillChest("right",file.get(4))
+            hasChest = fillChest("right",file.get(4))
             gps.faceLeft()
           elseif file.get(4) == 3 then
             gps.faceLeft()
-            fillChest("left",file.get(4))
+            hasChest = fillChest("left",file.get(4))
             gps.faceRight()
           end
+        else
+          hasChest = fillChest("down",file.get(4)) -- check down
         end
 
         if next(inventoryItems) == nil then
@@ -253,7 +316,7 @@ while true do
     	gps.move()
     end
 
-    if inventoryState == false then
+    if inventoryState == false or hasChest == false then
       gps.moveChunk(0,0)
       break
     end
