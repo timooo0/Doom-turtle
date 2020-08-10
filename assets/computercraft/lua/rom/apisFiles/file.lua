@@ -186,7 +186,7 @@ function mapWrite(xPos, zPos, msg)
 		print(corner[quadrant])
 		print("mapLining")
 	end
-map[math.abs(zChunk)+1]
+	--map[math.abs(zChunk)+1]
 	store(math.abs(xChunk)+1, corner[1]..corner[2]..corner[3]..corner[4], "map.txt")
 end
 

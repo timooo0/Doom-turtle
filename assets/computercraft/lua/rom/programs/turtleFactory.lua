@@ -20,6 +20,64 @@ if fs.exists("/map.txt") == false then
 	fs.copy("/rom/global files/mapTemplate.txt","/map.txt")
 end
 
+xCenter = file.get(1)
+zCenter = file.get(3)
+
+for i = 1, 2000 do
+	currentX = file.get(1)-xCenter
+	currentZ = file.get(3)-zCenter
+	nextX = currentX
+	nextZ = currentZ
+
+	--print(nextX, nextZ)
+	if false then
+		print("hi")
+		if (currentX <= currentZ and currentZ > 0) or (currentX <= 0 and currentZ >= 0 and -math.floor(currentX/2) == math.floor(currentZ/2)) then
+			nextX = currentX + 2
+			print("1")
+		elseif (currentX > currentZ  and currentX > 0 and math.floor(currentX/2) ~= math.floor(-currentZ/2)) or (currentX >= 0 and currentZ >= 0 and math.floor(currentX/2) == math.floor(currentZ/2))then
+			nextZ = currentZ - 2
+			print("2")
+		elseif (currentX > currentZ and currentZ < 0) or (currentX >= 0 and currentZ <= 0 and math.floor(currentX/2) == -math.floor(currentZ/2)) then
+			nextX = currentX - 2
+			print("3")
+		elseif (currentX < currentZ and currentX < 0) or (currentX <= 0 and currentZ <= 0 and math.floor(currentX/2) == math.floor(currentZ/2)) then
+			nextZ = currentZ + 2
+			print("4")
+		end
+	end
+	print(currentX,currentZ)
+	if (currentX <= 0 and currentZ >= 0 and math.floor(-currentX/2) == math.floor(currentZ/2)) then
+		toDo = "increaseX"
+	elseif (currentX >= 0 and currentZ >= 0 and math.floor(currentX/2)-1 == math.floor(currentZ/2)) then
+		toDo = "decreaseZ"
+	elseif (currentX >= 0 and currentZ <= 0 and math.floor(currentX/2) == math.floor(-currentZ/2)) then
+		toDo = "decreaseX"
+	elseif (currentX <= 0 and currentZ <= 0 and math.floor(currentX/2) == math.floor(currentZ/2)) then
+		toDo = "increaseZ"
+	end
+	print(toDo)
+	if toDo == "increaseX" then
+		nextX = currentX + 2
+	elseif toDo == "decreaseZ" then
+		nextZ = currentZ - 2
+	elseif toDo == "decreaseX" then
+		nextX = currentX - 2
+	elseif toDo == "increaseZ" then
+		nextZ = currentZ + 2
+	end
+
+	--print(nextX, nextZ)
+	gps.moveAbs(nextX+xCenter, file.get(2), nextZ+zCenter)
+end
+
+
+
+
+
+read()
+
+
 
 file.mapWrite(64,64,"VALUE")
 print(file.mapRead(64,64))
@@ -51,169 +109,6 @@ turtle.select(1)
 item.getFromChest("minecraft:coal",64)
 
 
-function smelt(name,amount)
-	item.getFromChest("minecraft:coal",1)
-	item.storeItemDict("minecraft:coal", -1)
-
-	gps.faceAround()
-	gps.moveUp()
-
-	item.selectItem("minecraft:coal")
-	turtle.drop()
-
-	gps.faceAround()
-	gps.moveDown()
-
-	item.getFromChest(name,amount)
-	item.storeItemDict(name, -amount)
-
-	item.selectItem(name)
-	gps.faceAround()
-	gps.moveUp(2)
-	gps.move()
-	turtle.dropDown()
-	gps.moveBack()
-	gps.moveDown(2)
-	gps.move()
-	os.sleep(10*amount)
-	turtle.suckUp()
-	gps.faceAround()
-	gps.move()
-	gps.faceLeft()
-	item.slotToItemDict(turtle.getSelectedSlot())
-	turtle.drop()
-	gps.faceRight()
-end
-
-function checkAndCraftBranch(name, amount, craftingChest)
-	--Initialization
-	if craftingChest == nil then
-		craftingChest = 0
-	end
-
-	recipeTable = recipe.referenceTable[name]
-	for key2 , value2 in pairs(recipeTable) do
-		if item.getItemDict(key2, true) < table.getn(value2) and value2[1] ~= "result" then
-			nextRecipe = key2
-			nextAmount = table.getn(value2)
-			return false
-		end
-	end
-
-	for key2 , value2 in pairs(recipeTable) do
-		if value2[1] == "result" then
-
-			currentAmount = item.getItemDict(key2, true)
-			craftedAmount = currentAmount+value2[2]
-
-			if item.getItemDict(key2) >= amount then
-				return true
-			end
-		end
-	end
-	--Getting everything needed for the crafting into the crafting chest
-	for key2 , value2 in pairs(recipeTable) do
-		if value2[1] ~= "result" and value2[1] ~= "smelt" then
-			item.putInCraftingChest(key2, table.getn(value2))
-		elseif value2[1] == "smelt" then
-			--Smelt it instead of crafting if it needs to be smelted
-			smelt(key2, 8)
-			return false
-		end
-	end
-	--The Crafting
-	gps.faceLeft()
-	item.craftItem(recipeTable)
-	if turtle.getItemCount() == 0 then
-		gps.faceRight()
-		return false
-	else
-		turtle.drop(craftingChest)
-		gps.faceRight()
-		turtle.drop()
-		if craftedAmount >= amount then
-			return true
-		else
-			return false
-		end
-	end
-end
-
-
-function craftItemBranch(name, amount)
-	breaking = false
-	while checkAndCraftBranch(name, amount, 1) == false do
-		while checkAndCraftBranch(nextRecipe, nextAmount, 1) == false do
-			if recipe.referenceTable[nextRecipe] == nil then
-				breaking = true
-				break
-			end
-		end
-		if recipe.referenceTable[nextRecipe] == nil then
-			breaking = true
-			break
-		end
-	end
-end
-
-
-
-function listItemBranch(name, amount)
-	recipeTable = recipe.referenceTable[name]
-	for key , value in pairs(recipeTable) do
-		if value[1] == "result" then
-			output[recipeTable] = value[2]
-		end
-	end
-	for key , value in pairs(recipeTable) do
-		if value[1] ~= "result" then
-			if boodschappenLijstje[key] == nil then
-				boodschappenLijstje[key] = -item.getItemDict(key, true)
-			end
-			if counted[key] ~= true then
-				if value[1] ~= "smelt" then
-				 	--Some weird math to make sure things work out well
-					boodschappenLijstje[key] = boodschappenLijstje[key]+table.getn(value)*(math.floor(((amount-1) / output[recipeTable]))+1)
-				else
-					boodschappenLijstje[key] = 0
-				end
-				counted[key] = true
-			end
-		end
-	end
-end
-
-function boodschappen(name, amount)
-	boodschappenLijstje = {}
-	counted = {}
-	output = {}
-	listItemBranch(name, amount)
-	for branchDepth = 1, 10 do
-		for key, value in pairs(boodschappenLijstje) do
-			if recipe.referenceTable[key] ~= nil then
-				makeItZero = true
-				for key2, value2 in pairs(recipe.referenceTable[key]) do
-					if value2[1] == "smelt" then
-						makeItZero = false
-					end
-				end
-				if makeItZero ~= false then
-					boodschappenLijstje[key] = 0
-				end
-				--boodschappenLijstje[key] = 0
-				listItemBranch(key, value)
-			end
-		end
-	end
-	--For printing the list, just remove if you dont want to print it
-	for k, v in pairs(boodschappenLijstje) do
-		if v ~= 0 then
-			print("boodschap", k , v)
-		end
-	end
-
-	return boodschappenLijstje
-end
 
 components = true
 --Craft a Mining Turtle

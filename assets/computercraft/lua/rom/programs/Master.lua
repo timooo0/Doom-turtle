@@ -15,6 +15,7 @@ if test == true then
 else
 	id = 0
 end
+fs.delete("/data.txt")
 if fs.exists("/data.txt") == false then
 --Create the Data.txt file and fill items
 	fs.copy("/rom/global files/dataTemplate.txt","/data.txt")
@@ -32,13 +33,10 @@ if fs.exists("/data.txt") == false then
 		local face = read()
 		file.store(4,face)
 
-		--Because Nice:
-		if yPos == 69 then
-			print("Nice!")
-		end
+
 	end
 end
-
+file.store(14, "turtleFactory")
 file.checkShutdown()
 if file.get(14) == "Start" then
 	if os.getComputerID()	 == id then
