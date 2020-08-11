@@ -19,70 +19,40 @@ fs.delete("/map.txt")
 if fs.exists("/map.txt") == false then
 	fs.copy("/rom/global files/mapTemplate.txt","/map.txt")
 end
+file.store(31, file.get(1))
+file.store(32, file.get(3))
 
-xCenter = file.get(1)
-zCenter = file.get(3)
-
-for i = 1, 2000 do
-	currentX = file.get(1)-xCenter
-	currentZ = file.get(3)-zCenter
+function nextChunk()
+	--End of spiral - center of spiral
+	currentX = file.get(31)-file.get(1)
+	currentZ = file.get(32)-file.get(3)
 	nextX = currentX
 	nextZ = currentZ
 
-	--print(nextX, nextZ)
-	if false then
-		print("hi")
-		if (currentX <= currentZ and currentZ > 0) or (currentX <= 0 and currentZ >= 0 and -math.floor(currentX/2) == math.floor(currentZ/2)) then
-			nextX = currentX + 2
-			print("1")
-		elseif (currentX > currentZ  and currentX > 0 and math.floor(currentX/2) ~= math.floor(-currentZ/2)) or (currentX >= 0 and currentZ >= 0 and math.floor(currentX/2) == math.floor(currentZ/2))then
-			nextZ = currentZ - 2
-			print("2")
-		elseif (currentX > currentZ and currentZ < 0) or (currentX >= 0 and currentZ <= 0 and math.floor(currentX/2) == -math.floor(currentZ/2)) then
-			nextX = currentX - 2
-			print("3")
-		elseif (currentX < currentZ and currentX < 0) or (currentX <= 0 and currentZ <= 0 and math.floor(currentX/2) == math.floor(currentZ/2)) then
-			nextZ = currentZ + 2
-			print("4")
-		end
-	end
-	print(currentX,currentZ)
-	if (currentX <= 0 and currentZ >= 0 and math.floor(-currentX/2) == math.floor(currentZ/2)) then
+	if (currentX <= 0 and currentZ >= 0 and math.floor(-currentX/16) == math.floor(currentZ/16)) then
 		toDo = "increaseX"
-	elseif (currentX >= 0 and currentZ >= 0 and math.floor(currentX/2)-1 == math.floor(currentZ/2)) then
+	elseif (currentX >= 0 and currentZ >= 0 and math.floor(currentX/16)-1 == math.floor(currentZ/16)) then
 		toDo = "decreaseZ"
-	elseif (currentX >= 0 and currentZ <= 0 and math.floor(currentX/2) == math.floor(-currentZ/2)) then
+	elseif (currentX >= 0 and currentZ <= 0 and math.floor(currentX/16) == math.floor(-currentZ/16)) then
 		toDo = "decreaseX"
-	elseif (currentX <= 0 and currentZ <= 0 and math.floor(currentX/2) == math.floor(currentZ/2)) then
+	elseif (currentX <= 0 and currentZ <= 0 and math.floor(currentX/16) == math.floor(currentZ/16)) then
 		toDo = "increaseZ"
 	end
-	print(toDo)
 	if toDo == "increaseX" then
-		nextX = currentX + 2
+		nextX = currentX + 16
 	elseif toDo == "decreaseZ" then
-		nextZ = currentZ - 2
+		nextZ = currentZ - 16
 	elseif toDo == "decreaseX" then
-		nextX = currentX - 2
+		nextX = currentX - 16
 	elseif toDo == "increaseZ" then
-		nextZ = currentZ + 2
+		nextZ = currentZ + 16
 	end
 
-	--print(nextX, nextZ)
-	gps.moveAbs(nextX+xCenter, file.get(2), nextZ+zCenter)
+	file.store(31, nextX+file.get(1))
+	file.store(32, nextZ+file.get(3))
+
 end
 
-
-
-
-
-read()
-
-
-
-file.mapWrite(64,64,"VALUE")
-print(file.mapRead(64,64))
-print(file.mapRead(16,16))
-read()
 gps.moveBack()
 gps.faceRight()
 for i = 1,16 do
@@ -104,97 +74,118 @@ for i = 1,16 do
 	turtle.drop()
 end
 print("done")
+gps.faceAround()
+gps.move()
 
-turtle.select(1)
-item.getFromChest("minecraft:coal",64)
+for i = 1,16 do
+	gps.moveBack()
+	gps.faceAround()
+	--Make a turtle (maybe)
+	components = true
+	--Craft a Mining Turtle
+	item.craftItemBranch("computercraft:turtle_expanded", 1)
+	item.craftItemBranch("minecraft:diamond_pickaxe", 1)
+	item.craftItemBranch("minecraft:chest", 1)
+	--checkcomponents
+	gps.faceLeft()
 
-
-
-components = true
---Craft a Mining Turtle
-item.craftItemBranch("computercraft:turtle_expanded", 1)
-item.craftItemBranch("minecraft:diamond_pickaxe", 1)
---checkcomponents
-gps.faceLeft()
-
-item.getFromChest("computercraft:turtle_expanded", 1)
-if turtle.getItemCount(16) < 1 then
-	components = false
-end
-turtle.select(16)
-turtle.drop()
-item.getFromChest("minecraft:diamond_pickaxe", 1)
-if turtle.getItemCount(16) < 1 then
-	components = false
-end
-turtle.select(16)
-turtle.drop()
-
-
-
-if components == true then
-	item.craftItem(recipe.miningTurtle)
+	item.getFromChest("computercraft:turtle_expanded", 1)
+	if turtle.getItemCount(16) < 1 then
+		components = false
+	end
+	turtle.select(16)
 	turtle.drop()
-	print("I made a mining turtle")
-else
-	mustQuarry = true
-end
-
-if mustQuarry == true then
-	print("Init")
-	x = file.get(1)
-	y = file.get(2)
-	z = file.get(3)
-	facing = file.get(4)
-
-	--The Quarry Size
-	file.store(9, 47)
-	--file.store(10, 16)
-	file.store(11, file.get(6)-3)
-
-	-- Initialization
-	--file.store(12, 0)
-	file.store(13, 0)
-
-	--Restart Resistance
-	file.store(14, "Quarry")
-	--Initialization
-	file.store(15, 1)
-	file.store(16, "false")
-	file.store(18, "false")
-
-	--
-	for i = 1,16 do
-		turtle.suck()
+	item.getFromChest("minecraft:diamond_pickaxe", 1)
+	if turtle.getItemCount(16) < 1 then
+		components = false
 	end
-	gps.faceRight()
-	for i = 1,16 do
-		turtle.select(i)
-		turtle.drop()
+	turtle.select(16)
+	turtle.drop()
+
+	if components == true then
+		item.craftItem(recipe.miningTurtle)
+		print("I made a mining turtle")
+
+		item.getFromChest("minecraft:chest", 1)
+
+		gps.faceRight()
+		item.getFromChest("minecraft:coal", 32)
+		gps.faceAround()
+
+		gps.move(2)
+		item.selectItem("computercraft:turtle_expanded")
+		turtle.place()
+
+		item.dumpItem("minecraft:coal", 32)
+		item.storeItemDict("minecraft:coal", -32)
+		item.dumpItem("minecraft:chest", 1)
+		item.storeItemDict("minecraft:chest", -1)
+
+
+		gps.moveBack(1)
+		item.selectItem("computercraft:wired_modem_full")
+		turtle.place()
+
+
+	else
+		mustWait = true
+		print("I am waiting")
+		os.sleep(10000)
 	end
-	gps.faceLeft()
-	gps.breakFront()
-	gps.faceLeft()
-
-	--Move around the modem
-	gps.move()
-	gps.faceRight()
-	gps.move()
-	gps.faceLeft()
-	gps.move(2)
-	gps.faceLeft()
-	gps.move()
-	gps.faceRight()
-
-	gps.move(44)
 
 
 
+	file.checkShutdown()
+	restartIndex = file.get(17)
+	--give the new turtle the current coordiantes via rednet
+	os.sleep(20)
+	rednet.open("front")
 
-	quarry.Function()
+	if file.get(4) == 0 or file.get(4) == 2 then
+		rednet.broadcast(file.get(1))
+		os.sleep(1)
+		rednet.broadcast(file.get(2))
+		os.sleep(1)
+
+		if file.get(4) == 0 then
+			rednet.broadcast(file.get(3)-2)
+			rednet.broadcast(file.get(4))
+
+		else
+			rednet.broadcast(file.get(3)+2)
+			rednet.broadcast(file.get(4))
+
+		end
+	end
+
+	if file.get(4) == 1 or file.get(4) == 3 then
+
+		if file.get(4) == 1 then
+			rednet.broadcast(file.get(1)+2)
+			rednet.broadcast(file.get(2))
+			rednet.broadcast(file.get(3))
+			rednet.broadcast(file.get(4))
+
+		else
+			rednet.broadcast(file.get(1)-2)
+			rednet.broadcast(file.get(2))
+			rednet.broadcast(file.get(3))
+			rednet.broadcast(file.get(4))
+
+		end
+	end
+
+	os.sleep(1)
+	rednet.broadcast("quarrySlave")
+
+	nextChunk()
+	os.sleep(1)
+	rednet.broadcast(file.get(31))
+	os.sleep(1)
+	rednet.broadcast(file.get(32))
+
+	file.store(17,restartIndex+1)
 end
-
-
 
 
 
