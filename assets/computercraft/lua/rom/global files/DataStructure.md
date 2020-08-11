@@ -28,3 +28,5 @@ treeFarm check if in Tree
 treeFarm facing direction
 
 diamond count
+spiralX
+spiralZ

@@ -4,15 +4,17 @@ startBase = require("startBase")
 buildTreeFarm = require("buildTreeFarm")
 newTreeFarm = require("newTreeFarm")
 turtleFactory = require("turtleFactory")
+quarrySlave = require("quarrySlave")
 
 os.loadAPI("/rom/apisFiles/item.lua")
 os.loadAPI("/rom/apisFiles/file.lua")
 --Initialization
 --Set true when testing with non ID=0 turtles
 local test = true
-if test == true then
+if test == false then
 	id = os.getComputerID()
 else
+	--id = 84
 	id = 0
 end
 fs.delete("/data.txt")
@@ -20,6 +22,7 @@ if fs.exists("/data.txt") == false then
 --Create the Data.txt file and fill items
 	fs.copy("/rom/global files/dataTemplate.txt","/data.txt")
 	if os.getComputerID() == id then
+		--file.store(14, "turtleFactory")
 		write("x position: ")
 		local xPos = read()
 		file.store(1,xPos)
@@ -36,7 +39,7 @@ if fs.exists("/data.txt") == false then
 
 	end
 end
-file.store(14, "turtleFactory")
+
 file.checkShutdown()
 if file.get(14) == "Start" then
 	if os.getComputerID()	 == id then
@@ -77,6 +80,16 @@ if file.get(14) == "Start" then
 		local message = select(2,rednet.receive())
 		print(message)
 		file.store(14,message)
+
+		--Extra data transfer for the quarrySlave
+		if message == "quarrySlave" then
+			local message = select(2, rednet.receive())
+			file.store(31, message)
+
+			local message = select(2, rednet.receive())
+			file.store(32, message)
+		end
+
 	end
 end
 
@@ -198,6 +211,11 @@ if file.get(14) == "turtleFactory" then
 --Quarry and Make more turtles.
 	turtleFactory.Function()
 
+end
+
+if file.get(14) == "quarrySlave" then
+	--Quarry a Chunk
+	quarrySlave.Function()
 end
 
 file.checkShutdown()
