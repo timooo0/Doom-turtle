@@ -1,6 +1,11 @@
 local quarrySlave = {}
 
 function quarrySlave.Function()
+  quarry = require("quarry")
+  os.loadAPI("/rom/apisFiles/item.lua")
+  os.loadAPI("/rom/apisFiles/gps.lua")
+  os.loadAPI("/rom/apisFiles/file.lua")
+  os.loadAPI("/rom/apisFiles/recipe.lua")
 
   item.selectItem("minecraft:coal")
   turtle.transferTo(1)
@@ -14,10 +19,6 @@ function quarrySlave.Function()
   facing = file.get(4)
 
   gps.moveAbs(file.get(31), y , file.get(32))
-
-
-
-
 
   --The starting Coordinates
 	file.store(5, x)

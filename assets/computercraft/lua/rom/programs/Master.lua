@@ -14,8 +14,8 @@ local test = true
 if test == false then
 	id = os.getComputerID()
 else
-	--id = 84
-	id = 0
+	id = 84
+	--id = 0
 end
 fs.delete("/data.txt")
 if fs.exists("/data.txt") == false then

@@ -195,7 +195,7 @@ function breakFront()
 	end
 end
 
---Move to Absolute coordinates in the chunk
+--Move to Absolute coordinates in the chunk, 0,0 is the corner
 function moveChunk(xpos, zpos)
 
 	x = file.get(1)
