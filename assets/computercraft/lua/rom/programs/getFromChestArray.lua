@@ -11,7 +11,16 @@ local route = {
   2,2
 }
 
-baseY = file.get(2)
+--todo: write in the data.txt the  position of the chestArray
+startX = -784
+startY = 58
+startZ = 65
+gps.moveHighWay(startX,startY+1,startZ)
+gps.face(3)
+
+file.connect("shopping","right")
+file.receive("chestMap.txt","shopping")
+
 chestMap = file.getTable("chestMap.txt")
 boodschapjes = {}
 boodschapjes["minecraft:chest"] = 2
@@ -98,6 +107,5 @@ for i=1,4 do
   end
 end
 
-for k,v in pairs(boodschapjes) do
-print(k,v)
-end
+
+gps.moveUp(file.highWayLevelMin-1)

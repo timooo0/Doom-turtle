@@ -193,32 +193,145 @@ end
 function getTable(file)
 
 	local fileTable = {}
+	local tableInfo = {}
 	local dataRead = fs.open(file,"r")
-	local nRow = dataRead.readLine()
-	local nColumn = dataRead.readLine()
+	local dim = tonumber(dataRead.readLine())
 
-	for i=1, nRow do
-		local row = {}
-		for j=1, nColumn do
-			row[j] = dataRead.readLine()
-		end
-		fileTable[i] = row
+	if dim >= 1 then
+		tableInfo["nRow"] = dataRead.readLine()
+	end
+	if dim >= 2 then
+		tableInfo["nColumn"] = dataRead.readLine()
+	end
+	if dim >= 3 then
+		tableInfo["nHeight"] = dataRead.readLine()
 	end
 
+	for k,v in pairs(tableInfo) do
+		tableInfo[k] = tonumber(v)
+	end
+
+	if dim == 1 then
+		for i=1,tableInfo["nRow"] do
+			fileTable[i] = dataRead.readLine()
+			if tonumber(fileTable[i]) ~= nil then
+				fileTable[i] = tonumber(fileTable[i])
+			end
+		end
+	end
+
+	if dim == 2 then
+		for i=1,tableInfo["nRow"] do
+			local row = {}
+			for j=1, tableInfo["nColumn"] do
+				row[j] = dataRead.readLine()
+				if tonumber(row[j]) ~= nil then
+					row[j] = tonumber(row[j])
+				end
+			end
+			fileTable[i] = row
+		end
+	end
+
+	if dim == 3 then
+		for i=1,tableInfo["nRow"] do
+			local row = {}
+			for j=1, tableInfo["nColumn"] do
+				local column = {}
+				for k=1, tableInfo["nHeight"] do
+					column[k] = dataRead.readLine()
+					if tonumber(column[k]) ~= nil then
+						column[k] = tonumber(column[k])
+					end
+				end
+				row[j] = column
+			end
+			fileTable[i] = row
+		end
+	end
+	dataRead.close()
 	return fileTable
 end
 
-function storeTable(fileTable, file)
+function storeTable(fileTable, dim, file)
+
 	local dataWrite = fs.open(file,"w")
-	local nRow = table.getn(fileTable)
-	local nColumn = table.getn(fileTable[1])
 
-	dataWrite.writeLine(nRow)
-	dataWrite.writeLine(nColumn)
+	dataWrite.writeLine(dim)
+	if dim >= 1 then
+		nRow = table.getn(fileTable)
+		dataWrite.writeLine(nRow)
+	end
+	if dim >= 2 then
+		nColumn = table.getn(fileTable[1])
+		dataWrite.writeLine(nColumn)
+	end
+	if dim >= 3 then
+		nHeight = table.getn(fileTable[1][1])
+		dataWrite.writeLine(nHeight)
+	end
 
-	for i=1,nRow do
-		for j=1, nColumn do
-			dataWrite.writeLine(fileTable[i][j])
+	if dim == 1 then
+		for i=1,nRow do
+			dataWrite.writeLine(fileTable[i])
 		end
 	end
+
+	if dim == 2 then
+		for i=1,nRow do
+			for j=1, nColumn do
+				dataWrite.writeLine(fileTable[i][j])
+			end
+		end
+	end
+
+	if dim == 3 then
+		for i=1,nRow do
+			for j=1, nColumn do
+				for k=1, nHeight do
+					dataWrite.writeLine(fileTable[i][j][k])
+				end
+			end
+		end
+	end
+	dataWrite.close()
+end
+
+function connect(protocol, position)
+	rednet.open(position)
+	rednet.broadcast(protocol)
+	while rednet.receive(protocol,5) == nil do
+	  rednet.broadcast(protocol)
+	end
+
+	print("We got contact")
+end
+
+function sendFile(file, protocol)
+
+	dataRead = fs.open(file,"r")
+	message = dataRead.readLine()
+	while message ~= nil do
+		sleep(0.01)
+	  print("sending: " .. message)
+	  rednet.broadcast(message,protocol)
+	  message = dataRead.readLine()
+	end
+
+	rednet.broadcast("close",protocol)
+	dataRead.close()
+end
+
+function receiveFile(file, protocol)
+
+	local dataWrite = fs.open(file,"w")
+  message = select(2,rednet.receive(protocol))
+
+  while message ~= "close" do
+		print("receiving: " .. message)
+    dataWrite.writeLine(message)
+    message = select(2,rednet.receive(protocol))
+  end
+
+  dataWrite.close()
 end

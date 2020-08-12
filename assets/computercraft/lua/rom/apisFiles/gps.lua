@@ -233,14 +233,6 @@ function moveAbs(xpos, ypos, zpos)
 		move(xpos-x)
 	end
 
-	y = file.get(2)
-	if y > ypos then
-		moveDown(y-ypos)
-	else
-		moveUp(ypos-y)
-	end
-
-
 	z = file.get(3)
 	if z > zpos then
 		face(0.0)
@@ -249,6 +241,16 @@ function moveAbs(xpos, ypos, zpos)
 		face(2.0)
 		move(zpos-z)
 	end
+	
+	y = file.get(2)
+	if y > ypos then
+		moveDown(y-ypos)
+	else
+		moveUp(ypos-y)
+	end
+
+
+
 
 end
 
@@ -256,29 +258,43 @@ function moveHighWay(xTarget, yTarget, zTarget)
 	local xPos = file.get(1)
 	local zPos = file.get(3)
 
-	getOnHighwWay()
-
-	while xTarget%16 ~= xPos%16 do
+	getOnHighwWay(0)
+	while math.abs((xTarget-xPos)/16) >= 1 do
+		print("dif:"..math.abs((xTarget-xPos)/16))
 		if xTarget > xPos then
+			print("east")
+			switchLane(1)
 			nextChunk(1)
 		elseif xTarget < xPos then
+			print("west")
+			switchLane(3)
 			nextChunk(3)
 		end
+		xPos = file.get(1)
+		print(xPos,xTarget)
 	end
 
-	while zTarget%16 ~= zPos%16 do
+	while math.abs((zTarget-zPos)/16) >= 1 do
 		if zTarget > zPos then
-		nextChunk(2)
+			print("south")
+			switchLane(2)
+			nextChunk(2)
 		elseif zTarget < zPos then
+			print("north")
+			switchLane(0)
 			nextChunk(0)
 		end
+		zPos = file.get(3)
+		print(zPos,zTarget)
 	end
 
+	print("finished")
 	exitHighWay()
-	moveChunk(xTarget,yTarget,zTarget)
+	moveAbs(xTarget,yTarget,zTarget)
 end
 
 function nextChunk(direction)
+	print("nextChunk")
 	xChunkPos = file.get(1)%16
 	zChunkPos = file.get(3)%16
 	if direction == 0 then
@@ -296,6 +312,7 @@ function nextChunk(direction)
 end
 
 function highWayUp(chunkX,chunkZ)
+	print("highWayUP")
 	if (chunkX%4) == 3 then
 		moveChunk(chunkX+1,chunkZ+chunkZ%2)
 	elseif (chunkX%4) == 1 then
@@ -306,6 +323,7 @@ function highWayUp(chunkX,chunkZ)
 end
 
 function highWayDown(chunkX,chunkZ)
+	print("highWayDown")
 	if ((chunkX+2)%4) == 3 then
 		moveChunk(chunkX+1,chunkZ+chunkZ%2)
 	elseif ((chunkX+2)%4) == 1 then
@@ -316,6 +334,7 @@ function highWayDown(chunkX,chunkZ)
 end
 
 function columnUp(direction)
+	print("columnUp")
 	--gets from the column to the lane
 	moveUp(levelDirection[direction+1]-file.get(2))
 
@@ -325,6 +344,7 @@ function columnUp(direction)
 end
 
 function columnDown(direction)
+	print("columnDown")
 	--gets from the column to the lane
 	moveDown(file.get(2)-levelDirection[direction+1])
 
@@ -334,6 +354,7 @@ function columnDown(direction)
 end
 
 function getOnHighwWay(direction)
+	print("getOnHighWay")
 	local currentX = file.get(1)
 	local currentY = file.get(2)
 	local currentZ = file.get(3)
@@ -380,7 +401,7 @@ function getOnHighwWay(direction)
 end
 
 function switchLane(direction)
-
+	print("switchLane")
 	if levelDirection[direction+1] < file.get(2) then
 		--go into the down column
 		highWayDown(file.get(1)%16,file.get(3)%16)
@@ -394,18 +415,16 @@ function switchLane(direction)
 
 		--go to the new lane
 		columnUp(direction)
-
-	else
-		print("you are an idiot why are you calling this function")
 	end
 end
 
 function exitHighWay()
+	print("exitHighWay")
 	--go to the down column
 	highWayDown(file.get(1)%16,file.get(3)%16)
 
 	--exit the down highway layer
-	moveDown(highWayLevelMin-file.get(2)+1)
+	moveDown(file.get(2)-highWayLevelMin+1)
 end
 
 --Move in a square

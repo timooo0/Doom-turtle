@@ -3,42 +3,6 @@ os.loadAPI("/rom/apisFiles/file.lua")
 os.loadAPI("/rom/apisFiles/item.lua")
 os.loadAPI("/rom/apisFiles/recipe.lua")
 
-local template1 =
-{{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},
-{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},
-{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},
-{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},
-{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},
-{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},
-{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},
-{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-{1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0},
-{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}}
-
-local template2 =
-{{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-{0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1},
-{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-{0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1},
-{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-{0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1},
-{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-{0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1},
-{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-{0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1},
-{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-{0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1},
-{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-{0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1},
-{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-{0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1}}
-
 local route = {
   1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
   3,
@@ -47,14 +11,20 @@ local route = {
   2,2
 }
 
---fill chestMap with zeros
-chestMap = {}
-for i=1,16 do
-  chestMap[i] = {}     -- create a new row
-  for j=1,16 do
-    chestMap[i][j] = {}
-    for k=1,2 do
-      chestMap[i][j][k] = 0
+protocol = "clerk"
+
+--fill chestMap with zeros if it does not exists already
+if fs.exists("chestMap.txt") then
+  chestMap = file.getTable("chestMap.txt")
+else
+  chestMap = {}
+  for i=1,16 do
+    chestMap[i] = {}     -- create a new row
+    for j=1,16 do
+      chestMap[i][j] = {}
+      for k=1,2 do
+        chestMap[i][j][k] = 0
+      end
     end
   end
 end
@@ -96,7 +66,6 @@ function fillChest(chestPos,direction)
   mapPosX = file.get(1)%16+1
   mapPosZ = file.get(3)%16+1
 
-  print(mapPosX,mapPosZ)
   if chestPos == "down" then
     view = turtle.inspectDown
     drop = turtle.dropDown
@@ -123,22 +92,21 @@ function fillChest(chestPos,direction)
 --check if there is a chest if not place it
   if select(2,view()).name ~= "minecraft:chest" then
     turtle.select(1)
-    print(chestPos)
     if not(place()) then
       print("I have run out of chests")
       return false
     end
   end
-
+  
   --check if the chest already has an item assigned to it, if not assign one
   if chestItem == 0 then
     chestMap[mapPosX][mapPosZ][1] = select(1,next(inventoryItems))
     chestItem = chestMap[mapPosX][mapPosZ][1]
   end
 
+
   --Check if the chest stores items that are currently in the inventory
   for key, value in pairs(inventoryItems) do
-
     --Check if the inventoryItem correspond to the item in the chest
     if key == chestItem then
 
@@ -242,7 +210,7 @@ inventoryState = false
 
 
 while true do
-  file.storeTable(chestMap,"chestMap.txt")
+  file.storeTable(chestMap,3,"chestMap.txt")
   sucked = false
   gps.move(0,0)
   gps.face(0)
@@ -272,7 +240,7 @@ while true do
       inventoryState = true
     end
     if sucked==false then
-      os.sleep(10)
+      os.sleep(5)
     end
   end
 
@@ -314,7 +282,14 @@ while true do
       end
 
     	gps.move()
+
+      if select(2,turtle.inspect()).name == "computercraft:wired_modem_full" then
+        file.connect(protocol, "front")
+        file.sendFile("chestMap.txt",protocol)
+      end
     end
+
+
 
     if inventoryState == false or hasChest == false then
       gps.moveChunk(0,0)
