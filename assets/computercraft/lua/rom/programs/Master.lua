@@ -9,6 +9,7 @@ quarrySlave = require("quarrySlave")
 os.loadAPI("/rom/apisFiles/item.lua")
 os.loadAPI("/rom/apisFiles/file.lua")
 --Initialization
+
 --Set true when testing with non ID=0 turtles
 local test = true
 if test == false then
@@ -36,9 +37,12 @@ if fs.exists("/data.txt") == false then
 		local face = read()
 		file.store(4,face)
 
+		--For some testing
+		--file.store(14, "turtleFactory")
 
 	end
 end
+
 
 file.checkShutdown()
 if file.get(14) == "Start" then
@@ -62,7 +66,9 @@ if file.get(14) == "Start" then
 
 	else
 		item.selectItem("minecraft:coal")
-		turtle.refuel()
+		turtle.transferTo(1)
+		turtle.select(1)
+		turtle.refuel(turtle.getItemCount(1)-1)
 
 		if turtle.forward() == true then
 			turtle.back()

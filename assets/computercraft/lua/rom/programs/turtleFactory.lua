@@ -109,15 +109,15 @@ for i = 1,16 do
 		item.getFromChest("minecraft:chest", 1)
 
 		gps.faceRight()
-		item.getFromChest("minecraft:coal", 32)
+		item.getFromChest("minecraft:coal", 16)
 		gps.faceAround()
 
 		gps.move(2)
 		item.selectItem("computercraft:turtle_expanded")
 		turtle.place()
 
-		item.dumpItem("minecraft:coal", 32)
-		item.storeItemDict("minecraft:coal", -32)
+		item.dumpItem("minecraft:coal", 16)
+		item.storeItemDict("minecraft:coal", -16)
 		item.dumpItem("minecraft:chest", 1)
 		item.storeItemDict("minecraft:chest", -1)
 
@@ -138,7 +138,7 @@ for i = 1,16 do
 	file.checkShutdown()
 	restartIndex = file.get(17)
 	--give the new turtle the current coordiantes via rednet
-	os.sleep(20)
+	os.sleep(200)
 	rednet.open("front")
 
 	if file.get(4) == 0 or file.get(4) == 2 then
