@@ -30,3 +30,5 @@ treeFarm facing direction
 diamond count
 spiralX
 spiralZ
+centerX
+centerY
