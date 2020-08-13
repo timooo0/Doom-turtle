@@ -21,7 +21,8 @@ if fs.exists("/map.txt") == false then
 end
 file.store(31, file.get(1))
 file.store(32, file.get(3))
-
+file.store(33, file.get(1))
+file.store(34, file.get(3))
 function nextChunk()
 	--End of spiral - center of spiral
 	currentX = file.get(31)-file.get(1)

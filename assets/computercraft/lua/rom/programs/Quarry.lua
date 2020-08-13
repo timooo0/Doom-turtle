@@ -44,6 +44,8 @@ print("Quarry")
 				os.sleep(2/20)
 				turtle.drop()
 			end
+			--Make sure we have the coal slot selected
+			turtle.select(1)
 		else
 			print("No Chest to drop off my items")
 		end
@@ -57,6 +59,8 @@ print("Quarry")
 				os.sleep(2/20)
 				turtle.dropUp()
 			end
+			--Make sure we have the coal slot selected
+			turtle.select(1)
 		else
 			print("No Chest to drop off my items")
 		end
@@ -81,6 +85,7 @@ print("Quarry")
 				end
 			end
 		end
+		turtle.select(1)
 	end
 
 	function dumpExcess(name, need)
@@ -140,8 +145,9 @@ while layerwidth < widthquarry do
 	--To make sure we always have coal selected
 	turtle.select(1)
 	--The loop for the depth of the quarry
-	while layerdepth < math.floor(depthquarry/6)*6-24 or numberOfDepths ~= 4-1  do
-
+	numberOfDepths = math.floor(depthquarry/6)
+	while layerdepth < 6*math.floor(depthquarry/6)  do
+		turtle.select(1)
 		gps.faceLeft()
 		--Moves back by the number of layerswidth already quarried
 		for width = 1, layerwidth do
@@ -154,11 +160,11 @@ while layerwidth < widthquarry do
 			fuel()
 			gps.moveDown()
 		end
-		if layerdepth >= math.floor(depthquarry/6)*6-24 then
-			numberOfDepths = 4-1
-		else
-			numberOfDepths = 4
-		end
+		--if layerdepth >= math.floor(depthquarry/6)*6-6*numberOfDepths then
+		--	numberOfDepths = numberOfDepths - 1
+		--else
+		--	numberOfDepths = 5
+		--end
 		for i = 1, numberOfDepths do
 			file.checkShutdown()
 
@@ -198,12 +204,8 @@ while layerwidth < widthquarry do
 			gps.breakDown()
 
 			if numberOfDepths ~= i then
-				print(i)
 				--Moves up 1 layer (3 thick)
-				for depth = 1, 3 do
-					fuel()
-					gps.moveDown()
-				end
+					gps.moveDown(3)
 			end
 
 			--Update the layerdepth
@@ -212,12 +214,15 @@ while layerwidth < widthquarry do
 			gps.faceAround()
 			item.dumpItem("minecraft:cobblestone", item.countItems("minecraft:cobblestone")-4)
 			item.dumpItem("minecraft:dirt",item.countItems("minecraft:dirt")-4)
-			item.dumpItem("minecraft:stone",item.countItems("minecraft:stone")-4)
+			item.dumpItem("minecraft:stone",item.countItems("minecraft:stone"))
+			item.dumpItem("minecraft:gravel",item.countItems("minecraft:gravel"))
+			turtle.select(1)
 		end
 		gps.faceAround()
 
 
 		--Moves up by the layerdepth that is already quarried
+
 		for depth = 1, layerdepth-3 do
 			fuel()
 			gps.moveUp()
@@ -246,7 +251,13 @@ while layerwidth < widthquarry do
 		if file.get(14) ~= "quarrySlave" then
 			itemdelivery()
 		else
+			item.dumpItem("minecraft:cobblestone", item.countItems("minecraft:cobblestone")-4)
+			item.dumpItem("minecraft:dirt",item.countItems("minecraft:dirt")-4)
+			item.dumpItem("minecraft:stone",item.countItems("minecraft:stone"))
+			item.dumpItem("minecraft:gravel",item.countItems("minecraft:gravel"))
+			turtle.select(1)
 			itemdeliveryUp()
+			print(turtle.getFuelLevel())
 		end
 
 	end

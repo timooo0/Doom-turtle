@@ -11,7 +11,7 @@ os.loadAPI("/rom/apisFiles/file.lua")
 --Initialization
 
 --Set true when testing with non ID=0 turtles
-local test = true
+local test = false
 if test == false then
 	id = os.getComputerID()
 else
@@ -40,10 +40,16 @@ if fs.exists("/data.txt") == false then
 		--For some testing
 		--file.store(14, "turtleFactory")
 
+
 	end
 end
 
 
+--item.selectItem("minecraft:coal")
+--turtle.transferTo(1)
+--turtle.select(1)
+--turtle.refuel(turtle.getItemCount(1)-1)
+--file.store(14, "quarrySlave")
 file.checkShutdown()
 if file.get(14) == "Start" then
 	if os.getComputerID()	 == id then
