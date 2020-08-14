@@ -17,20 +17,13 @@ end
 file.store(33, file.get(1))
 file.store(34, file.get(3))
 
-gps.moveUp(3)
-
-print("Init")
-
-
-gps.moveAbs(file.get(31), file.get(2) , file.get(32))
-
-
-
+--Move to the correct chunk to mine
+gps.moveHighWay(file.get(31), file.get(2), file.get(32))
+--Move to the correct corner of the chunk
+gps.moveChunk(15,0)
 
 
 --file.store(10, 16)
-
-
 -- Initialization
 --file.store(12, 0)
 file.store(13, 0)
@@ -39,10 +32,6 @@ file.store(13, 0)
 file.store(15, 1)
 file.store(16, "false")
 file.store(18, "false")
-
-gps.moveDown(3)
-
-gps.moveChunk(15,0)
 
 
 item.selectItem("minecraft:chest")
@@ -70,10 +59,29 @@ for i = 2,16 do
     chestIsEmpty = true
   end
 end
-moveHighWay(file.get(33), 80, file.get(34))
+gps.moveBack()
+--This should be the chest array drop off point
+gps.moveHighWay(file.get(33), os.getComputerID()-80, file.get(34))
+--Drop off the stuff in the chestArray
+
+--Do it another time
+
+--Move to on top of the chest
+gps.moveHighWay(file.get(1), file.get(2)+2, file.get(3))
+for i = 2,16 do
+  turtle.select(i)
+  if turtle.suckDown() == false then
+    chestIsEmpty = true
+  end
+end
+--This should be the chest array drop off point
+gps.moveHighWay(file.get(33), os.getComputerID()-80, file.get(34))
+--Drop off the stuff in the chestArray
+
 
 
 
 
 end
+
 return quarrySlave

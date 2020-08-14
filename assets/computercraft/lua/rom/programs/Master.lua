@@ -37,14 +37,14 @@ if fs.exists("/data.txt") == false then
 		local face = read()
 		file.store(4,face)
 
-		--For some testing
+		--For some Testing
 		--file.store(14, "turtleFactory")
 
 
 	end
 end
 
-
+--For some Testing
 --item.selectItem("minecraft:coal")
 --turtle.transferTo(1)
 --turtle.select(1)
