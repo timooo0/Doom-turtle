@@ -1,6 +1,7 @@
 os.loadAPI("/rom/apisFiles/file.lua")
 
-highWayLevelMin = 60
+
+highWayLevelMin = 100 --60 --Changed it to 100
 highWayLevelMax = highWayLevelMin + 3
 
 --gives the y level in which each travel direction goes
@@ -241,7 +242,7 @@ function moveAbs(xpos, ypos, zpos)
 		face(2.0)
 		move(zpos-z)
 	end
-	
+
 	y = file.get(2)
 	if y > ypos then
 		moveDown(y-ypos)
