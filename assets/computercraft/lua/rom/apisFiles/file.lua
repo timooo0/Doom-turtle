@@ -335,3 +335,42 @@ function receiveFile(file, protocol)
 
   dataWrite.close()
 end
+
+function clientUpdate(protocol)
+	rednet.broadcast("update",protocol)
+	message = select(2,rednet.receive(protocol))
+
+	if message == "true" then
+		receiveFile("mapChanges.txt",protocol)
+		applyMapChanges("chestMap.txt","mapChanges.txt",-1)
+	else
+		return false
+	end
+end
+
+function serverUpdate(changes,protocol)
+	while select(2,rednet.receive(protocol)) ~= "update" do os.sleep(0.1) end
+	os.sleep(0.5)
+	if fs.exists(changes) then
+		rednet.broadcast("true",protocol)
+		sendFile(changes,protocol)
+		fs.delete(changes)
+	else
+		rednet.broadcast("false", protocol)
+	end
+end
+
+function applyMapChanges(map,changes,modify)
+	if type(map) == "string" then
+		map = getTable(map)
+	end
+
+	if type(changes) == "string" then
+		changes = getTable(changes)
+	end
+print(type(map),type(changes))
+	for i=1,table.getn(changes) do
+		map[changes[i][1]][changes[i][2]] = {changes[i][3],map[changes[i][1]][changes[i][2]][2]+modify*changes[i][4]}
+	end
+	storeTable(map,3,"chestMap.txt")
+end

@@ -12,31 +12,34 @@ local route = {
 }
 
 --todo: write in the data.txt the  position of the chestArray
-startX = -784
-startY = 58
-startZ = 65
-gps.moveHighWay(startX,startY+1,startZ)
-gps.face(3)
-
-file.connect("shopping","right")
-file.receive("chestMap.txt","shopping")
-
-chestMap = file.getTable("chestMap.txt")
+-- startX = -784
+-- startY = 58
+-- startZ = 65
+-- gps.moveHighWay(startX,startY+1,startZ)
+-- gps.face(3)
+protocol = "shopping"
 boodschapjes = {}
-boodschapjes["minecraft:chest"] = 2
-boodschapjes["minecraft:concrete_powder"] = 12
+table.insert(boodschapjes,{"minecraft:hay_block", 4})
+table.insert(boodschapjes,{"minecraft:sea_lantern", 12})
 boodschapjesState = true
+file.storeTable(boodschapjes,2,"shoppingList.txt")
 
-print("shopping list:")
-for k,v in pairs(boodschapjes) do
-  print(k .. " " .. v)
-end
+file.connect(protocol,"right")
+file.sendFile("shoppingList.txt",protocol)
+file.receiveFile("itemMap.txt",protocol)
+
+itemMap = file.getTable("itemMap.txt")
+gps.moveDown()
+gps.move()
+
+baseY = file.get(2)
 
 function getFromChestColumn(name,amount)
   print("looking for " .. name)
   moveBack = false
   if select(2,turtle.inspectUp()).name == "minecraft:chest" then
     moveBack = true
+    print(name,amount)
     amount = amount - item.getFromChest(name,amount)
 
     if amount ~= 0 then
@@ -67,31 +70,30 @@ for i=1,4 do
   for j=1,table.getn(route) do
     if boodschapjesState then
 
-      if (file.get(1)%16)%2 == 0 and (file.get(3)%16)%2==1 then
-        if file.get(3)%16+2 <= 16 then
-          local chestItemPlus = chestMap[file.get(1)%16+1][file.get(3)%16+2][1]
-        end
-        local chestItemMin = chestMap[file.get(1)%16+1][file.get(3)%16][1]
-        for key, value in pairs(boodschapjes) do
-          if key == chestItemPlus then
+      if (file.get(1)%16)%2 == 0 and (file.get(3)%16)%2 == 1 then
+        local chestPosPlus = {file.get(1)%16+1,file.get(3)%16+2}
+        local chestPosMin = {file.get(1)%16+1,file.get(3)%16}
+        for i=1,table.getn(itemMap) do
+          if itemMap[i][1] == chestPosPlus[1] and itemMap[i][2] == chestPosPlus[2] then
             gps.face(2)
-            getFromChestColumn(key,value)
-            print("got " .. key)
-            boodschapjes[key] = nil
-          elseif key == chestItemMin then
+            getFromChestColumn(itemMap[i][3],itemMap[i][4])
+            print("got " .. itemMap[i][3])
+            break
+          elseif itemMap[i][1] == chestPosMin[1] and itemMap[i][2] == chestPosMin[2] then
             gps.face(0)
-            getFromChestColumn(key,value)
-            print("got " .. key)
-            boodschapjes[key] = nil
+            getFromChestColumn(itemMap[i][3],itemMap[i][4])
+            print("got " .. itemMap[i][3])
+            break
           end
         end
+
       else
-        local chestItem = chestMap[file.get(1)%16+1][file.get(3)%16+1][1]
-        for key, value in pairs(boodschapjes) do
-          if chestItem == key then
-            getFromChestColumn(key,value)
-            print("got " .. key)
-            boodschapjes[key] = nil
+        local chestPos = {file.get(1)%16+1,file.get(3)%16+1}
+          for i=1,table.getn(itemMap) do
+          if itemMap[i][1] == chestPos[1] and itemMap[i][2] == chestPos[2] then
+            getFromChestColumn(itemMap[i][3],itemMap[i][4])
+            print("got " .. itemMap[i][3])
+            break
           end
         end
       end
@@ -99,7 +101,7 @@ for i=1,4 do
     gps.face(route[j])
     gps.move()
 
-    if next(boodschapjes) == nil and boodschapjesState==false then
+    if next(itemMap) == nil and boodschapjesState==false then
       print("got em all")
       boodschapjesState = false
     end

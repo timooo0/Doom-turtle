@@ -29,6 +29,7 @@ else
   end
 end
 
+mapChanges = {}
 
 -- gps.moveUp(79-file.get(2))
 -- gps.nextChunk(0)
@@ -60,7 +61,24 @@ end
 
 baseY = file.get(2)
 
+function updateChestMap(key, mapPosX, mapPosZ, before)
+  --Update the inventoryItem list to the new amount
+  currentAmount = (before - turtle.getItemCount())
+  inventoryItems[key] = inventoryItems[key] - currentAmount
+  chestAmount = chestMap[mapPosX][mapPosZ][2] + currentAmount
+  chestMap[mapPosX][mapPosZ][2] =  chestAmount
 
+  for i=1,table.getn(mapChanges) do
+    if mapChanges[i][3] == key then
+      mapChanges[i][4] = mapChanges[i][4] + currentAmount
+      break
+    end
+  end
+
+  table.insert(mapChanges, {mapPosX, mapPosZ, chestItem,currentAmount})
+
+
+end
 
 function fillChest(chestPos,direction)
   mapPosX = file.get(1)%16+1
@@ -97,11 +115,12 @@ function fillChest(chestPos,direction)
       return false
     end
   end
-  
+
   --check if the chest already has an item assigned to it, if not assign one
   if chestItem == 0 then
     chestMap[mapPosX][mapPosZ][1] = select(1,next(inventoryItems))
     chestItem = chestMap[mapPosX][mapPosZ][1]
+    table.insert(mapChanges, {mapPosX, mapPosZ, chestItem, 0})
   end
 
 
@@ -118,10 +137,7 @@ function fillChest(chestPos,direction)
 
         --Check if it can drop
         if drop() then
-
-          --Update the inventoryItem list to the new amount
-          inventoryItems[key] = inventoryItems[key] - (before - turtle.getItemCount())
-          chestMap[mapPosX][mapPosZ][2] =  chestMap[mapPosX][mapPosZ][2] + (before - turtle.getItemCount())
+          updateChestMap(key, mapPosX, mapPosZ, before)
 
         --Check if the chest is below
         elseif chestPos == "down" then
@@ -132,7 +148,6 @@ function fillChest(chestPos,direction)
             turtle.select(1)
             if not(turtle.placeUp()) then
               --Break if it cannot place a chest
-              print("I have run out of chests")
               return false
             end
             item.selectItem(key)
@@ -141,8 +156,7 @@ function fillChest(chestPos,direction)
           --Check if it can drop
           if turtle.dropUp() then
             --Update the inventoryItem list to the new amount
-            inventoryItems[key] = inventoryItems[key] - (before - turtle.getItemCount())
-            chestMap[mapPosX][mapPosZ][2] = chestMap[mapPosX][mapPosZ][2] + (before - turtle.getItemCount())
+            updateChestMap(key, mapPosX, mapPosZ, before)
 
           --It will need to go to the next level
           else
@@ -178,9 +192,7 @@ function fillChest(chestPos,direction)
 
           --Check if it can drop
           if drop() then
-            --Update the inventoryItem list to the new amount
-            inventoryItems[key] = inventoryItems[key] - (before - turtle.getItemCount())
-            chestMap[mapPosX][mapPosZ][2] = chestMap[mapPosX][mapPosZ][2] + (before - turtle.getItemCount())
+            updateChestMap(key, mapPosX, mapPosZ, before)
           end
         end
 
@@ -284,8 +296,13 @@ while true do
     	gps.move()
 
       if select(2,turtle.inspect()).name == "computercraft:wired_modem_full" then
+        file.storeTable(chestMap,3,"chestMap.txt")
+        file.storeTable(mapChanges,2,"mapChanges.txt")
         file.connect(protocol, "front")
-        file.sendFile("chestMap.txt",protocol)
+        file.sendFile("mapChanges.txt",protocol)
+        fs.delete("mapChanges.txt")
+        file.clientUpdate(protocol)
+        chestMap = file.getTable("chestMap.txt")
       end
     end
 
