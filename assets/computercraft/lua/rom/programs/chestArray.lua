@@ -256,17 +256,7 @@ while true do
     end
   end
 
-  inventoryItems = {}
-  for i=2,16 do
-    turtle.select(i)
-    if turtle.getItemCount() ~= 0 then
-      if inventoryItems[turtle.getItemDetail().name] == nil then
-        inventoryItems[turtle.getItemDetail().name] = turtle.getItemCount()
-      else
-        inventoryItems[turtle.getItemDetail().name] = inventoryItems[turtle.getItemDetail().name] + turtle.getItemCount()
-      end
-    end
-  end
+  inventoryItems = item.inventoryToTable(2)
 
 
   for i=1,4 do

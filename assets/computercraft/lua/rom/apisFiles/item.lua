@@ -28,7 +28,15 @@ end
 
 
 --Dump one particular item, when amount = nil it defaults to all items of that type, same for no damage supplied (name = name,damage)
-function dumpItem(name, amount)
+function dumpItem(name, amount, position)
+
+	if position == nil then
+		drop = turtle.drop
+	elseif position == "up" then
+		drop = turtle.dropUp
+	elseif position == "down" then
+		drop = turtle.dropDown
+	end
 
 	anyDam = false
 	if name:match("([^,]+),([^,]+)") ~= nil then
@@ -54,7 +62,7 @@ function dumpItem(name, amount)
 
 
 				count = turtle.getItemCount()
-				turtle.drop(math.min(toDrop,count))
+				drop(math.min(toDrop,count))
 				toDrop = toDrop - math.min(toDrop,count)
 			end
 		end
@@ -160,10 +168,14 @@ return nFound
 end
 
 
-function itemdelivery()
+function itemdelivery(start)
+	if start == nil then
+		start = 2
+	end
+
 	bool,data=turtle.inspect()
 	if data.name == "minecraft:chest" or data.name == "minecraft:trapped_chest" then
-		for inventoryslot = 2,16 do
+		for inventoryslot = start,16 do
 			turtle.select(inventoryslot)
 			os.sleep(2/20)
 			turtle.drop()
@@ -529,4 +541,19 @@ function resetItemCounts()
 		turtle.select(i)
 		turtle.drop()
 	end
+end
+
+function inventoryToTable(start)
+	inventoryItems = {}
+  for i=start,16 do
+    turtle.select(i)
+    if turtle.getItemCount() ~= 0 then
+      if inventoryItems[turtle.getItemDetail().name] == nil then
+        inventoryItems[turtle.getItemDetail().name] = turtle.getItemCount()
+      else
+        inventoryItems[turtle.getItemDetail().name] = inventoryItems[turtle.getItemDetail().name] + turtle.getItemCount()
+      end
+    end
+  end
+	return inventoryItems
 end
