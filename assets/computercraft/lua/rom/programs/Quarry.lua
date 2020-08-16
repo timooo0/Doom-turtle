@@ -80,7 +80,7 @@ print("Quarry")
 		for i = 2, 16 do
 			turtle.select(i)
 			if turtle.getItemCount() ~= 0 then
-				if turtle.getItemDetail().name ~= "minecraft:iron_ore" and turtle.getItemDetail().name ~= "minecraft:redstone" and turtle.getItemDetail().name ~= "minecraft:sand" and turtle.getItemDetail().name ~= "minecraft:cobblestone" and turtle.getItemDetail().name ~= "minecraft:diamond" and turtle.getItemDetail().name ~= "minecraft:dirt" then
+				if turtle.getItemDetail().name ~= "minecraft:iron_ore" and turtle.getItemDetail().name ~= "minecraft:redstone" and turtle.getItemDetail().name ~= "minecraft:sand" and turtle.getItemDetail().name ~= "minecraft:cobblestone" and turtle.getItemDetail().name ~= "minecraft:diamond" and turtle.getItemDetail().name ~= "minecraft:dirt" and turtle.getItemDetail().name ~= "minecraft:coal" then
 					turtle.drop()
 				end
 			end
@@ -168,8 +168,6 @@ while layerwidth < widthquarry do
 		for i = 1, numberOfDepths do
 			file.checkShutdown()
 
-
-
 			--Moves along the length of the quarry
 			gps.move()
 			for length = 1, lengthquarry-1 do
@@ -238,18 +236,19 @@ while layerwidth < widthquarry do
 			--Dump all non-needed items
 			dumpitems()
 			--Dump all excess-needed items
-			dumpExcess("minecraft:iron_ore", 64)
+			dumpExcess("minecraft:iron_ore", 128)
 			dumpExcess("minecraft:redstone", 64)
 			dumpExcess("minecraft:sand", 64)
-			dumpExcess("minecraft:cobblestone", 64)
+			dumpExcess("minecraft:cobblestone", 128)
 			dumpExcess("minecraft:dirt", 128)
 			dumpExcess("minecraft:diamond", 64)
+			dumpExcess("minecraft:coal", 256)
 		end
 
 		gps.faceLeft()
 		--Puts the Items in the chest
 		if file.get(14) ~= "quarrySlave" then
-			itemdelivery()
+			itemdeliveryUp()
 		else
 			item.dumpItem("minecraft:cobblestone", item.countItems("minecraft:cobblestone")-4)
 			item.dumpItem("minecraft:dirt",item.countItems("minecraft:dirt")-4)

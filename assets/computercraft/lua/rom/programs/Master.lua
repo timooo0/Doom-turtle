@@ -39,6 +39,8 @@ if fs.exists("/data.txt") == false then
 
 		--For some Testing
 		--file.store(14, "turtleFactory")
+		turtle.refuel()
+		file.store(14, "buildTreeFarm")
 
 
 	end
@@ -67,7 +69,7 @@ if file.get(14) == "Start" then
 		require("StartTree")
 
 		--Restart Resistance
-		file.store(14, "QuarryInitialization")
+		file.store(14, "Quarry")
 		file.store(26, "false")
 
 	else
@@ -93,6 +95,8 @@ if file.get(14) == "Start" then
 		print(message)
 		file.store(14,message)
 
+
+
 		--Extra data transfer for the quarrySlave
 		if message == "quarrySlave" then
 			local message = select(2, rednet.receive())
@@ -105,12 +109,10 @@ if file.get(14) == "Start" then
 	end
 end
 
---Quarry
+
 file.checkShutdown()
-if file.get(14) == "QuarryInitialization" then
-	--Create the item storage file
-
-
+--Quarry
+if file.get(14) == "Quarry" then
 	print("Init")
 	x = file.get(1)
 	y = file.get(2)
@@ -121,30 +123,18 @@ if file.get(14) == "QuarryInitialization" then
 	file.store(6, y)
 	file.store(7, z)
 	file.store(8, facing)
-
 	--The Quarry Size
-	file.store(9, 47)
-	--file.store(10, 16)
+	file.store(9, 32)
+	file.store(10, 32)
 	file.store(11, file.get(6)-3)
-
 	-- Initialization
 	--file.store(12, 0)
 	file.store(13, 0)
-
-
-
-	--Restart Resistance
-	file.store(14, "Quarry")
 	--Initialization
-	file.store(15, 1)
+	file.store(15, 0)
 	file.store(16, "false")
-
 	file.store(18, "false")
 
-end
-
-file.checkShutdown()
-if file.get(14) == "Quarry" then
 	while file.get(16) ~= "true" or file.get(18) ~= "true" do
 
 
@@ -153,27 +143,27 @@ if file.get(14) == "Quarry" then
 		print(enoughItems)
 		if enoughItems == "false" then
 			print('hoi')
-			biggerQuarry = file.get(15)
+			--biggerQuarry = file.get(15)
 			--16 is for 1 chunk size
-			file.store(10, 1*biggerQuarry)
-			file.store(12, 1*(biggerQuarry-1))
+			--file.store(10, 1*biggerQuarry)
+			--file.store(12, 1*(biggerQuarry-1))
 
 			quarry.Function()
 
-			biggerQuarry = file.get(15)
-			biggerQuarry = biggerQuarry+1
-			file.store(15, biggerQuarry)
+			--biggerQuarry = file.get(15)
+			--biggerQuarry = biggerQuarry+1
+			--file.store(15, biggerQuarry)
 		elseif enoughSand == "false" and enoughItems == "true" then
-			biggerQuarry = file.get(15)
+			--biggerQuarry = file.get(15)
 			--16 is for 1 chunk size
-			file.store(10, 1*biggerQuarry)
-			file.store(12, 1*(biggerQuarry-1))
+			--file.store(10, 1*biggerQuarry)
+			--file.store(12, 1*(biggerQuarry-1))
 			file.store(11, file.get(6)-53)
 			quarry.Function()
 
-			biggerQuarry = file.get(15)
-			biggerQuarry = biggerQuarry+3
-			file.store(15, biggerQuarry)
+			--biggerQuarry = file.get(15)
+			--biggerQuarry = biggerQuarry+3
+			--file.store(15, biggerQuarry)
 
 		else
 			file.store(14, "startBase")
@@ -222,7 +212,6 @@ end
 if file.get(14) == "turtleFactory" then
 --Quarry and Make more turtles.
 	turtleFactory.Function()
-
 end
 
 if file.get(14) == "quarrySlave" then
@@ -232,7 +221,7 @@ end
 
 file.checkShutdown()
 if file.get(14) == "buildTreeFarm" then
---Tree Farm
+--Build Tree Farm
 	buildTreeFarm.Function()
 	file.store(14,"farmTree")
 end
@@ -241,4 +230,10 @@ file.checkShutdown()
 if file.get(14) == "farmTree" then
 --Run the tree farm
 	newTreeFarm.Function()
+end
+
+file.chestShutdown()
+if file.get(14) == "chestArray" then
+--Run the chestArray
+		chestArray.Function()
 end

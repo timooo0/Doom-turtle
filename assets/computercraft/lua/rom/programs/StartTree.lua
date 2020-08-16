@@ -60,17 +60,18 @@ for i=1,8 do
 end
 turtle.drop()
 turtle.craft()
-item.selectItem("minecraft:chest")
-for i = 1, 16 do
+for i = 1, 4 do
 	gps.move()
-	turtle.suck()
+	for i = 1, 4 do
+		turtle.suck()
+	end
 end
 
-gps.moveChunk(16, 0)
-gps.moveChunk(1, 0)
-gps.face(3)
+
+gps.moveChunk(0, 15)
+gps.face(2)
 item.selectItem("minecraft:chest")
-turtle.place()
+turtle.placeUp()
 
 
 --Count and store the starting items
@@ -81,7 +82,7 @@ item.selectItem("minecraft:coal")
 turtle.transferTo(1)
 for i = 2,16 do
 	turtle.select(i)
-	turtle.drop()
+	turtle.dropUp()
 end
 
 
@@ -90,7 +91,7 @@ end
 
 --Back to Master
 --Restart Resistance
-	file.store(14, "QuarryInitialization")
+	file.store(14, "Quarry")
 
 
 return StartTree

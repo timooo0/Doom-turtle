@@ -8,14 +8,17 @@ os.loadAPI("/rom/apisFiles/gps.lua")
 os.loadAPI("/rom/apisFiles/file.lua")
 os.loadAPI("/rom/apisFiles/recipe.lua")
 
-
+--For testing
 fs.delete("/items.txt")
+
 if fs.exists("/items.txt") == false then
 --Create the Data.txt file and fill items
 	fs.copy("/rom/global files/itemsTemplate.txt","/items.txt")
 end
 
+--For testing
 fs.delete("/map.txt")
+
 if fs.exists("/map.txt") == false then
 	fs.copy("/rom/global files/mapTemplate.txt","/map.txt")
 end
@@ -51,7 +54,6 @@ function nextChunk()
 
 	file.store(31, nextX+file.get(1))
 	file.store(32, nextZ+file.get(3))
-
 end
 
 gps.moveBack()

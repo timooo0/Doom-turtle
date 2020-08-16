@@ -1,7 +1,15 @@
+
+local chestArray = {}
+
+
+
 os.loadAPI("/rom/apisFiles/gps.lua")
 os.loadAPI("/rom/apisFiles/file.lua")
 os.loadAPI("/rom/apisFiles/item.lua")
 os.loadAPI("/rom/apisFiles/recipe.lua")
+
+function chestArray.Function()
+
 
 local route = {
   1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
@@ -57,6 +65,16 @@ mapChanges = {}
 -- gps.moveChunk(0,0)
 -- gps.face(0)
 
+
+--Move to location of the Array
+gps.moveHighWay(file.get(1)+16, 132, file.get(3)+16)
+gps.moveChunk(0,0)
+gps.face(0)
+item.selectItem("minecraft:chest")
+turtle.place()
+gps.faceLeft()
+turtle.place()
+gps.faceRight()
 
 
 baseY = file.get(2)
@@ -315,3 +333,7 @@ while true do
 
   end
 end
+
+
+end
+return chestArray

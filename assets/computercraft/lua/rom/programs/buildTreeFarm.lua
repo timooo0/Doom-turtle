@@ -2,8 +2,8 @@ local buildTreeFarm = {}
 function buildTreeFarm.Function()
 print("start")
 
-os.loadAPI("/rom/apis/item.lua")
-os.loadAPI("/rom/apis/gps.lua")
+os.loadAPI("/rom/apisFiles/item.lua")
+os.loadAPI("/rom/apisFiles/gps.lua")
 
 
 template =
@@ -27,7 +27,8 @@ template =
 
 gps.faceLeft()
 gps.move(16)
-gps.moveUp(4)
+gps.moveChunk(15,0)
+gps.moveAbs(file.get(1), 132, file.get(3))
 
 gps.buildTemplate(template,"minecraft:dirt")
 
