@@ -13,7 +13,7 @@ turtle["computercraft:turtle_expanded"] = {"result",1}
 modem = {}
 modem["minecraft:stone,0"] = {1,2,3,5,7,9,10,11}
 modem["minecraft:redstone"] = {6}
-modem["computercraft:cable,1"] = {"result"}
+modem["computercraft:cable,1"] = {"result", 1}
 
 modemBlock = {}
 modemBlock["computercraft:cable,1"] = {1}

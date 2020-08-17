@@ -11,11 +11,11 @@ os.loadAPI("/rom/apisFiles/file.lua")
 --Initialization
 
 --Set true when testing with non ID=0 turtles
-local test = false
+local test = true
 if test == false then
 	id = os.getComputerID()
 else
-	id = 84
+	id = 177
 	--id = 0
 end
 fs.delete("/data.txt")
@@ -39,10 +39,10 @@ if fs.exists("/data.txt") == false then
 
 		--For some Testing
 		--file.store(14, "turtleFactory")
-		turtle.refuel()
-		file.store(14, "buildTreeFarm")
-
-
+		--turtle.refuel()
+		--file.store(14, "buildTreeFarm")
+		file.store(14, "startBase")
+		file.store(17, 16)
 	end
 end
 
@@ -74,9 +74,10 @@ if file.get(14) == "Start" then
 
 	else
 		item.selectItem("minecraft:coal")
+		turtle.refuel(turtle.getItemCount()-1)
 		turtle.transferTo(1)
 		turtle.select(1)
-		turtle.refuel(turtle.getItemCount(1)-1)
+
 
 		if turtle.forward() == true then
 			turtle.back()
@@ -84,6 +85,7 @@ if file.get(14) == "Start" then
 			turtle.turnLeft()
 			turtle.turnLeft()
 		end
+		print("hi")
 
 		rednet.open("back")
 		for i=1,4 do
@@ -113,6 +115,14 @@ end
 file.checkShutdown()
 --Quarry
 if file.get(14) == "Quarry" then
+	--For testing
+	fs.delete("/items.txt")
+
+	if fs.exists("/items.txt") == false then
+	--Create the Data.txt file and fill items
+		fs.copy("/rom/global files/itemsTemplate.txt","/items.txt")
+	end
+
 	print("Init")
 	x = file.get(1)
 	y = file.get(2)
@@ -194,6 +204,23 @@ end
 file.checkShutdown()
 if file.get(14) == "startBase" then
 --Tree Farm
+	--For Testing
+
+	x = file.get(1)
+	y = file.get(2)
+	z = file.get(3)
+	facing = file.get(4)
+	--The starting Coordinates
+	file.store(5, x)
+	file.store(6, y)
+	file.store(7, z)
+	file.store(8, facing)
+
+	--For Testing
+	item.selectItem("minecraft:coal")
+	turtle.transferTo(1)
+	turtle.select(1)
+	turtle.refuel(turtle.getItemCount(1)-1)
 
 	startBase.Function()
 

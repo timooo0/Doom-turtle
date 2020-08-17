@@ -386,7 +386,7 @@ function checkAndCraftBranch(name, amount, craftingChest)
 
 	for key2 , value2 in pairs(recipeTable) do
 		if value2[1] == "result" then
-
+			
 			currentAmount = item.getItemDict(key2, true)
 			craftedAmount = currentAmount+value2[2]
 

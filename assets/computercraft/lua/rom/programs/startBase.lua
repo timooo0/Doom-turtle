@@ -7,7 +7,7 @@ os.loadAPI("/rom/apisFiles/item.lua")
 os.loadAPI("/rom/apisFiles/gps.lua")
 os.loadAPI("/rom/apisFiles/file.lua")
 os.loadAPI("/rom/apisFiles/recipe.lua")
-print(os.loadAPI("/rom/apisFiles/recipe.lua"))
+
 function smelt(name,amount)
 	item.getFromChest(name,amount)
 	item.selectItem(name)
@@ -29,7 +29,8 @@ end
 
 
 function start()
-	if restartIndex == 0 then
+	--Added the clause testing== true for doing some tests
+	if restartIndex == 0 and testing == true then
 		for i=1,4 do
 			file.store(i+4,file.get(i))
 		end
@@ -63,11 +64,13 @@ function start()
 	end
 	print("drop done")
 end
-
+print(restartIndex)
 print("start")
 restartIndex = file.get(17)
-start()
-
+if restartIndex == 0 then
+	start()
+end
+print(restartIndex)
 file.checkShutdown()
 restartIndex = file.get(17)
 --craft and place furnace
@@ -238,6 +241,22 @@ if restartIndex == 12 then
 	item.selectItem("minecraft:furnace")
 	turtle.transferTo(13)
 
+	--Place a part of the new turtle
+	gps.faceLeft()
+	gps.move(2)
+
+	item.selectItem("computercraft:turtle_expanded")
+	turtle.place()
+
+	item.selectItem("minecraft:chest")
+	turtle.drop()
+
+	item.selectItem("minecraft:furnace")
+	turtle.drop()
+
+	gps.faceAround()
+	gps.move(2)
+
 	file.store(17,restartIndex+1)
 end
 
@@ -245,15 +264,20 @@ file.checkShutdown()
 restartIndex = file.get(17)
 --get all of the items from the materials chest
 if restartIndex == 13 then
-	gps.faceRight()
 
 	item.getFromChest("minecraft:dirt,0",88)
 	item.selectItem("minecraft:dirt")
-	turtle.transferTo(12)
+	turtle.transferTo(15)
+	item.selectItem("minecraft:dirt")
+	turtle.transferTo(14)
 
 	item.getFromChest("minecraft:sapling",20)
 	item.selectItem("minecraft:sapling")
-	turtle.transferTo(11)
+	turtle.transferTo(13)
+
+	item.getFromChest("minecraft:coal", 64)
+	item.selectItem("minecraft:coal")
+	turtle.transferTo(12)
 
 	file.store(17,restartIndex+1)
 end
@@ -262,44 +286,33 @@ file.checkShutdown()
 restartIndex = file.get(17)
 --get coal form furnace, and setup new turtle
 if restartIndex == 14 then
-gps.faceAround()
-gps.moveUp(1)
-turtle.suck()
-gps.moveDown(1)
-gps.move(2)
+	gps.faceAround()
+	gps.move(2)
 
-item.selectItem("computercraft:turtle_expanded")
-turtle.place()
+	item.selectItem("minecraft:coal")
+	turtle.drop()
 
-item.selectItem("minecraft:coal")
-turtle.drop(10)
+	item.selectItem("minecraft:sapling")
+	turtle.drop()
 
-item.selectItem("minecraft:sapling")
-turtle.drop()
+	item.selectItem("minecraft:dirt")
+	turtle.drop()
 
-item.selectItem("minecraft:dirt")
-turtle.drop()
+	item.selectItem("minecraft:dirt")
+	turtle.drop()
 
-item.selectItem("minecraft:dirt")
-turtle.drop()
 
-item.selectItem("minecraft:chest")
-turtle.drop()
-
-item.selectItem("minecraft:furnace")
-turtle.drop()
-
-gps.moveBack()
-item.selectItem("computercraft:wired_modem_full")
-turtle.place()
-file.store(17,restartIndex+1)
+	gps.moveBack()
+	item.selectItem("computercraft:wired_modem_full")
+	turtle.place()
+	file.store(17,restartIndex+1)
 end
 
 file.checkShutdown()
 restartIndex = file.get(17)
 --give the new turtle the current coordiantes via rednet
 if restartIndex == 15 then
-	os.sleep(20)
+	os.sleep(200)
 	rednet.open("front")
 
 	if file.get(4) == 0 or file.get(4) == 2 then
@@ -339,78 +352,97 @@ if restartIndex == 15 then
 	os.sleep(1)
 	rednet.broadcast("buildTreeFarm")
 
-	end
 	file.store(17,restartIndex+1)
-
-
+end
+print("not 16")
+restartIndex = file.get(17)
+if restartIndex == 16 then
+	print("16")
 
 	--Get Wood
-	gps.moveHighWay(file.get(1), 130, file.get(3))
-	gps.moveChunk(12, 3)
-	while item.countItems("minecraft:log,1") < 3*64 do
-		turtle.suckUp()
-	end
-	gps.moveHighWay(file.get(5), file.get(6), file.get(7))
-	gps.face(3)
-	gps.move()
-
-	--Make the chestArray Turtle
-	gps.moveBack()
-	gps.faceRight()
-	for i = 1,16 do
-		turtle.suck()
-	end
-	item.InvenToItemDict()
-	for i = 1,16 do
-		turtle.select(i)
-		turtle.drop()
+	if false then
+		gps.moveBack()
+		gps.moveHighWay(file.get(1), 130, file.get(3)+16)
+		gps.moveChunk(12, 3)
+		while item.countItems("minecraft:log,1") < 3*64 do
+			turtle.suckUp()
+		end
+		gps.moveHighWay(file.get(5), file.get(6), file.get(7))
+		gps.face(3)
+		item.itemdelivery()
+		gps.faceAround()
+		gps.move()
 	end
 
-	gps.faceRight()
-	for i = 1,16 do
-		turtle.suck()
-	end
-	item.InvenToItemDict()
-	for i = 1,16 do
-		turtle.select(i)
-		turtle.drop()
-	end
-	print("done")
-	gps.faceAround()
-	gps.move()
+	item.resetItemCounts()
 
 	--Craft the items for the chestArray turtle
 	components = true
 
 	item.craftItemBranch("computercraft:turtle_expanded", 1)
+	gps.faceLeft()
 	item.getFromChest("computercraft:turtle_expanded", 1)
 	if turtle.getItemCount(16) < 1 then
 		components = false
+		print(1)
 	end
-	item.craftItemBranch("computercraft:wired_modem_full", 2)
-	item.getFromChest("computercraft:wired_modem_full", 2)
-	if turtle.getItemCount(16) < 1 then
-		components = false
-	end
-	item.craftItemBranch("computercraft:computer", 1)
-	item.getFromChest("computercraft:computer", 1)
-	if turtle.getItemCount(16) < 1 then
-		components = false
-	end
-	item.craftItemBranch("minecraft:chest", 64)
-	item.getFromChest("minecraft:chest", 1)
-	if turtle.getItemCount(16) < 64 then
-		components = false
-	end
+	turtle.drop()
+	gps.faceRight()
 
+	print("turtle done")
+	item.craftItemBranch("computercraft:wired_modem_full", 2)
+	gps.faceLeft()
+	item.getFromChest("computercraft:wired_modem_full", 2)
+
+	if turtle.getItemCount(16) < 2 then
+		components = false
+		print(2)
+	end
+	turtle.drop()
+	gps.faceRight()
+
+	item.craftItemBranch("computercraft:computer", 1)
+	gps.faceLeft()
+	item.getFromChest("computercraft:computer", 1)
+
+	if turtle.getItemCount(16) < 1 then
+		components = false
+		print(3)
+	end
+	turtle.select(16)
+	turtle.drop()
+	gps.faceRight()
+
+	read()
+
+	item.craftItemBranch("minecraft:chest", 64)
+	item.getFromChest("minecraft:chest", 64)
+	gps.faceLeft()
+	item.getFromChest("minecraft:chest", 64)
+
+	if item.countItems("minecraft:chest") < 64 then
+		components = false
+		print(4)
+	end
+	turtle.select(16)
+	turtle.drop()
+	turtle.select(15)
+	turtle.drop()
+	gps.faceRight()
+
+
+	print(components)
+	read()
 	if components == true  then
-		gps.faceRight()
 		item.getFromChest("minecraft:coal", 64)
 		gps.faceAround()
 
 		gps.move(2)
 		item.selectItem("computercraft:turtle_expanded")
 		turtle.place()
+
+		--Get all the items form the chests
+			
 
 		--Transfer all the new items to the chestArray Turtle
 		item.dumpItem("minecraft:coal", 64)
@@ -471,6 +503,8 @@ if restartIndex == 15 then
 		os.sleep(1)
 		rednet.broadcast("chestArray")
 	end
+	file.store(17,restartIndex+1)
+end
 
 end
 

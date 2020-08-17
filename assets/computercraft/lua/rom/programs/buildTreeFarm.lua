@@ -25,7 +25,7 @@ template =
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}}
 
 
-gps.faceLeft()
+gps.faceRight()
 gps.move(16)
 gps.moveChunk(15,0)
 gps.moveAbs(file.get(1), 132, file.get(3))
