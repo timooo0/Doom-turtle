@@ -2,11 +2,13 @@ os.loadAPI("/rom/apisFiles/file.lua")
 os.loadAPI("/rom/apisFiles/gps.lua")
 os.loadAPI("/rom/apisFiles/item.lua")
 
-nFurnaces = 24
+nFurnaces = 0
+nLayers = 0
+
 local route = {
-  0,0,0,0,0,0,0,0,0,0,0,0,0,
+  0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
   3,
-  2,2,2,2,2,2,2,2,2,2,2,2,
+  2,2,2,2,2,2,2,2,2,2,2,2,2,2,
   1,
   2
 }
@@ -20,6 +22,26 @@ local chestRoute = {
   2,
 }
 
+function expandArray()
+  while item.selectItem("minecraft:furnace") do
+    gps.moveUp(2*nLayers)
+    for i=1,table.getn(route) do
+      if file.get(3)%16 < 14 then
+        if turtle.placeUp() then
+          nFurnaces = nFurnaces + 1
+        end
+      end
+      gps.face(route[i])
+      gps.move()
+    end
+    gps.moveDown(2*nLayers)
+
+    print(nFurnaces,nLayers)
+    if math.floor(nFurnaces/28) > nLayers then
+      nLayers = math.floor(nFurnaces/28)
+    end
+  end
+end
 --fueling run
 run = {"fuel","smelt","collect"}
 
@@ -38,7 +60,7 @@ function calculateFurnaceCoal()
   if inventoryItems["minecraft:coal"] ~= 0 then
     furnaceCoal = math.floor(inventoryItems["minecraft:coal"]/nFurnaces)
   else
-    print("There is no coal, help!")
+    return false
   end
   return furnaceCoal
 end
@@ -68,30 +90,46 @@ while true do
 
     end
 
+    if item.selectItem("minecraft:furnace") then
+      expandArray()
+      calculateFurnaceCoal()
+    end
+
     print(go)
     if go then
-      for j=1,table.getn(route) do
-        if select(2,view()).name == "minecraft:furnace" or select(2,view()).name == "minecraft:lit_furnace"then
-          if run[i] == "fuel" then
-            item.dumpItem("minecraft:coal",furnaceCoal,"up")
-          elseif run[i] == "smelt" then
-            if turtle.getItemCount() == 0 then
-              nextSlot = turtle.getSelectedSlot()+1
-              if nextSlot ~= 17 then
-                turtle.select(nextSlot)
-              else
-                turtle.select(1)
+      layer = 0
+      while layer <= nLayers do
+        for j=1,table.getn(route) do
+          if select(2,view()).name == "minecraft:furnace" or select(2,view()).name == "minecraft:lit_furnace"then
+            if run[i] == "fuel" then
+              item.dumpItem("minecraft:coal",furnaceCoal,"up")
+            elseif run[i] == "smelt" then
+              if turtle.getItemCount() == 0 then
+                nextSlot = turtle.getSelectedSlot()+1
+                if nextSlot ~= 17 then
+                  turtle.select(nextSlot)
+                else
+                  turtle.select(1)
+                end
               end
+              turtle.dropDown()
+            elseif run[i] == "collect" then
+              turtle.suckUp()
             end
-            turtle.dropDown()
-          elseif run[i] == "collect" then
-            turtle.suckUp()
           end
+
+          gps.face(route[j])
+          gps.move()
         end
 
-        gps.face(route[j])
-        gps.move()
+        if item.isEmpty() then
+          break
+        else
+          layer = layer + 1
+          gps.moveUp(2)
+        end
       end
+      gps.moveDown(2*layer)
 
       if run[i] == "fuel" then
         gps.face(3)

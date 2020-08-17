@@ -557,3 +557,13 @@ function inventoryToTable(start)
   end
 	return inventoryItems
 end
+
+function isEmpty()
+	for i=1,16 do
+		turtle.select(i)
+		if turtle.getItemCount() ~= 0 then
+			return false
+		end
+	end
+	return true
+end
