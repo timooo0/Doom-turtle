@@ -65,6 +65,8 @@ mapChanges = {}
 -- gps.moveChunk(0,0)
 -- gps.face(0)
 
+--For testing (must noramlly be true)
+if false then
 
 --Move to location of the Array
 gps.moveHighWay(file.get(1)+16, 132, file.get(3)+16)
@@ -87,7 +89,7 @@ turtle.place()
 gps.faceRight()
 turtle.place()
 
-
+end
 
 
 read()

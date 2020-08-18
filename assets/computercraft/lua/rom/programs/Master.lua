@@ -12,7 +12,7 @@ os.loadAPI("/rom/apisFiles/file.lua")
 --Initialization
 
 --Set true when testing with non ID=0 turtles
-local test = true
+local test = false
 if test == false then
 	id = os.getComputerID()
 else
@@ -42,8 +42,11 @@ if fs.exists("/data.txt") == false then
 		--file.store(14, "turtleFactory")
 		--turtle.refuel()
 		--file.store(14, "buildTreeFarm")
-		file.store(14, "startBase")
-		file.store(17, 16)
+
+		--file.store(14, "startBase")
+		--file.store(17, 16)
+
+		file.store(14,"chestArray")
 	end
 end
 
