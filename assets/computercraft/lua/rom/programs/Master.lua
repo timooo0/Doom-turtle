@@ -5,6 +5,7 @@ buildTreeFarm = require("buildTreeFarm")
 newTreeFarm = require("newTreeFarm")
 turtleFactory = require("turtleFactory")
 quarrySlave = require("quarrySlave")
+chestArray = require("chestArray")
 
 os.loadAPI("/rom/apisFiles/item.lua")
 os.loadAPI("/rom/apisFiles/file.lua")
@@ -259,8 +260,14 @@ if file.get(14) == "farmTree" then
 	newTreeFarm.Function()
 end
 
-file.chestShutdown()
+file.checkShutdown()
 if file.get(14) == "chestArray" then
 --Run the chestArray
+		--Make sure there is no coal in the first slot, and move the chests there
+		turtle.select(1)
+		turtle.refuel()
+		item.selectItem("minecraft:chest")
+		turtle.transferTo(1)
+
 		chestArray.Function()
 end

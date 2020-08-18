@@ -390,11 +390,11 @@ if restartIndex == 16 then
 	gps.faceRight()
 
 	print("turtle done")
-	item.craftItemBranch("computercraft:wired_modem_full", 2)
+	item.craftItemBranch("computercraft:wired_modem_full", 1)
 	gps.faceLeft()
-	item.getFromChest("computercraft:wired_modem_full", 2)
+	item.getFromChest("computercraft:wired_modem_full", 1)
 
-	if turtle.getItemCount(16) < 2 then
+	if turtle.getItemCount(16) < 1 then
 		components = false
 		print(2)
 	end
@@ -413,7 +413,6 @@ if restartIndex == 16 then
 	turtle.drop()
 	gps.faceRight()
 
-	read()
 
 	item.craftItemBranch("minecraft:chest", 64)
 	item.getFromChest("minecraft:chest", 64)
@@ -433,16 +432,23 @@ if restartIndex == 16 then
 
 	print(components)
 	read()
+	--Turtle is now facing the oppositeChest
 	if components == true  then
+		--oppositeChest
 		item.getFromChest("minecraft:coal", 64)
-		gps.faceAround()
+
+		--leftChest
+		gps.faceLeft()
+		item.getFromChest("minecraft:chest", 64)
+		item.getFromChest("computercraft:turtle_expanded", 1)
+		item.getFromChest("computercraft:wired_modem_full", 1)
+		item.getFromChest("computercraft:computer", 1)
+
+		gps.faceLeft()
 
 		gps.move(2)
 		item.selectItem("computercraft:turtle_expanded")
 		turtle.place()
-
-		--Get all the items form the chests
-			
 
 		--Transfer all the new items to the chestArray Turtle
 		item.dumpItem("minecraft:coal", 64)
@@ -457,11 +463,7 @@ if restartIndex == 16 then
 		gps.moveBack(1)
 		item.selectItem("computercraft:wired_modem_full")
 		turtle.place()
-		item.storeItemDict("computercraft:wired_modem_full", -1)
 
-
-		file.checkShutdown()
-		restartIndex = file.get(17)
 		--give the new turtle the current coordiantes via rednet
 		os.sleep(200)
 		rednet.open("front")

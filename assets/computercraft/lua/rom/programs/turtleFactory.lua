@@ -132,8 +132,13 @@ for i = 1,16 do
 
 	else
 		mustWait = true
-		print("I am waiting")
-		os.sleep(10000)
+		print("I am getting more items")
+		item.resetItemCounts()
+		item.boodschappen("computercraft:turtle_expanded", 1)
+		gps.moveHighWay(file.get(1)+32,132,file.get(3)+16)
+		gps.moveChunk(0,1)
+		gps.face(3)
+		getFromChestArray.Function()
 	end
 
 

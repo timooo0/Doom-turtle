@@ -68,14 +68,29 @@ mapChanges = {}
 
 --Move to location of the Array
 gps.moveHighWay(file.get(1)+16, 132, file.get(3)+16)
+
+--Place the modem & computer
+gps.moveChunk(15,0)
+gps.face(1)
+item.selectItem("computercraft:wired_modem_full")
+turtle.place()
+gps.moveDown()
+item.selectItem("computercraft:computer")
+turtle.place()
+gps.moveUp()
+
+--Place the two corner chests
 gps.moveChunk(0,0)
-gps.face(0)
+gps.face(3)
 item.selectItem("minecraft:chest")
 turtle.place()
-gps.faceLeft()
-turtle.place()
 gps.faceRight()
+turtle.place()
 
+
+
+
+read()
 
 baseY = file.get(2)
 
