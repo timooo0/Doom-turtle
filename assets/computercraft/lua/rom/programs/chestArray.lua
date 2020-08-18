@@ -34,17 +34,21 @@ mapChanges = {}
 -- gps.moveUp(79-file.get(2))
 -- gps.nextChunk(0)
 -- gps.moveChunk(12,3)
---
--- item.getFromChest("minecraft:log",64,"up")
--- turtle.craft()
--- for key, value in pairs(recipe.chest) do
---   for i=1,table.getn(value) do
---     item.selectItem(key)
---     turtle.transferTo(value[i]+5,32)
---   end
--- end
--- turtle.craft()
---
+function makeChest()
+  turtle.craft()
+  for key, value in pairs(recipe.chest) do
+    if value[1] ~= "result" then
+      for i=1,table.getn(value) do
+        item.selectItem(key)
+        turtle.transferTo(value[i]+5,32)
+      end
+    end
+  end
+  turtle.craft()
+  item.selectItem("minecraft:chest")
+  turtle.transferTo(1)
+end
+
 -- gps.nextChunk(2)
 -- gps.nextChunk(3)
 
@@ -227,25 +231,6 @@ while true do
   gps.move(0,0)
   gps.face(0)
 
-  turtle.select(1)
-  if turtle.getItemCount() ~= 0 then
-    hasChest = true
-  else
-    hasChest = false
-  end
-
-  if hasChest == false then
-    gps.faceLeft()
-    turtle.select(1)
-    while hasChest == false do
-      if turtle.suck() then
-        hasChest = true
-      end
-      os.sleep(5)
-    end
-    gps.faceRight()
-  end
-
   while sucked == false do
     while turtle.suck() do
       sucked = true
@@ -256,12 +241,45 @@ while true do
     end
   end
 
-  inventoryItems = item.inventoryToTable(2)
+  turtle.select(1)
+  if turtle.getItemCount() ~= 0 then
+    if turtle.getItemDetail().name == "minecraft:chest" then
+      hasChest = true
+      getwood = false
+    else
+    hasChest = false
+    getwood = true
+    end
+  end
 
+  if hasChest == false then
+    -- gps.faceLeft()
+    -- turtle.select(1)
+    -- while hasChest == false do
+    --   if turtle.suck() then
+    --     hasChest = true
+    --   end
+    --   os.sleep(5)
+    -- end
+    -- gps.faceRight()
+
+    item.itemdelivery(1)
+    if not(item.isEmpty()) then
+      gps.face(1)
+      for i=1,16 do
+        turtle.select(i)
+        turtle.drop()
+      end
+    end
+    getWood = true
+  end
+
+
+
+  inventoryItems = item.inventoryToTable(2)
 
   for i=1,4 do
     for j=1,table.getn(route) do
-
       gps.face(route[j])
       if inventoryState and hasChest then
         if (file.get(1)%16)%2 == 1 or (file.get(3)%16)%2==1 then
@@ -281,6 +299,31 @@ while true do
         if next(inventoryItems) == nil then
           inventoryState = false
         end
+
+      elseif getWood then
+        local chestPosPlus = {file.get(1)%16+1,file.get(3)%16+2}
+        if (file.get(1)%16)%2 == 0 then
+
+          local chestPos = {file.get(1)%16+1,file.get(3)%16+1}
+          print("down chest: "..chestMap[chestPos[1]][chestPos[2]][1])
+          if chestMap[chestPos[1]][chestPos[2]][1] == "minecraft:log" then
+            item.getFromChestColumn("minecraft:log",64,baseY)
+            makeChest()
+            getWood = false
+          end
+
+
+        else
+          print("side chest: "..chestMap[chestPosPlus[1]][chestPosPlus[2]][1])
+          if chestMap[chestPosPlus[1]][chestPosPlus[2]][1] == "minecraft:log" then
+            gps.face(2)
+            item.getFromChestColumn("minecraft:log",64,baseY)
+            makeChest()
+            getWood = false
+          end
+        end
+        gps.face(route[j])
+        print(getWood)
       end
 
     	gps.move()
@@ -294,9 +337,26 @@ while true do
         file.clientUpdate(protocol)
         chestMap = file.getTable("chestMap.txt")
       end
+
+
+      if turtle.getFuelLevel() < 500 and file.get(1)%16 == 14 and file.get(3)%16 == 0 then
+        print("looking for coal")
+        gps.face(0)
+        sucked = false
+        while not(sucked) do
+          if turtle.suck(32) then
+            item.selectItem("minecraft:coal")
+            turtle.refuel()
+            sucked = true
+          else
+            os.sleep(5)
+            print("waiting for coal")
+          end
+        end
+      end
+
+
     end
-
-
 
     if inventoryState == false or hasChest == false then
       gps.moveChunk(0,0)

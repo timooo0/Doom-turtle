@@ -147,8 +147,10 @@ function getFromChest(name,amount)
 				if turtle.getItemCount() == 0 and counter ~= 1 then
 					if i==nStacks then
 						turtle.select(counter-1)
-						nFound = nFound + turtle.getItemCount()
 						turtle.transferTo(j,amount)
+						turtle.select(j)
+						nFound = nFound + turtle.getItemCount()
+						turtle.select(counter-1)
 						break
 					else
 						turtle.select(counter-1)
@@ -566,4 +568,35 @@ function isEmpty()
 		end
 	end
 	return true
+end
+
+function getFromChestColumn(name,amount,baseY)
+  print("looking for " .. name)
+  moveBack = false
+  if select(2,turtle.inspectUp()).name == "minecraft:chest" then
+    moveBack = true
+    print(name,amount)
+    amount = amount - item.getFromChest(name,amount)
+
+    if amount ~= 0 then
+      gps.move()
+      gps.faceAround()
+      gps.moveUp(3)
+    end
+  end
+
+
+  while select(2,turtle.inspect()).name == "minecraft:chest" and amount ~= 0 do
+    amount = amount - item.getFromChest(name,amount)
+    if amount ~= 0 then
+      gps.moveUp(2)
+    end
+  end
+
+  while file.get(2) ~= baseY do
+    gps.moveDown()
+  end
+  if moveBack then
+    gps.move()
+  end
 end

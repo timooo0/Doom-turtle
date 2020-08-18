@@ -16,8 +16,6 @@ local route = {
 local chestRoute = {
   0,
   3,
-  2,
-  0,
   1,
   2,
 }
@@ -75,6 +73,11 @@ while true do
         go = false
         turtle.drop()
       else
+        if turtle.getFuelLevel() < 50000 then
+          print("refueling")
+          item.selectItem("minecraft:coal")
+          turtle.refuel()
+        end
         furnaceCoal = calculateFurnaceCoal()
       end
     elseif run[i] == "smelt" then
@@ -141,7 +144,8 @@ while true do
         item.itemdelivery(1)
 
       elseif run[i] == "collect" then
-        gps.moveUp()
+        gps.face(3)
+        item.dumpItem("minecraft:coal")
         for j=1,table.getn(chestRoute) do
           gps.face(chestRoute[j])
           if chestRoute[j] == 1 or chestRoute[j] == 3 then
@@ -150,11 +154,11 @@ while true do
             gps.move()
           end
 
-          if j==3 then
+          if j==2 then
+            gps.face(2)
             item.itemdelivery(1)
           end
         end
-        gps.moveDown()
 
 
       end
