@@ -18,6 +18,23 @@ function findInShop(shoppingList)
   file.storeTable(itemMap,2,"itemMap.txt")
 end
 
+if fs.exists("chestMap.txt") then
+  chestMap = file.getTable("chestMap.txt")
+else
+  chestMap = {}
+  for i=1,16 do
+    chestMap[i] = {}     -- create a new row
+    for j=1,16 do
+      chestMap[i][j] = {}
+      for k=1,2 do
+        chestMap[i][j][k] = 0
+      end
+    end
+  end
+  file.storeTable(chestMap,3,"chestMap.txt")
+end
+
+
 rednet.open("top")
 while true do
   protocol = select(2,rednet.receive())
@@ -27,8 +44,11 @@ while true do
   if protocol == "clerk" then
     file.receiveFile("mapChanges.txt",protocol)
     file.applyMapChanges("chestMap.txt","mapChanges.txt",1)
+    print("mapChanges")
     fs.delete("mapChanges.txt")
-    file.applyMapChanges("chestMap.txt","itemMap.txt",-1)
+    if fs.exists("itemMap.txt") then
+      file.applyMapChanges("chestMap.txt","itemMap.txt",-1)
+    end
     file.serverUpdate("checkOut.txt",protocol)
     print("succes")
   elseif protocol == "shopping" then

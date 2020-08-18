@@ -137,11 +137,14 @@ function getFromChest(name,amount)
 			for j=16,1,-1 do
 				turtle.select(j)
 				if turtle.getItemCount() == 0 and counter ~= 1 then
+					print("i", i , "nStacks", nStacks)
 					if i==nStacks then
 						turtle.select(counter-1)
-						nFound = nFound + turtle.getItemCount()
-						turtle.transferTo(j,amount)
-						break
+            turtle.transferTo(j,amount)
+            turtle.select(j)
+            nFound = nFound + turtle.getItemCount()
+						turtle.select(counter-1)
+            break
 					else
 						turtle.select(counter-1)
 						nFound = nFound + turtle.getItemCount()
@@ -386,7 +389,7 @@ function checkAndCraftBranch(name, amount, craftingChest)
 
 	for key2 , value2 in pairs(recipeTable) do
 		if value2[1] == "result" then
-			
+
 			currentAmount = item.getItemDict(key2, true)
 			craftedAmount = currentAmount+value2[2]
 

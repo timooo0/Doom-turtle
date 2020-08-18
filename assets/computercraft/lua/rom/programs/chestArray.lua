@@ -20,6 +20,8 @@ local route = {
 }
 
 protocol = "clerk"
+--For testing
+fs.delete("chestMap.txt")
 
 --fill chestMap with zeros if it does not exists already
 if fs.exists("chestMap.txt") then
@@ -91,8 +93,6 @@ turtle.place()
 
 end
 
-
-read()
 
 baseY = file.get(2)
 

@@ -11,6 +11,20 @@ local route = {
   2,2
 }
 
+write("x position: ")
+local xPos = read()
+file.store(1,xPos)
+write("y position: ")
+local yPos = read()
+file.store(2,yPos)
+write("z position: ")
+local zPos = read()
+file.store(3,zPos)
+write("facing in direction:  ")
+local face = read()
+file.store(4,face)
+
+turtle.refuel()
 --todo: write in the data.txt the  position of the chestArray
 -- startX = -784
 -- startY = 58
@@ -19,8 +33,9 @@ local route = {
 -- gps.face(3)
 protocol = "shopping"
 boodschapjes = {}
-table.insert(boodschapjes,{"minecraft:hay_block", 4})
-table.insert(boodschapjes,{"minecraft:sea_lantern", 12})
+table.insert(boodschapjes,{"minecraft:coal", 5})
+
+table.insert(boodschapjes,{"minecraft:iron_ore", 12})
 boodschapjesState = true
 file.storeTable(boodschapjes,2,"shoppingList.txt")
 
@@ -39,8 +54,10 @@ function getFromChestColumn(name,amount)
   moveBack = false
   if select(2,turtle.inspectUp()).name == "minecraft:chest" then
     moveBack = true
-    print(name,amount)
-    amount = amount - item.getFromChest(name,amount)
+    --print(name,amount)
+    a = item.getFromChest(name,amount)
+    --print("item", a)
+    amount = amount - a
 
     if amount ~= 0 then
       gps.move()
@@ -77,12 +94,16 @@ for i=1,4 do
           if itemMap[i][1] == chestPosPlus[1] and itemMap[i][2] == chestPosPlus[2] then
             gps.face(2)
             getFromChestColumn(itemMap[i][3],itemMap[i][4])
+
             print("got " .. itemMap[i][3])
+            itemMap[i] = nil
             break
           elseif itemMap[i][1] == chestPosMin[1] and itemMap[i][2] == chestPosMin[2] then
             gps.face(0)
             getFromChestColumn(itemMap[i][3],itemMap[i][4])
+
             print("got " .. itemMap[i][3])
+            itemMap[i] = nil
             break
           end
         end
@@ -92,7 +113,10 @@ for i=1,4 do
           for i=1,table.getn(itemMap) do
           if itemMap[i][1] == chestPos[1] and itemMap[i][2] == chestPos[2] then
             getFromChestColumn(itemMap[i][3],itemMap[i][4])
+
             print("got " .. itemMap[i][3])
+            itemMap[i] = nil
+
             break
           end
         end
@@ -108,6 +132,11 @@ for i=1,4 do
 
   end
 end
-
-
-gps.moveUp(file.highWayLevelMin-1)
+if false then
+--Make if statement for up Down
+if file.get(2) > gps.highWayLevelMin then
+  gps.moveDown(gps.highWayLevelMax+1)
+else
+  gps.moveUp(gps.highWayLevelMin-1)
+end
+end
