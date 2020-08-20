@@ -253,16 +253,6 @@ while true do
   end
 
   if hasChest == false then
-    -- gps.faceLeft()
-    -- turtle.select(1)
-    -- while hasChest == false do
-    --   if turtle.suck() then
-    --     hasChest = true
-    --   end
-    --   os.sleep(5)
-    -- end
-    -- gps.faceRight()
-
     item.itemdelivery(1)
     if not(item.isEmpty()) then
       gps.face(1)
@@ -305,21 +295,37 @@ while true do
         if (file.get(1)%16)%2 == 0 then
 
           local chestPos = {file.get(1)%16+1,file.get(3)%16+1}
-          print("down chest: "..chestMap[chestPos[1]][chestPos[2]][1])
           if chestMap[chestPos[1]][chestPos[2]][1] == "minecraft:log" then
             item.getFromChestColumn("minecraft:log",64,baseY)
+            item.selectItem("minecraft:log")
+            chestMap[chestPos[1]][chestPos[2]][2] = chestMap[chestPos[1]][chestPos[2]][2] - turtle.getItemCount()
+            for i=1,table.getn(mapChanges) do
+              if mapChanges[i][3] == key then
+                mapChanges[i][4] = mapChanges[i][4] + currentAmount
+                break
+              end
+            end
             makeChest()
             getWood = false
           end
 
 
         else
-          print("side chest: "..chestMap[chestPosPlus[1]][chestPosPlus[2]][1])
           if chestMap[chestPosPlus[1]][chestPosPlus[2]][1] == "minecraft:log" then
             gps.face(2)
             item.getFromChestColumn("minecraft:log",64,baseY)
+            item.selectItem("minecraft:log")
+            chestMap[chestPosPlus[1]][chestPosPlus[2]][2] = chestMap[chestPosPlus[1]][chestPosPlus[2]][2] - turtle.getItemCount()
+            for i=1,table.getn(mapChanges) do
+              if mapChanges[i][3] == key then
+                mapChanges[i][4] = mapChanges[i][4] + currentAmount
+                break
+              end
+            end
             makeChest()
             getWood = false
+
+
           end
         end
         gps.face(route[j])
