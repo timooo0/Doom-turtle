@@ -68,10 +68,40 @@ mapChanges = {}
 -- gps.face(0)
 
 --For testing (must noramlly be true)
-if false then
+if true then
+--Move to 4-chunk corner to place modem+computer (For quarry Slaves)
+--We need to transfer some stuff here as well
+gps.moveChunk(15,15)
+gps.moveAbs(file.get(1),gps.highWayLevelMax+4, file.get(3))
+gps.face(3)
+
+--Place Computer
+item.selectItem("computercraft:computer")
+gps.breakFront()
+turtle.place()
+gps.moveUp()
+--Place modem
+item.selectItem("computercraft:wired_modem_full")
+gps.breakFront()
+turtle.place()
+
+
 
 --Move to location of the Array
-gps.moveHighWay(file.get(1)+16, 132, file.get(3)+16)
+gps.face(1)
+gps.move()
+gps.face(2)
+gps.move()
+--gps.moveHighWay(file.get(1)+16, gps.highWayLevelMax+5, file.get(3)+16)
+
+
+--Place the two corner chests
+--gps.moveChunk(0,0)
+gps.face(3)
+item.selectItem("minecraft:chest")
+turtle.place()
+gps.faceRight()
+turtle.place()
 
 --Place the modem & computer
 gps.moveChunk(15,0)
@@ -83,13 +113,9 @@ item.selectItem("computercraft:computer")
 turtle.place()
 gps.moveUp()
 
---Place the two corner chests
+--Move back to the input chest
 gps.moveChunk(0,0)
-gps.face(3)
-item.selectItem("minecraft:chest")
-turtle.place()
-gps.faceRight()
-turtle.place()
+gps.face(0)
 
 end
 

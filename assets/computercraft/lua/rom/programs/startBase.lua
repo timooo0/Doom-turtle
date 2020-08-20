@@ -360,9 +360,10 @@ if restartIndex == 16 then
 	print("16")
 
 	--Get Wood
+	--False for Testing
 	if false then
 		gps.moveBack()
-		gps.moveHighWay(file.get(1), 130, file.get(3)+16)
+		gps.moveHighWay(file.get(1), gps.highWayLevelMax+3, file.get(3)+16)
 		gps.moveChunk(12, 3)
 		while item.countItems("minecraft:log,1") < 3*64 do
 			turtle.suckUp()
@@ -390,22 +391,22 @@ if restartIndex == 16 then
 	gps.faceRight()
 
 	print("turtle done")
-	item.craftItemBranch("computercraft:wired_modem_full", 1)
+	item.craftItemBranch("computercraft:wired_modem_full", 2)
 	gps.faceLeft()
-	item.getFromChest("computercraft:wired_modem_full", 1)
+	item.getFromChest("computercraft:wired_modem_full", 2)
 
-	if turtle.getItemCount(16) < 1 then
+	if turtle.getItemCount(16) < 2 then
 		components = false
 		print(2)
 	end
 	turtle.drop()
 	gps.faceRight()
 
-	item.craftItemBranch("computercraft:computer", 1)
+	item.craftItemBranch("computercraft:computer", 2)
 	gps.faceLeft()
-	item.getFromChest("computercraft:computer", 1)
+	item.getFromChest("computercraft:computer", 2)
 
-	if turtle.getItemCount(16) < 1 then
+	if turtle.getItemCount(16) < 2 then
 		components = false
 		print(3)
 	end
@@ -431,7 +432,6 @@ if restartIndex == 16 then
 
 
 	print(components)
-	read()
 	--Turtle is now facing the oppositeChest
 	if components == true  then
 		--oppositeChest
@@ -441,8 +441,8 @@ if restartIndex == 16 then
 		gps.faceLeft()
 		item.getFromChest("minecraft:chest", 64)
 		item.getFromChest("computercraft:turtle_expanded", 1)
-		item.getFromChest("computercraft:wired_modem_full", 1)
-		item.getFromChest("computercraft:computer", 1)
+		item.getFromChest("computercraft:wired_modem_full", 2)
+		item.getFromChest("computercraft:computer", 2)
 
 		gps.faceLeft()
 
@@ -455,10 +455,10 @@ if restartIndex == 16 then
 		item.storeItemDict("minecraft:coal", -64)
 		item.dumpItem("minecraft:chest", 64)
 		item.storeItemDict("minecraft:chest", -64)
-		item.dumpItem("computercraft:computer", 1)
-		item.storeItemDict("computercraft:computer", -1)
-		item.dumpItem("computercraft:wired_modem_full", 1)
-		item.storeItemDict("computercraft:wired_modem_full", -1)
+		item.dumpItem("computercraft:computer", 2)
+		item.storeItemDict("computercraft:computer", -2)
+		item.dumpItem("computercraft:wired_modem_full", 2)
+		item.storeItemDict("computercraft:wired_modem_full", -2)
 
 		gps.moveBack(1)
 		item.selectItem("computercraft:wired_modem_full")

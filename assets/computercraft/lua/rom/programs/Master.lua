@@ -12,7 +12,7 @@ os.loadAPI("/rom/apisFiles/file.lua")
 --Initialization
 
 --Set true when testing with non ID=0 turtles
-local test = false
+local test = true
 if test == false then
 	id = os.getComputerID()
 else
@@ -43,10 +43,10 @@ if fs.exists("/data.txt") == false then
 		--turtle.refuel()
 		--file.store(14, "buildTreeFarm")
 
-		--file.store(14, "startBase")
-		--file.store(17, 16)
+		file.store(14, "startBase")
+		file.store(17, 16)
 
-		file.store(14,"chestArray")
+		--file.store(14,"chestArray")
 	end
 end
 
@@ -110,6 +110,12 @@ if file.get(14) == "Start" then
 
 			local message = select(2, rednet.receive())
 			file.store(32, message)
+
+			local message = select(2, rednet.receive())
+			file.store(33, message)
+
+			local message = select(2, rednet.receive())
+			file.store(34, message)
 		end
 
 	end

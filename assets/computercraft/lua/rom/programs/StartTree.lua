@@ -21,7 +21,6 @@ function dumpitems(name)
 	end
 end
 
-
 gps.move()
 
 --Chop the tree
