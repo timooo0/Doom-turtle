@@ -137,7 +137,7 @@ function getFromChest(name,amount)
 			for j=16,1,-1 do
 				turtle.select(j)
 				if turtle.getItemCount() == 0 and counter ~= 1 then
-					print("i", i , "nStacks", nStacks)
+					--print("i", i , "nStacks", nStacks)
 					if i==nStacks then
 						turtle.select(counter-1)
             turtle.transferTo(j,amount)

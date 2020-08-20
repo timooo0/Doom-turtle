@@ -33,6 +33,29 @@ file.store(34, file.get(3))
 --Initilialize the y-height
 file.store(6, file.get(2))
 
+
+--This should be the chest array drop off point
+gps.moveChunk(15,15)
+gps.moveHighWay(file.get(1), gps.highWayLevelMax+5, file.get(3))
+
+--Drop off the stuff in the chestArray
+--Get the new chunk to quarry from the slaveCommander.lua
+gps.face(0)
+print(0)
+rednet.open("left")
+rednet.broadcast(true)
+print(1)
+local message = select(2, rednet.receive())
+file.store(31, message)
+local message = select(2, rednet.receive())
+file.store(32, message)
+print(2)
+--Drop off the stuff in the chestArray
+gps.moveUp(3)
+gps.face(1)
+gps.move(2)
+gps.moveDown(3)
+
 while true do
 --Move to the correct chunk to mine
 gps.moveHighWay(file.get(31), file.get(6), file.get(32))
@@ -79,10 +102,12 @@ for i = 2,16 do
 end
 gps.moveBack()
 --This should be the chest array drop off point
+
 gps.moveHighWay(file.get(33), gps.highWayLevelMax+5, file.get(34))
 gps.moveChunk(15,15)
---Drop off the stuff in the chestArray
+gps.face(0)
 --Get the new chunk to quarry from the slaveCommander.lua
+
 rednet.open("left")
 rednet.broadcast(true)
 local message = select(2, rednet.receive())

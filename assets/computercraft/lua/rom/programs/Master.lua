@@ -39,12 +39,12 @@ if fs.exists("/data.txt") == false then
 		file.store(4,face)
 
 		--For some Testing
-		--file.store(14, "turtleFactory")
+		file.store(14, "turtleFactory")
 		--turtle.refuel()
 		--file.store(14, "buildTreeFarm")
 
-		file.store(14, "startBase")
-		file.store(17, 16)
+		--file.store(14, "startBase")
+		--file.store(17, 16)
 
 		--file.store(14,"chestArray")
 	end
@@ -100,23 +100,6 @@ if file.get(14) == "Start" then
 		local message = select(2,rednet.receive())
 		print(message)
 		file.store(14,message)
-
-
-
-		--Extra data transfer for the quarrySlave
-		if message == "quarrySlave" then
-			local message = select(2, rednet.receive())
-			file.store(31, message)
-
-			local message = select(2, rednet.receive())
-			file.store(32, message)
-
-			local message = select(2, rednet.receive())
-			file.store(33, message)
-
-			local message = select(2, rednet.receive())
-			file.store(34, message)
-		end
 
 	end
 end

@@ -1,4 +1,3 @@
-
 local chestArray = {}
 
 
@@ -71,8 +70,9 @@ mapChanges = {}
 if true then
 --Move to 4-chunk corner to place modem+computer (For quarry Slaves)
 --We need to transfer some stuff here as well
-gps.moveChunk(15,15)
+
 gps.moveAbs(file.get(1),gps.highWayLevelMax+4, file.get(3))
+gps.moveChunk(15,15)
 gps.face(3)
 
 --Place Computer
@@ -85,7 +85,12 @@ item.selectItem("computercraft:wired_modem_full")
 gps.breakFront()
 turtle.place()
 
+--Transfer the coords to the slaveCommander
+rednet.open("front")
 
+rednet.broadcast(file.get(1)-1)
+os.sleep(1)
+rednet.broadcast(file.get(3))
 
 --Move to location of the Array
 gps.face(1)

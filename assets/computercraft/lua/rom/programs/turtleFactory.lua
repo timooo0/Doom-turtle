@@ -186,11 +186,6 @@ for i = 1,16 do
 	os.sleep(1)
 	rednet.broadcast("quarrySlave")
 
-	nextChunk()
-	os.sleep(1)
-	rednet.broadcast(file.get(31))
-	os.sleep(1)
-	rednet.broadcast(file.get(32))
 
 	file.store(17,restartIndex+1)
 end
