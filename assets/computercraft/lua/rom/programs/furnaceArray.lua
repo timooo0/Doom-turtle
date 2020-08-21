@@ -1,24 +1,58 @@
 os.loadAPI("/rom/apisFiles/file.lua")
 os.loadAPI("/rom/apisFiles/gps.lua")
 os.loadAPI("/rom/apisFiles/item.lua")
+os.loadAPI("/rom/apisFiles/recipe.lua")
 
 nFurnaces = 0
 nLayers = 0
+cobbleChest = 0
+
 
 local route = {
   0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-  3,
-  2,2,2,2,2,2,2,2,2,2,2,2,2,2,
   1,
+  2,2,2,2,2,2,2,2,2,2,2,2,2,2,
+  3,
   2
 }
 
-local chestRoute = {
-  0,
-  3,
-  1,
-  2,
-}
+function makeFurnace()
+  turtle.suck()
+  cobbleChest = cobbleChest - turtle.getItemCount()
+  if item.selectItem("minecraft:cobblestone") == false then
+    return
+  end
+  turtle.transferTo(1)
+  for key, value in pairs(recipe.furnace) do
+    if value[1] ~= "result" then
+      for i=1,table.getn(value) do
+        item.selectItem(key)
+        turtle.transferTo(value[i]+5,8)
+      end
+    end
+  end
+  turtle.craft()
+  item.selectItem("minecraft:furnace")
+end
+
+function dropOff(itemName)
+  baseY = file.get(2)
+  while select(2,turtle.inspect()).name == "minecraft:chest" do
+    if item.isEmpty() then
+      break
+    else
+      if itemName == nil then
+        item.itemdelivery()
+      else
+        item.dumpItem(itemName)
+      end
+      gps.moveUp()
+    end
+  end
+  while file.get(2) ~= baseY do
+    gps.moveDown()
+  end
+end
 
 function expandArray()
   while item.selectItem("minecraft:furnace") do
@@ -48,7 +82,18 @@ run = {"fuel","smelt","collect"}
 function suckAll(pos)
   gps.face(pos)
   nothing = true
-  while turtle.suck() do nothing = false end
+  baseY = file.get(2)
+    while select(2,turtle.inspect()).name == "minecraft:chest" do
+      if not(turtle.suck()) then
+        gps.moveUp()
+      else
+        while turtle.suck() do nothing = false end
+      end
+    end
+
+    while file.get(2) ~= baseY do
+      gps.moveDown()
+    end
   return nothing
 end
 
@@ -63,42 +108,58 @@ function calculateFurnaceCoal()
   return furnaceCoal
 end
 
+expandArray()
+
 while true do
   for i=1,table.getn(run) do
+    print(run[i])
     go = true
     if run[i] == "fuel" then
       view = turtle.inspectUp
-
-      if suckAll(3) or turtle.getItemCount() < nFurnaces then
+      gps.moveUp()
+      if suckAll(1) or turtle.getItemCount() < nFurnaces then
         go = false
         turtle.drop()
       else
-        if turtle.getFuelLevel() < 50000 then
+        if turtle.getFuelLevel() < 500 then
           print("refueling")
           item.selectItem("minecraft:coal")
           turtle.refuel()
         end
         furnaceCoal = calculateFurnaceCoal()
       end
+      gps.moveDown()
+
     elseif run[i] == "smelt" then
       view = turtle.inspectDown
-
-      if suckAll(1) then
+      if suckAll(3) then
          go = false
       else
+
+        if cobbleChest < 128 then
+          if item.selectItem("minecraft:cobblestone") then
+            gps.faceAround()
+            local nCobble = turtle.getItemCount()
+            turtle.drop()
+            cobbleChest = cobbleChest + nCobble
+          end
+        end
+
+        for i=1,16 do
+          turtle.select(i)
+          if turtle.getItemCount() ~= 0 then
+            break
+          end
+        end
         gps.moveUp(2)
       end
+
     elseif run[i] == "collect" then
       view = turtle.inspectUp
 
     end
 
-    if item.selectItem("minecraft:furnace") then
-      expandArray()
-      calculateFurnaceCoal()
-    end
 
-    print(go)
     if go then
       layer = 0
       while layer <= nLayers do
@@ -135,32 +196,28 @@ while true do
       gps.moveDown(2*layer)
 
       if run[i] == "fuel" then
-        gps.face(3)
-        item.itemdelivery(1)
+        gps.face(1)
+        gps.moveUp()
+        dropOff()
+        gps.moveDown()
 
       elseif run[i] == "smelt" then
         gps.moveDown(2)
-        gps.face(1)
-        item.itemdelivery(1)
-
-      elseif run[i] == "collect" then
-        gps.face(3)
-        item.dumpItem("minecraft:coal")
-        for j=1,table.getn(chestRoute) do
-          gps.face(chestRoute[j])
-          if chestRoute[j] == 1 or chestRoute[j] == 3 then
-            gps.move(14)
-          else
-            gps.move()
-          end
-
-          if j==2 then
-            gps.face(2)
-            item.itemdelivery(1)
-          end
+        if not(item.isEmpty()) then
+          gps.face(3)
+          dropOff()
+          gps.faceAround()
+          makeFurnace()
+          expandArray()
         end
 
-
+      elseif run[i] == "collect" then
+        gps.face(1)
+        gps.moveUp()
+        dropOff("minecraft:coal")
+        gps.moveDown()
+        gps.face(2)
+        dropOff()
       end
     end
   end
