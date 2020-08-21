@@ -14,6 +14,8 @@ newTreeFarm = require("newTreeFarm")
 turtleFactory = require("turtleFactory")
 quarrySlave = require("quarrySlave")
 chestArray = require("chestArray")
+chestComputer = require("chestComputer")
+slaveCommander = require("slaveCommander")
 
 os.loadAPI("/rom/apisFiles/item.lua")
 os.loadAPI("/rom/apisFiles/file.lua")
@@ -52,7 +54,7 @@ if fs.exists("/data.txt") == false then
 		--file.store(14, "buildTreeFarm")
 
 		file.store(14, "startBase")
-		--file.store(17, 16)
+		file.store(17, 16)
 
 		--file.store(14,"chestArray")
 	end
@@ -85,29 +87,47 @@ if file.get(14) == "Start" then
 		file.store(26, "false")
 
 	else
-		item.selectItem("minecraft:coal")
-		turtle.refuel(turtle.getItemCount()-1)
-		turtle.transferTo(1)
-		turtle.select(1)
+		if disk.isPresent("bottom") then
+			print("I am a computer; not a turtle")
+			rednet.open("top")
 
-
-		if turtle.forward() == true then
-			turtle.back()
-		else
-			turtle.turnLeft()
-			turtle.turnLeft()
-		end
-		print("hi")
-
-		rednet.open("back")
-		for i=1,4 do
 			local message = select(2,rednet.receive())
 			print(message)
-			file.store(i,message)
+			file.store(14,message)
+			if message == "slaveCommander" then
+				local message = select(2,rednet.receive())
+				print(message)
+				file.store(1,message)
+
+				local message = select(2,rednet.receive())
+				print(message)
+				file.store(3,message)
+			end
+		else
+
+			item.selectItem("minecraft:coal")
+			turtle.refuel(turtle.getItemCount()-1)
+			turtle.transferTo(1)
+			turtle.select(1)
+
+
+			if turtle.forward() == true then
+				turtle.back()
+			else
+				turtle.turnLeft()
+				turtle.turnLeft()
+			end
+
+			rednet.open("back")
+			for i=1,4 do
+				local message = select(2,rednet.receive())
+				print(message)
+				file.store(i,message)
+			end
+			local message = select(2,rednet.receive())
+			print(message)
+			file.store(14,message)
 		end
-		local message = select(2,rednet.receive())
-		print(message)
-		file.store(14,message)
 
 	end
 end
@@ -239,6 +259,7 @@ end
 
 if file.get(14) == "turtleFactory" then
 --Quarry and Make more turtles.
+	os.sleep(1000)
 	turtleFactory.Function()
 end
 
@@ -270,4 +291,16 @@ if file.get(14) == "chestArray" then
 		turtle.transferTo(1)
 
 		chestArray.Function()
+end
+
+file.checkShutdown()
+if file.get(14) == "slaveCommander" then
+--Run the tree farm
+	slaveCommander.Function()
+end
+
+file.checkShutdown()
+if file.get(14) == "chestComputer" then
+--Run the tree farm
+	chestComputer.Function()
 end

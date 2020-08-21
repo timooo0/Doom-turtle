@@ -154,6 +154,7 @@ for i = 1,16 do
 		gps.moveHighWay(file.get(1)+32,gps.highWayLevelMax+5,file.get(3)+16)
 		gps.moveChunk(0,1)
 		gps.face(3)
+		os.sleep(7200)
 		getFromChestArray.Function()
 	end
 

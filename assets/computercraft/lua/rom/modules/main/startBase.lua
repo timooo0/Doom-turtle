@@ -44,9 +44,9 @@ function start()
 		turtle.digUp()
 
 		gps.faceAround()
-		gps.move(18)
+		gps.move(17)
 		gps.faceRight()
-		gps.move(8)
+		gps.move(12)
 		gps.faceAround()
 
 		file.store(5, file.get(1))
@@ -217,7 +217,7 @@ if restartIndex == 11 then
 
 	item.craftItem(recipe.modemBlock)
 	turtle.drop()
-	print(recipe.referenceTable["computercraft:peripheral"]["minecraft:stone"])
+
 	gps.faceLeft()
 	gps.move()
 	item.resetItemCounts()
@@ -399,7 +399,7 @@ if restartIndex == 16 then
 
 	--Get Wood
 	--False for Testing
-	if true then
+	if false then
 		gps.moveBack()
 		gps.moveHighWay(file.get(1), gps.highWayLevelMax+3, file.get(3)+16)
 		gps.moveChunk(12, 3)
@@ -468,6 +468,9 @@ if restartIndex == 16 then
 	turtle.drop()
 	gps.faceRight()
 
+	item.craftItemBranch("computercraft:peripheral", 2)
+
+
 
 	print(components)
 	--Turtle is now facing the oppositeChest
@@ -481,6 +484,7 @@ if restartIndex == 16 then
 		item.getFromChest("computercraft:turtle_expanded", 1)
 		item.getFromChest("computercraft:wired_modem_full", 2)
 		item.getFromChest("computercraft:computer", 2)
+		item.getFromChest("computercraft:peripheral", 2)
 
 		gps.faceLeft()
 
@@ -497,6 +501,8 @@ if restartIndex == 16 then
 		item.storeItemDict("computercraft:computer", -2)
 		item.dumpItem("computercraft:wired_modem_full", 2)
 		item.storeItemDict("computercraft:wired_modem_full", -2)
+		item.dumpItem("computercraft:peripheral", 2)
+		item.storeItemDict("computercraft:peripheral", -2)
 
 		--Turn on the new turtle
 		local chestTurtle = peripheral.wrap("front")

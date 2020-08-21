@@ -1,3 +1,9 @@
+local slaveCommander = {}
+
+
+
+function slaveCommander.Function()
+
 
 os.loadAPI("/rom/apisFiles/item.lua")
 os.loadAPI("/rom/apisFiles/gps.lua")
@@ -86,3 +92,8 @@ while true do
   end
 
 end
+
+--End of slaveCommander function
+end
+
+return slaveCommander

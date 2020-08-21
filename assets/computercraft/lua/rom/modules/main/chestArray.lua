@@ -71,26 +71,45 @@ if true then
 --Move to 4-chunk corner to place modem+computer (For quarry Slaves)
 --We need to transfer some stuff here as well
 
-gps.moveAbs(file.get(1),gps.highWayLevelMax+4, file.get(3))
+--Obtain the floppy disk
+gps.faceLeft()
+turtle.suck()
+
+file.store(6, file.get(2))
+gps.moveAbs(file.get(1),gps.highWayLevelMax+3, file.get(3))
 gps.moveChunk(15,15)
 gps.face(3)
 
+--Place Disk Drive + floppy
+item.selectItem("computercraft:peripheral")
+turtle.place()
+item.selectItem("computercraft:disk_expanded")
+turtle.drop()
+gps.moveUp()
+
 --Place Computer
 item.selectItem("computercraft:computer")
-gps.breakFront()
 turtle.place()
+local computer = peripheral.wrap("front")
+computer.turnOn()
 gps.moveUp()
+
 --Place modem
 item.selectItem("computercraft:wired_modem_full")
-gps.breakFront()
 turtle.place()
 
 --Transfer the coords to the slaveCommander
 rednet.open("front")
-
+os.sleep(200)
+rednet.broadcast("slaveCommander")
+os.sleep(1)
 rednet.broadcast(file.get(1)-1)
 os.sleep(1)
 rednet.broadcast(file.get(3))
+
+gps.moveDown(2)
+turtle.suck()
+gps.moveUp(2)
 
 --Move to location of the Array
 gps.face(1)
@@ -116,10 +135,33 @@ turtle.place()
 gps.moveDown()
 item.selectItem("computercraft:computer")
 turtle.place()
+gps.moveDown()
+--Disk drive
+item.selectItem("computercraft:peripheral")
+turtle.place()
+item.selectItem("computercraft:disk_expanded")
+turtle.drop()
+gps.moveUp()
+local computer = peripheral.wrap("front")
+computer.turnOn()
+
 gps.moveUp()
 
+--Send a bunch of info to the chestComputer
+rednet.open("front")
+os.sleep(200)
+rednet.broadcast("chestComputer")
+os.sleep(1)
+gps.moveDown(2)
+turtle.suck()
+gps.moveHighWay(file.get(1)-16, file.get(6)+1, file.get(3)-16)
+gps.moveChunk(15,13)
+item.selectItem("computercraft:disk_expanded")
+turtle.dropDown()
+gps.moveHighWay(file.get(1)+16, gps.highWayLevelMax+4, file.get(3)+16)
 --Move back to the input chest
 gps.moveChunk(0,0)
+gps.moveUp()
 gps.face(0)
 
 end

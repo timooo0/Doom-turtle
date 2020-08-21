@@ -1,3 +1,8 @@
+local chestComputer = {}
+
+function chestComputer.Function()
+
+
 os.loadAPI("/rom/apisFiles/file.lua")
 
 function findInShop(shoppingList)
@@ -60,3 +65,8 @@ while true do
   end
   print("succes")
 end
+
+--End of the chestComputer function
+end
+
+return chestComputer
