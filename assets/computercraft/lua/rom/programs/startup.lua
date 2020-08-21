@@ -1,4 +1,12 @@
+if fs.exists("startup.lua") == false then
+	fs.copy("/rom/programs/startup.lua", "startup.lua")
+end
 
+
+
+print("starting2")
+--Sleep before starting
+os.sleep(100)
 quarry = require("quarry")
 startBase = require("startBase")
 buildTreeFarm = require("buildTreeFarm")
@@ -39,11 +47,11 @@ if fs.exists("/data.txt") == false then
 		file.store(4,face)
 
 		--For some Testing
-		file.store(14, "turtleFactory")
+		--file.store(14, "turtleFactory")
 		--turtle.refuel()
 		--file.store(14, "buildTreeFarm")
 
-		--file.store(14, "startBase")
+		file.store(14, "startBase")
 		--file.store(17, 16)
 
 		--file.store(14,"chestArray")

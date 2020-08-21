@@ -261,41 +261,41 @@ function moveHighWay(xTarget, yTarget, zTarget)
 
 	getOnHighwWay(0)
 	while math.abs((xTarget-xPos)/16) >= 1 do
-		print("dif:"..math.abs((xTarget-xPos)/16))
+		--print("dif:"..math.abs((xTarget-xPos)/16))
 		if xTarget > xPos then
-			print("east")
+			--print("east")
 			switchLane(1)
 			nextChunk(1)
 		elseif xTarget < xPos then
-			print("west")
+			--print("west")
 			switchLane(3)
 			nextChunk(3)
 		end
 		xPos = file.get(1)
-		print(xPos,xTarget)
+		--print(xPos,xTarget)
 	end
 
 	while math.abs((zTarget-zPos)/16) >= 1 do
 		if zTarget > zPos then
-			print("south")
+			--print("south")
 			switchLane(2)
 			nextChunk(2)
 		elseif zTarget < zPos then
-			print("north")
+			--print("north")
 			switchLane(0)
 			nextChunk(0)
 		end
 		zPos = file.get(3)
-		print(zPos,zTarget)
+		--print(zPos,zTarget)
 	end
 
-	print("finished")
+	--print("finished")
 	exitHighWay()
 	moveAbs(xTarget,yTarget,zTarget)
 end
 
 function nextChunk(direction)
-	print("nextChunk")
+	--print("nextChunk")
 	xChunkPos = file.get(1)%16
 	zChunkPos = file.get(3)%16
 	if direction == 0 then
@@ -307,13 +307,13 @@ function nextChunk(direction)
 	elseif direction == 3 then
 		moveChunk(0,zChunkPos)
 	end
-	print(file.get(1)%16,file.get(3)%16)
+	--print(file.get(1)%16,file.get(3)%16)
 	face(direction)
 	move()
 end
 
 function highWayUp(chunkX,chunkZ)
-	print("highWayUP")
+	--print("highWayUP")
 	if (chunkX%4) == 3 then
 		moveChunk(chunkX+1,chunkZ+chunkZ%2)
 	elseif (chunkX%4) == 1 then
@@ -324,7 +324,7 @@ function highWayUp(chunkX,chunkZ)
 end
 
 function highWayDown(chunkX,chunkZ)
-	print("highWayDown")
+	--print("highWayDown")
 	if ((chunkX+2)%4) == 3 then
 		moveChunk(chunkX+1,chunkZ+chunkZ%2)
 	elseif ((chunkX+2)%4) == 1 then
@@ -335,7 +335,7 @@ function highWayDown(chunkX,chunkZ)
 end
 
 function columnUp(direction)
-	print("columnUp")
+	--print("columnUp")
 	--gets from the column to the lane
 	moveUp(levelDirection[direction+1]-file.get(2))
 
@@ -345,7 +345,7 @@ function columnUp(direction)
 end
 
 function columnDown(direction)
-	print("columnDown")
+	--print("columnDown")
 	--gets from the column to the lane
 	moveDown(file.get(2)-levelDirection[direction+1])
 
@@ -355,7 +355,7 @@ function columnDown(direction)
 end
 
 function getOnHighwWay(direction)
-	print("getOnHighWay")
+	--print("getOnHighWay")
 	local currentX = file.get(1)
 	local currentY = file.get(2)
 	local currentZ = file.get(3)
@@ -368,41 +368,41 @@ function getOnHighwWay(direction)
 	--Check if the turtle is on the highway, if not move there
 	if highWayLevelMin-currentY > 1 then
 		--go to the correct y level
-		print("moving [up] towards the correct y level")
+		--print("moving [up] towards the correct y level")
 		moveUp(highWayLevelMin-currentY-1)
 
 		--Move towards an up column
-		print("moving to [up] column")
+		--print("moving to [up] column")
 		highWayUp(chunkX,chunkZ)
 
 		--move towards the correct lane level
-		print("go to the direction level")
+		--print("go to the direction level")
 		columnUp(direction)
 
 
 	elseif highWayLevelMax - currentY < 0 then
 		--go to the correct y level
-		print("moving [down] towards the correct y level")
+		--print("moving [down] towards the correct y level")
 		moveDown(currentY-highWayLevelMax-1)
 
 		--Move towards an down column
-		print("go to [down] column")
+		--print("go to [down] column")
 		highWayDown(chunkX,chunkZ)
 
 		--move towards the correct lane level
-		print("go to the direction level")
+		--print("go to the direction level")
 		columnDown(direction)
 
 
 	else
-		print("Already on the highway")
+		--print("Already on the highway")
 		--break
 	end
 
 end
 
 function switchLane(direction)
-	print("switchLane")
+	--print("switchLane")
 	if levelDirection[direction+1] < file.get(2) then
 		--go into the down column
 		highWayDown(file.get(1)%16,file.get(3)%16)
@@ -420,7 +420,7 @@ function switchLane(direction)
 end
 
 function exitHighWay()
-	print("exitHighWay")
+	--print("exitHighWay")
 	--go to the down column
 	highWayDown(file.get(1)%16,file.get(3)%16)
 
@@ -464,7 +464,7 @@ function buildTemplate(template, material)
 
 	for i=1,16 do
 		for j=1,16 do
-			print(i,j)
+			--print(i,j)
 			if i%2 ~= 0 then
 				if template[i][j] == 1 then
 					item.selectItem(material)

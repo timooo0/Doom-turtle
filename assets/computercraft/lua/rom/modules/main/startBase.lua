@@ -2,7 +2,6 @@ local startBase = {}
 
 function startBase.Function()
 print("running startBase")
-
 os.loadAPI("/rom/apisFiles/item.lua")
 os.loadAPI("/rom/apisFiles/gps.lua")
 os.loadAPI("/rom/apisFiles/file.lua")
@@ -38,10 +37,10 @@ function start()
 	else
 		print(file.get(5),file.get(6),file.get(7))
 		gps.moveAbs(file.get(5),file.get(6),file.get(7))
-		print("move done")
+		--print("move done")
 
 		gps.face(file.get(8))
-		print("face done")
+		--print("face done")
 		turtle.digUp()
 
 		gps.faceAround()
@@ -62,10 +61,10 @@ function start()
 		turtle.select(i)
 		turtle.drop()
 	end
-	print("drop done")
+	--print("drop done")
 end
 print(restartIndex)
-print("start")
+--print("start")
 restartIndex = file.get(17)
 if restartIndex == 0 then
 	start()
@@ -75,7 +74,7 @@ file.checkShutdown()
 restartIndex = file.get(17)
 --craft and place furnace
 if restartIndex == 0 then
-	print(recipe.furnace)
+	--print(recipe.furnace)
 	item.craftItem(recipe.furnace)
 
 	gps.faceAround()
@@ -212,11 +211,28 @@ file.checkShutdown()
 restartIndex = file.get(17)
 --craft the modem
 if restartIndex == 11 then
+	print(11)
 	item.craftItem(recipe.modem)
 	turtle.drop()
 
 	item.craftItem(recipe.modemBlock)
 	turtle.drop()
+	print(recipe.referenceTable["computercraft:peripheral"]["minecraft:stone"])
+	gps.faceLeft()
+	gps.move()
+	item.resetItemCounts()
+	item.craftItemBranch("computercraft:disk_expanded", 1)
+
+	item.getFromChest("minecraft:reeds")
+	item.selectItem("minecraft:reeds")
+	turtle.dropUp()
+	item.getFromChest("minecraft:paper")
+	item.selectItem("minecraft:paper")
+	turtle.dropUp()
+
+	item.craftItemBranch("computercraft:peripheral", 1)
+
+	gps.faceLeft()
 
 	file.store(17,restartIndex+1)
 end
@@ -241,9 +257,29 @@ if restartIndex == 12 then
 	item.selectItem("minecraft:furnace")
 	turtle.transferTo(13)
 
+	item.getFromChest("computercraft:disk_expanded",1)
+	item.selectItem("computercraft:disk_expanded")
+	turtle.transferTo(12)
+
+	item.getFromChest("computercraft:peripheral",1)
+	item.selectItem("computercraft:peripheral")
+	turtle.transferTo(11)
+
 	--Place a part of the new turtle
 	gps.faceLeft()
-	gps.move(2)
+	gps.move(3)
+	gps.faceLeft()
+
+	--Do the disk drive stuff
+	item.selectItem("computercraft:peripheral")
+	gps.breakFront()
+	turtle.place()
+	item.selectItem("computercraft:disk_expanded")
+	turtle.drop()
+	fs.copy("/rom/programs/startup.lua", disk.getMountPath("front").."/startup.lua")
+
+	gps.faceRight()
+	gps.moveBack()
 
 	item.selectItem("computercraft:turtle_expanded")
 	turtle.place()
@@ -301,6 +337,9 @@ if restartIndex == 14 then
 	item.selectItem("minecraft:dirt")
 	turtle.drop()
 
+	--Turn on the new turtle
+	local treeTurtle = peripheral.wrap("front")
+	treeTurtle.turnOn()
 
 	gps.moveBack()
 	item.selectItem("computercraft:wired_modem_full")
@@ -354,14 +393,13 @@ if restartIndex == 15 then
 
 	file.store(17,restartIndex+1)
 end
-print("not 16")
+
 restartIndex = file.get(17)
 if restartIndex == 16 then
-	print("16")
 
 	--Get Wood
 	--False for Testing
-	if false then
+	if true then
 		gps.moveBack()
 		gps.moveHighWay(file.get(1), gps.highWayLevelMax+3, file.get(3)+16)
 		gps.moveChunk(12, 3)
@@ -390,7 +428,7 @@ if restartIndex == 16 then
 	turtle.drop()
 	gps.faceRight()
 
-	print("turtle done")
+	--print("turtle done")
 	item.craftItemBranch("computercraft:wired_modem_full", 2)
 	gps.faceLeft()
 	item.getFromChest("computercraft:wired_modem_full", 2)
@@ -459,6 +497,10 @@ if restartIndex == 16 then
 		item.storeItemDict("computercraft:computer", -2)
 		item.dumpItem("computercraft:wired_modem_full", 2)
 		item.storeItemDict("computercraft:wired_modem_full", -2)
+
+		--Turn on the new turtle
+		local chestTurtle = peripheral.wrap("front")
+		chestTurtle.turnOn()
 
 		gps.moveBack(1)
 		item.selectItem("computercraft:wired_modem_full")

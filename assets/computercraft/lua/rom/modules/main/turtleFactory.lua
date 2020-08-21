@@ -92,19 +92,31 @@ for i = 1,16 do
 	--checkcomponents
 	gps.faceLeft()
 
-	item.getFromChest("computercraft:turtle_expanded", 1)
+	item.getFromChest("minecraft:chest", 1)
 	if turtle.getItemCount(16) < 1 then
 		components = false
-	end
-	turtle.select(16)
-	turtle.drop()
-	item.getFromChest("minecraft:diamond_pickaxe", 1)
-	if turtle.getItemCount(16) < 1 then
-		components = false
+		missing = "minecraft:chest"
 	end
 	turtle.select(16)
 	turtle.drop()
 
+	item.getFromChest("computercraft:turtle_expanded", 1)
+	if turtle.getItemCount(16) < 1 then
+		components = false
+		missing = "computercraft:turtle_expanded"
+	end
+	turtle.select(16)
+	turtle.drop()
+
+	item.getFromChest("minecraft:diamond_pickaxe", 1)
+	if turtle.getItemCount(16) < 1 then
+		components = false
+		missing = "minecraft:diamond_pickaxe"
+	end
+	turtle.select(16)
+	turtle.drop()
+
+	print(components)
 	if components == true then
 		item.craftItem(recipe.miningTurtle)
 		print("I made a mining turtle")
@@ -124,6 +136,9 @@ for i = 1,16 do
 		item.dumpItem("minecraft:chest", 1)
 		item.storeItemDict("minecraft:chest", -1)
 
+		--Turn on the new turtle
+		local quarryTurtle = peripheral.wrap("front")
+		quarryTurtle.turnOn()
 
 		gps.moveBack(1)
 		item.selectItem("computercraft:wired_modem_full")
@@ -134,8 +149,9 @@ for i = 1,16 do
 		mustWait = true
 		print("I am getting more items")
 		item.resetItemCounts()
-		item.boodschappen("computercraft:turtle_expanded", 1)
-		gps.moveHighWay(file.get(1)+32,132,file.get(3)+16)
+		boodschapjes = {}
+		boodschapjes = item.boodschappen(missing, 1)
+		gps.moveHighWay(file.get(1)+32,gps.highWayLevelMax+5,file.get(3)+16)
 		gps.moveChunk(0,1)
 		gps.face(3)
 		getFromChestArray.Function()

@@ -97,7 +97,9 @@ end
 
 function getFromChest(name,amount)
 	turtle.select(1)
-
+	if amount == nil then
+		amount = 64
+	end
 	local nFound = 0
 	local nStacks = math.floor(amount/64+1)
 	local itemFound = false

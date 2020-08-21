@@ -19,6 +19,21 @@ modemBlock = {}
 modemBlock["computercraft:cable,1"] = {1}
 modemBlock["computercraft:wired_modem_full"] = {"result",1}
 
+diskDrive = {}
+diskDrive["minecraft:stone,0"] = {1,2,3,5,7,9,11}
+diskDrive["minecraft:redstone"] = {6,10}
+diskDrive["computercraft:peripheral"] = {"result", 1}
+
+floppyDisk = {}
+floppyDisk["minecraft:redstone"] = {1}
+floppyDisk["minecraft:paper"] = {2}
+floppyDisk["minecraft:dye"] = {5}
+floppyDisk["computercraft:disk_expanded"] = {"result", 1}
+
+paper = {}
+paper["minecraft:reeds"] = {5,6,7}
+paper["minecraft:paper"] = {"result", 3}
+
 furnace = {}
 furnace["minecraft:cobblestone"] = {1,2,3,5,7,9,10,11}
 furnace["minecraft:furnace"] = {"result",1}
@@ -82,4 +97,7 @@ referenceTable["minecraft:stone,0"] = stone
 referenceTable["minecraft:hopper"] = hopper
 referenceTable["minecraft:glass"] = glass
 referenceTable["minecraft:planks"] = planks
+referenceTable["computercraft:peripheral"] = diskDrive
+referenceTable["computercraft:disk_expanded"] = floppyDisk
+referenceTable["minecraft:paper"] = paper
 referenceTable["start"] = "start"

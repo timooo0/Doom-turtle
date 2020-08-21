@@ -1,7 +1,12 @@
+local getFromChest = {}
+
+
 os.loadAPI("/rom/apisFiles/gps.lua")
 os.loadAPI("/rom/apisFiles/file.lua")
 os.loadAPI("/rom/apisFiles/item.lua")
 os.loadAPI("/rom/apisFiles/recipe.lua")
+
+function getFromChestArray.Function()
 
 local route = {
   3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,
@@ -11,20 +16,6 @@ local route = {
   2,2
 }
 
-write("x position: ")
-local xPos = read()
-file.store(1,xPos)
-write("y position: ")
-local yPos = read()
-file.store(2,yPos)
-write("z position: ")
-local zPos = read()
-file.store(3,zPos)
-write("facing in direction:  ")
-local face = read()
-file.store(4,face)
-
-turtle.refuel()
 --todo: write in the data.txt the  position of the chestArray
 -- startX = -784
 -- startY = 58
@@ -32,10 +23,9 @@ turtle.refuel()
 -- gps.moveHighWay(startX,startY+1,startZ)
 -- gps.face(3)
 protocol = "shopping"
-boodschapjes = {}
-table.insert(boodschapjes,{"minecraft:coal", 5})
 
-table.insert(boodschapjes,{"minecraft:iron_ore", 12})
+--table.insert(boodschapjes,{"minecraft:coal", 5})
+
 boodschapjesState = true
 file.storeTable(boodschapjes,2,"shoppingList.txt")
 
@@ -132,6 +122,9 @@ for i=1,4 do
 
   end
 end
+
+read()
+
 if false then
 --Make if statement for up Down
 if file.get(2) > gps.highWayLevelMin then
@@ -140,3 +133,7 @@ else
   gps.moveUp(gps.highWayLevelMin-1)
 end
 end
+
+
+end
+return getFromChestArray

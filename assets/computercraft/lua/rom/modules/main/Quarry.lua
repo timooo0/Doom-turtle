@@ -71,7 +71,7 @@ print("Quarry")
 		if turtle.getFuelLevel() < 5120 and turtle.getItemCount(1) > 4 then
 			turtle.select(1)
 			turtle.refuel(4)
-			print("fueling")
+			--print("fueling")
 		end
 	end
 
@@ -80,7 +80,7 @@ print("Quarry")
 		for i = 2, 16 do
 			turtle.select(i)
 			if turtle.getItemCount() ~= 0 then
-				if turtle.getItemDetail().name ~= "minecraft:iron_ore" and turtle.getItemDetail().name ~= "minecraft:redstone" and turtle.getItemDetail().name ~= "minecraft:sand" and turtle.getItemDetail().name ~= "minecraft:cobblestone" and turtle.getItemDetail().name ~= "minecraft:diamond" and turtle.getItemDetail().name ~= "minecraft:dirt" and turtle.getItemDetail().name ~= "minecraft:coal" then
+				if turtle.getItemDetail().name ~= "minecraft:iron_ore" and turtle.getItemDetail().name ~= "minecraft:redstone" and turtle.getItemDetail().name ~= "minecraft:dye" and turtle.getItemDetail().name ~= "minecraft:sand" and turtle.getItemDetail().name ~= "minecraft:cobblestone" and turtle.getItemDetail().name ~= "minecraft:diamond" and turtle.getItemDetail().name ~= "minecraft:dirt" and turtle.getItemDetail().name ~= "minecraft:coal" then
 					turtle.drop()
 				end
 			end
@@ -242,7 +242,8 @@ while layerwidth < widthquarry do
 			dumpExcess("minecraft:cobblestone", 128)
 			dumpExcess("minecraft:dirt", 128)
 			dumpExcess("minecraft:diamond", 64)
-			dumpExcess("minecraft:coal", 256)
+			dumpExcess("minecraft:coal", 192)
+			dumpExcess("minecraft:dye", 64)
 		end
 
 		gps.faceLeft()
@@ -256,6 +257,7 @@ while layerwidth < widthquarry do
 			item.dumpItem("minecraft:gravel",item.countItems("minecraft:gravel"))
 			turtle.select(1)
 			itemdeliveryUp()
+			turtle.select(1)
 			print(turtle.getFuelLevel())
 		end
 

@@ -25,10 +25,11 @@ template =
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}}
 
 
+
 gps.faceRight()
 gps.move(16)
 gps.moveChunk(15,0)
-gps.moveAbs(file.get(1), 132, file.get(3))
+gps.moveAbs(file.get(1), gps.highWayLevelMax+5, file.get(3))
 
 gps.buildTemplate(template,"minecraft:dirt")
 
