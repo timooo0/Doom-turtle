@@ -1,4 +1,4 @@
-local getFromChest = {}
+local getFromChestArray = {}
 
 
 os.loadAPI("/rom/apisFiles/gps.lua")

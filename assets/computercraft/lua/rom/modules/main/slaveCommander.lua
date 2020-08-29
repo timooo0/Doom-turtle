@@ -46,32 +46,15 @@ function nextChunk()
 	file.store(31, nextX+file.get(1))
 	file.store(32, nextZ+file.get(3))
 end
+
 rednet.open("top")
 
---For Testing
-fs.delete("/data.txt")
-if fs.exists("/data.txt") == false then
---Create the Data.txt file and fill items
-	fs.copy("/rom/global files/dataTemplate.txt","/data.txt")
-end
-
-file.store(33,-322)
-file.store(1, file.get(33))
-file.store(31, file.get(33))
-file.store(34,-305)
-file.store(3, file.get(34))
-file.store(32, file.get(34))
-
-
-while false do
-	local init = rednet.receive()
-	if init == true then
-		local message = select(2, rednet.receive())
-		file.store(1, message)
-		local message = select(2, rednet.receive())
-		file.store(3, message)
-	end
-end
+--file.store(33,-322)
+file.store(33, file.get(1))
+file.store(31, file.get(1))
+--file.store(34,-305)
+file.store(34, file.get(3))
+file.store(32, file.get(3))
 
 --Initialization to prevent double quarrying the starting chunks
 for i = 1, 3 do
@@ -80,9 +63,10 @@ end
 
 while true do
 	print(1)
-	local message = select(2, rednet.receive())
+	local message = select(2,rednet.receive())
+	print(message)
 	print(2)
-  if message == true then
+  if message == "true" then
 		print("Yeah")
     nextChunk()
     --Transfer the data of which chunk to quarry next

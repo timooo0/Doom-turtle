@@ -3,6 +3,7 @@ local turtleFactory = {}
 function turtleFactory.Function()
 turtle.refuel()
 quarry = require("quarry")
+getFromChestArray = require("getFromChestArray")
 os.loadAPI("/rom/apisFiles/item.lua")
 os.loadAPI("/rom/apisFiles/gps.lua")
 os.loadAPI("/rom/apisFiles/file.lua")
@@ -154,7 +155,7 @@ for i = 1,16 do
 		gps.moveHighWay(file.get(1)+32,gps.highWayLevelMax+5,file.get(3)+16)
 		gps.moveChunk(0,1)
 		gps.face(3)
-		os.sleep(7200)
+		os.sleep(7200*3)
 		getFromChestArray.Function()
 	end
 
