@@ -469,7 +469,7 @@ if restartIndex == 16 then
 	gps.faceRight()
 
 	item.craftItemBranch("computercraft:peripheral", 2)
-
+	item.craftItemBranch("minecraft:craftingTable", 1)
 
 
 	print(components)
@@ -485,6 +485,7 @@ if restartIndex == 16 then
 		item.getFromChest("computercraft:wired_modem_full", 2)
 		item.getFromChest("computercraft:computer", 2)
 		item.getFromChest("computercraft:peripheral", 2)
+		item.getFromChest("minecraft:craftingTable", 1)
 
 		gps.faceLeft()
 
@@ -503,7 +504,8 @@ if restartIndex == 16 then
 		item.storeItemDict("computercraft:wired_modem_full", -2)
 		item.dumpItem("computercraft:peripheral", 2)
 		item.storeItemDict("computercraft:peripheral", -2)
-
+		item.dumpItem("minecraft:craftingTable", 1)
+		item.storeItemDict("minecraft:craftingTable", -1)
 		--Turn on the new turtle
 		local chestTurtle = peripheral.wrap("front")
 		chestTurtle.turnOn()

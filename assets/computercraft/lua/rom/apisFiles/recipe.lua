@@ -82,6 +82,10 @@ miningTurtle["computercraft:turtle_expanded"] = {2}
 --This one does not work because same ID
 --miningTurtle["computercraft:turtle_expanded"] = {"result"}
 
+craftingTable = {}
+craftingTable["minecraft:planks"] = {1,2,4,5}
+craftingTable["minecraft:craftingTable"] = {"result", 1}
+
 referenceTable = {}
 referenceTable["minecraft:diamond_pickaxe"] = diamondPickaxe
 referenceTable["computercraft:turtle_expanded"] = turtle
@@ -100,4 +104,5 @@ referenceTable["minecraft:planks"] = planks
 referenceTable["computercraft:peripheral"] = diskDrive
 referenceTable["computercraft:disk_expanded"] = floppyDisk
 referenceTable["minecraft:paper"] = paper
+referenceTable["minecraft:craftingTable"] = craftingTable
 referenceTable["start"] = "start"
