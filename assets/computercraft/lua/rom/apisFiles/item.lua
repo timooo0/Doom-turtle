@@ -28,7 +28,10 @@ end
 
 
 --Dump one particular item, when amount = nil it defaults to all items of that type, same for no damage supplied (name = name,damage)
-function dumpItem(name, amount)
+function dumpItem(name, amount, startSlot)
+	if startSlot == nil then
+		startSlot = 1
+	end
 
 	anyDam = false
 	if name:match("([^,]+),([^,]+)") ~= nil then
@@ -44,7 +47,7 @@ function dumpItem(name, amount)
 		amount = 1024
 	end
 	toDrop = amount
-	i = 1
+	i = startSlot
 	while toDrop > 0 and i <= 16 do
 		turtle.select(i)
 		i = i + 1
@@ -61,7 +64,10 @@ function dumpItem(name, amount)
 	end
 end
 
-function countItems(name)
+function countItems(name, startSlot)
+	if startSlot == nil then
+		startSlot = 1
+	end
 	local count = 0
 
 	anyDam = false
@@ -72,7 +78,7 @@ function countItems(name)
 		anyDam = true
 	end
 
-	for i = 1, 16 do
+	for i = startSlot, 16 do
 		turtle.select(i)
 		if turtle.getItemCount() ~= 0 then
 			if turtle.getItemDetail().name == name and (turtle.getItemDetail().damage == dam or anyDam) then

@@ -88,11 +88,14 @@ print("Quarry")
 		turtle.select(1)
 	end
 
-	function dumpExcess(name, need)
-		count = item.countItems(name)
+	function dumpExcess(name, need, startSlot)
+		if startSlot == nil then
+			startSlot = 1
+		end
+		count = item.countItems(name, startSlot)
 		get = item.getItemDict(name)
-		item.dumpItem(name, count-tonumber(need)+get)
-		item.storeItemDict(name,item.countItems(name))
+		item.dumpItem(name, count-tonumber(need)+get, startSlot)
+		item.storeItemDict(name,item.countItems(name, startSlot))
 	end
 
 fuel()
@@ -242,7 +245,12 @@ while layerwidth < widthquarry do
 			dumpExcess("minecraft:cobblestone", 128)
 			dumpExcess("minecraft:dirt", 128)
 			dumpExcess("minecraft:diamond", 64)
-			dumpExcess("minecraft:coal", 192)
+
+			--Do a bit of trickery to properly handle the coal in the first slot ;)
+
+			dumpExcess("minecraft:coal", 192, 2)
+
+
 			dumpExcess("minecraft:dye", 64)
 		end
 

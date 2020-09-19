@@ -53,9 +53,12 @@ if fs.exists("/data.txt") == false then
 		--turtle.refuel()
 		--file.store(14, "buildTreeFarm")
 
-		file.store(14, "startBase")
-		file.store(17, 16)
-
+		--Disables to start from the beginning:
+		if false then
+			file.store(14, "startBase")
+			file.store(17, 16)
+			print("hi")
+		end
 		--file.store(14,"chestArray")
 	end
 end
